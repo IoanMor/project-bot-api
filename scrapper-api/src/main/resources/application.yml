@@ -1,0 +1,10 @@
+server:
+  port: 9030
+spring:
+  application:
+    name: scrapper-api
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+

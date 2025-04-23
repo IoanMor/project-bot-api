@@ -1,0 +1,434 @@
+2025-04-22 14:33:52.659 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 5828 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:33:52.659 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:33:52.659 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:33:53.491 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-04-22 14:33:53.493 [main]  - Starting service [Tomcat]
+2025-04-22 14:33:53.493 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:33:53.537 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:33:54.599 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-04-22 14:33:54.615 [main]  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-04-22 14:33:54.660 [main]  - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2025-04-22 14:36:11.066 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 3008 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:36:11.067 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:36:11.068 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:36:11.871 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-04-22 14:36:11.872 [main]  - Starting service [Tomcat]
+2025-04-22 14:36:11.872 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:36:11.921 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:36:12.780 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-04-22 14:36:12.787 [main]  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-04-22 14:36:12.810 [main]  - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2025-04-22 14:36:34.610 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 1864 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:36:34.610 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:36:34.612 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:36:35.365 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-04-22 14:36:35.366 [main]  - Starting service [Tomcat]
+2025-04-22 14:36:35.367 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:36:35.414 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:36:36.366 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-04-22 14:36:36.374 [main]  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-04-22 14:36:36.405 [main]  - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2025-04-22 14:37:12.332 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 9100 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:37:12.334 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:37:12.335 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:37:13.085 [main]  - Initializing ProtocolHandler ["http-nio-9081"]
+2025-04-22 14:37:13.086 [main]  - Starting service [Tomcat]
+2025-04-22 14:37:13.087 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:37:13.133 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:37:14.010 [main]  - Starting ProtocolHandler ["http-nio-9081"]
+2025-04-22 14:37:14.093 [main]  - Started TelegramChatBotApplication in 2.135 seconds (process running for 2.885)
+2025-04-22 14:37:34.491 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 6224 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:37:34.493 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:37:34.493 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:37:35.256 [main]  - Initializing ProtocolHandler ["http-nio-9081"]
+2025-04-22 14:37:35.257 [main]  - Starting service [Tomcat]
+2025-04-22 14:37:35.257 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:37:35.301 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:37:36.241 [main]  - Starting ProtocolHandler ["http-nio-9081"]
+2025-04-22 14:37:36.317 [main]  - Started TelegramChatBotApplication in 2.184 seconds (process running for 2.938)
+2025-04-22 14:38:05.362 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 8536 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:38:05.363 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:38:05.364 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:38:06.087 [main]  - Initializing ProtocolHandler ["http-nio-8085"]
+2025-04-22 14:38:06.088 [main]  - Starting service [Tomcat]
+2025-04-22 14:38:06.088 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:38:06.131 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:38:07.063 [main]  - Starting ProtocolHandler ["http-nio-8085"]
+2025-04-22 14:38:07.072 [main]  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-04-22 14:38:07.096 [main]  - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8085 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8085 or configure this application to listen on another port.
+
+2025-04-22 14:38:56.763 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 7616 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:38:56.764 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:38:56.765 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:38:57.488 [main]  - Initializing ProtocolHandler ["http-nio-8085"]
+2025-04-22 14:38:57.489 [main]  - Starting service [Tomcat]
+2025-04-22 14:38:57.489 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:38:57.532 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:38:58.361 [main]  - Starting ProtocolHandler ["http-nio-8085"]
+2025-04-22 14:38:58.370 [main]  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-04-22 14:38:58.390 [main]  - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8085 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8085 or configure this application to listen on another port.
+
+2025-04-22 14:39:25.523 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 1160 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:39:25.524 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:39:25.524 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:39:26.255 [main]  - Initializing ProtocolHandler ["http-nio-8085"]
+2025-04-22 14:39:26.255 [main]  - Starting service [Tomcat]
+2025-04-22 14:39:26.256 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:39:26.298 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:39:27.238 [main]  - Starting ProtocolHandler ["http-nio-8085"]
+2025-04-22 14:39:27.246 [main]  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-04-22 14:39:27.269 [main]  - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8085 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8085 or configure this application to listen on another port.
+
+2025-04-22 14:41:09.488 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 2392 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:41:09.489 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:41:09.491 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:41:10.226 [main]  - Initializing ProtocolHandler ["http-nio-8085"]
+2025-04-22 14:41:10.227 [main]  - Starting service [Tomcat]
+2025-04-22 14:41:10.227 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:41:10.272 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:41:11.126 [main]  - Starting ProtocolHandler ["http-nio-8085"]
+2025-04-22 14:41:11.135 [main]  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-04-22 14:41:11.156 [main]  - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8085 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8085 or configure this application to listen on another port.
+
+2025-04-22 14:41:23.705 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 8216 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:41:23.706 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:41:23.707 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:41:24.429 [main]  - Initializing ProtocolHandler ["http-nio-9080"]
+2025-04-22 14:41:24.430 [main]  - Starting service [Tomcat]
+2025-04-22 14:41:24.430 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:41:24.483 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:41:25.692 [main]  - Starting ProtocolHandler ["http-nio-9080"]
+2025-04-22 14:41:25.766 [main]  - Started TelegramChatBotApplication in 2.482 seconds (process running for 3.207)
+2025-04-22 14:41:49.711 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 7936 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:41:49.712 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:41:49.713 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:41:50.433 [main]  - Initializing ProtocolHandler ["http-nio-9030"]
+2025-04-22 14:41:50.433 [main]  - Starting service [Tomcat]
+2025-04-22 14:41:50.434 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:41:50.482 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:41:51.423 [main]  - Starting ProtocolHandler ["http-nio-9030"]
+2025-04-22 14:41:51.508 [main]  - Started TelegramChatBotApplication in 2.138 seconds (process running for 2.849)
+2025-04-22 14:45:37.227 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 1240 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:45:37.228 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:45:37.229 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:45:38.127 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-04-22 14:45:38.127 [main]  - Starting service [Tomcat]
+2025-04-22 14:45:38.129 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:45:38.172 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:45:38.221 [main]  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Failed to determine a suitable driver class
+2025-04-22 14:45:38.223 [main]  - Stopping service [Tomcat]
+2025-04-22 14:45:38.244 [main]  - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+
+2025-04-22 14:46:29.028 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 6148 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:46:29.029 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:46:29.030 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:46:29.917 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-04-22 14:46:29.918 [main]  - Starting service [Tomcat]
+2025-04-22 14:46:29.918 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:46:29.967 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:46:30.008 [main]  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Failed to determine a suitable driver class
+2025-04-22 14:46:30.010 [main]  - Stopping service [Tomcat]
+2025-04-22 14:46:30.033 [main]  - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+
+2025-04-22 14:47:01.455 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 2652 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:47:01.457 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:47:01.458 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:47:02.350 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-04-22 14:47:02.351 [main]  - Starting service [Tomcat]
+2025-04-22 14:47:02.351 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:47:02.393 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:47:02.442 [main]  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Failed to determine a suitable driver class
+2025-04-22 14:47:02.443 [main]  - Stopping service [Tomcat]
+2025-04-22 14:47:02.464 [main]  - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+
+2025-04-22 14:48:49.939 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 8640 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:48:49.940 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:48:49.941 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:48:50.680 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-04-22 14:48:50.681 [main]  - Starting service [Tomcat]
+2025-04-22 14:48:50.681 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:48:50.723 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:48:51.598 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-04-22 14:48:51.677 [main]  - Started TelegramChatBotApplication in 2.084 seconds (process running for 2.793)
+2025-04-22 14:49:38.079 [LinkHawkBot Telegram Executor]  - Connection refused: getsockopt: localhost/127.0.0.1:9081
+org.springframework.web.reactive.function.client.WebClientRequestException: Connection refused: getsockopt: localhost/127.0.0.1:9081
+	at org.springframework.web.reactive.function.client.ExchangeFunctions$DefaultExchangeFunction.lambda$wrapException$9(ExchangeFunctions.java:136)
+	Suppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: 
+Error has been observed at the following site(s):
+	*__checkpoint ⇢ Request to GET http://localhost:9081/tg-chat/882850654/exists [DefaultWebClient]
+Original Stack Trace:
+		at org.springframework.web.reactive.function.client.ExchangeFunctions$DefaultExchangeFunction.lambda$wrapException$9(ExchangeFunctions.java:136)
+		at reactor.core.publisher.MonoErrorSupplied.subscribe(MonoErrorSupplied.java:55)
+		at reactor.core.publisher.Mono.subscribe(Mono.java:4568)
+		at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:103)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:222)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:222)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onError(FluxPeek.java:222)
+		at reactor.core.publisher.MonoNext$NextSubscriber.onError(MonoNext.java:93)
+		at reactor.core.publisher.MonoFlatMapMany$FlatMapManyMain.onError(MonoFlatMapMany.java:205)
+		at reactor.core.publisher.SerializedSubscriber.onError(SerializedSubscriber.java:124)
+		at reactor.core.publisher.FluxRetryWhen$RetryWhenMainSubscriber.whenError(FluxRetryWhen.java:229)
+		at reactor.core.publisher.FluxRetryWhen$RetryWhenOtherSubscriber.onError(FluxRetryWhen.java:279)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onError(FluxContextWrite.java:121)
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.maybeOnError(FluxConcatMapNoPrefetch.java:327)
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.onNext(FluxConcatMapNoPrefetch.java:212)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onNext(FluxContextWrite.java:107)
+		at reactor.core.publisher.SinkManyEmitterProcessor.drain(SinkManyEmitterProcessor.java:476)
+		at reactor.core.publisher.SinkManyEmitterProcessor$EmitterInner.drainParent(SinkManyEmitterProcessor.java:620)
+		at reactor.core.publisher.FluxPublish$PubSubInner.request(FluxPublish.java:874)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.request(FluxContextWrite.java:136)
+		at reactor.core.publisher.FluxConcatMapNoPrefetch$FluxConcatMapNoPrefetchSubscriber.request(FluxConcatMapNoPrefetch.java:337)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.request(FluxContextWrite.java:136)
+		at reactor.core.publisher.Operators$DeferredSubscription.request(Operators.java:1743)
+		at reactor.core.publisher.FluxRetryWhen$RetryWhenMainSubscriber.onError(FluxRetryWhen.java:196)
+		at reactor.core.publisher.MonoCreate$DefaultMonoSink.error(MonoCreate.java:205)
+		at reactor.netty.http.client.HttpClientConnect$MonoHttpConnect$ClientTransportSubscriber.onError(HttpClientConnect.java:311)
+		at reactor.core.publisher.MonoCreate$DefaultMonoSink.error(MonoCreate.java:205)
+		at reactor.netty.resources.DefaultPooledConnectionProvider$DisposableAcquire.onError(DefaultPooledConnectionProvider.java:172)
+		at reactor.netty.internal.shaded.reactor.pool.AbstractPool$Borrower.fail(AbstractPool.java:488)
+		at reactor.netty.internal.shaded.reactor.pool.SimpleDequePool.lambda$drainLoop$9(SimpleDequePool.java:436)
+		at reactor.core.publisher.FluxDoOnEach$DoOnEachSubscriber.onError(FluxDoOnEach.java:186)
+		at reactor.core.publisher.MonoCreate$DefaultMonoSink.error(MonoCreate.java:205)
+		at reactor.netty.resources.DefaultPooledConnectionProvider$PooledConnectionAllocator$PooledConnectionInitializer.onError(DefaultPooledConnectionProvider.java:583)
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.secondError(MonoFlatMap.java:241)
+		at reactor.core.publisher.MonoFlatMap$FlatMapInner.onError(MonoFlatMap.java:315)
+		at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:106)
+		at reactor.core.publisher.Operators.error(Operators.java:198)
+		at reactor.core.publisher.MonoError.subscribe(MonoError.java:53)
+		at reactor.core.publisher.Mono.subscribe(Mono.java:4568)
+		at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onError(FluxOnErrorResume.java:103)
+		at reactor.netty.transport.TransportConnector$MonoChannelPromise.tryFailure(TransportConnector.java:576)
+		at reactor.netty.transport.TransportConnector$MonoChannelPromise.setFailure(TransportConnector.java:522)
+		at reactor.netty.transport.TransportConnector.lambda$doConnect$7(TransportConnector.java:261)
+		at io.netty.util.concurrent.DefaultPromise.notifyListener0(DefaultPromise.java:590)
+		at io.netty.util.concurrent.DefaultPromise.notifyListeners0(DefaultPromise.java:583)
+		at io.netty.util.concurrent.DefaultPromise.notifyListenersNow(DefaultPromise.java:559)
+		at io.netty.util.concurrent.DefaultPromise.notifyListeners(DefaultPromise.java:492)
+		at io.netty.util.concurrent.DefaultPromise.setValue0(DefaultPromise.java:636)
+		at io.netty.util.concurrent.DefaultPromise.setFailure0(DefaultPromise.java:629)
+		at io.netty.util.concurrent.DefaultPromise.tryFailure(DefaultPromise.java:118)
+		at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.fulfillConnectPromise(AbstractNioChannel.java:326)
+		at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:342)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:776)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+		at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+		at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+		at java.base/java.lang.Thread.run(Thread.java:840)
+	Suppressed: java.lang.Exception: #block terminated with an error
+		at reactor.core.publisher.BlockingSingleSubscriber.blockingGet(BlockingSingleSubscriber.java:104)
+		at reactor.core.publisher.Mono.block(Mono.java:1779)
+		at me.ivanmorozov.telegramchatbot.client.ScrapperApiClient.isChatRegister(ScrapperApiClient.java:54)
+		at me.ivanmorozov.telegramchatbot.service.TelegramBotService.startCommand(TelegramBotService.java:79)
+		at me.ivanmorozov.telegramchatbot.service.TelegramBotService.onUpdateReceived(TelegramBotService.java:64)
+		at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+		at org.telegram.telegrambots.meta.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
+		at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:312)
+Caused by: io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: getsockopt: localhost/127.0.0.1:9081
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
+	at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:946)
+	at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:337)
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:339)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:776)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-04-22 14:51:09.372 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 8608 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 14:51:09.373 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 14:51:09.373 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 14:51:10.076 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-04-22 14:51:10.078 [main]  - Starting service [Tomcat]
+2025-04-22 14:51:10.078 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 14:51:10.121 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 14:51:10.990 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-04-22 14:51:11.068 [main]  - Started TelegramChatBotApplication in 2.062 seconds (process running for 2.865)
+2025-04-22 14:51:45.618 [LinkHawkBot Telegram Executor]  - Ошибка проверки регистрации чата 882850654: 404 NOT_FOUND
+2025-04-22 14:51:45.747 [reactor-http-nio-2]  - Зарегистрировали пользователя Иван - |id| - 882850654
+2025-04-22 14:51:47.992 [LinkHawkBot Telegram Executor]  - Ошибка проверки регистрации чата 882850654: 404 NOT_FOUND
+2025-04-22 14:51:48.074 [reactor-http-nio-2]  - Зарегистрировали пользователя Иван - |id| - 882850654
+2025-04-22 14:54:57.887 [LinkHawkBot Telegram Executor]  - Ошибка проверки регистрации чата 882850654: 404 NOT_FOUND
+2025-04-22 14:54:58.014 [reactor-http-nio-3]  - Зарегистрировали пользователя Иван - |id| - 882850654
+2025-04-22 14:55:07.442 [LinkHawkBot Telegram Executor]  - Ошибка проверки регистрации чата 882850654: 404 NOT_FOUND
+2025-04-22 14:55:07.622 [reactor-http-nio-3]  - Зарегистрировали пользователя Иван - |id| - 882850654
+2025-04-22 16:37:39.852 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 8732 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 16:37:39.854 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 16:37:39.855 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 16:37:40.584 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-04-22 16:37:40.585 [main]  - Starting service [Tomcat]
+2025-04-22 16:37:40.585 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 16:37:40.627 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 16:37:41.470 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-04-22 16:37:41.547 [main]  - Started TelegramChatBotApplication in 2.093 seconds (process running for 3.06)
+2025-04-22 16:38:06.297 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 8472 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 16:38:06.298 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 16:38:06.300 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 16:38:07.041 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-04-22 16:38:07.043 [main]  - Starting service [Tomcat]
+2025-04-22 16:38:07.043 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 16:38:07.093 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 16:38:07.997 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-04-22 16:38:08.105 [main]  - Started TelegramChatBotApplication in 2.179 seconds (process running for 3.002)
+2025-04-22 16:48:56.055 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 9528 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 16:48:56.058 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 16:48:56.058 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 16:48:56.809 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-04-22 16:48:56.810 [main]  - Starting service [Tomcat]
+2025-04-22 16:48:56.811 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 16:48:56.852 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 16:48:57.722 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-04-22 16:48:57.796 [main]  - Started TelegramChatBotApplication in 2.116 seconds (process running for 2.849)
+2025-04-22 16:51:15.937 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 8208 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-04-22 16:51:15.939 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-04-22 16:51:15.940 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-04-22 16:51:16.644 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-04-22 16:51:16.646 [main]  - Starting service [Tomcat]
+2025-04-22 16:51:16.646 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-04-22 16:51:16.689 [main]  - Initializing Spring embedded WebApplicationContext
+2025-04-22 16:51:17.530 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-04-22 16:51:17.610 [main]  - Started TelegramChatBotApplication in 2.043 seconds (process running for 2.877)

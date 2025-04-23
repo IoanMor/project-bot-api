@@ -1,0 +1,22 @@
+{
+  "groups": [
+    {
+      "name": "telegram.bot",
+      "type": "me.ivanmorozov.telegramchatbot.config.TelegramBotConfig",
+      "sourceType": "me.ivanmorozov.telegramchatbot.config.TelegramBotConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "telegram.bot.token",
+      "type": "java.lang.String",
+      "sourceType": "me.ivanmorozov.telegramchatbot.config.TelegramBotConfig"
+    },
+    {
+      "name": "telegram.bot.username",
+      "type": "java.lang.String",
+      "sourceType": "me.ivanmorozov.telegramchatbot.config.TelegramBotConfig"
+    }
+  ],
+  "hints": []
+}

@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: telegram-bot
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
+telegram:
+  bot:
+    token: "7674976296:AAHby8eK6974Lpiy2milplojVpB_XbvF0RE"
+    username: "LinkHawkBot"
