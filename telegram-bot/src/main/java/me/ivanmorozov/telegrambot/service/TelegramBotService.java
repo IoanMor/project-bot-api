@@ -1,9 +1,9 @@
-package me.ivanmorozov.common.telegrambot.service;
+package me.ivanmorozov.telegrambot.service;
 
 
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.common.telegrambot.client.ScrapperApiClient;
-import me.ivanmorozov.common.telegrambot.config.TelegramBotConfig;
+import me.ivanmorozov.telegrambot.client.ScrapperApiClient;
+import me.ivanmorozov.telegrambot.config.TelegramBotConfig;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;

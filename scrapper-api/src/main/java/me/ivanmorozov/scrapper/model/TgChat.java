@@ -1,4 +1,4 @@
-package me.ivanmorozov.common.scrapper.model;
+package me.ivanmorozov.scrapper.model;
 
 
 import jakarta.persistence.Entity;

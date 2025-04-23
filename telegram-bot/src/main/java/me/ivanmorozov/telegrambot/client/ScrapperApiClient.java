@@ -1,7 +1,7 @@
-package me.ivanmorozov.common.telegrambot.client;
+package me.ivanmorozov.telegrambot.client;
 
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.common.scrapper.repositories.TgChatRepository;
+import me.ivanmorozov.scrapper.repositories.TgChatRepository;
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 import me.ivanmorozov.common.exception.ChatAlreadyExistsException;
 import org.springframework.http.HttpStatus;

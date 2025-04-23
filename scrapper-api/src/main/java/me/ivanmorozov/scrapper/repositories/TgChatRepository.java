@@ -1,4 +1,4 @@
-package me.ivanmorozov.common.scrapper.repositories;
+package me.ivanmorozov.scrapper.repositories;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;

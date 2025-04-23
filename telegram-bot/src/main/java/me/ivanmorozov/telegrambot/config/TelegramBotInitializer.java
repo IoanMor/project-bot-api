@@ -1,8 +1,8 @@
-package me.ivanmorozov.common.telegrambot.config;
+package me.ivanmorozov.telegrambot.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.common.telegrambot.service.TelegramBotService;
+import me.ivanmorozov.telegrambot.service.TelegramBotService;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;

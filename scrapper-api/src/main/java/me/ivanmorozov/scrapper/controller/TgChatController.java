@@ -1,8 +1,8 @@
-package me.ivanmorozov.common.scrapper.controller;
+package me.ivanmorozov.scrapper.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.common.scrapper.repositories.TgChatRepository;
+import me.ivanmorozov.scrapper.repositories.TgChatRepository;
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 
 import org.springframework.http.ResponseEntity;

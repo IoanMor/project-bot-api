@@ -1,4 +1,4 @@
-package me.ivanmorozov.common.scrapper;
+package me.ivanmorozov.scrapper;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

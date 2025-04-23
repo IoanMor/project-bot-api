@@ -1,13 +1,13 @@
-package me.ivanmorozov.common.scrapper;
+package me.ivanmorozov.telegrambot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ScrapperApiApplicationTests {
+class TelegramChatBotApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }
