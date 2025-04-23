@@ -27,5 +27,5 @@
 
     <!-- Пример настройки логирования для конкретного пакета -->
     <logger name="org.springframework" level="WARN"/>
-    <logger name="me.ivanmorozov.telegramchatbot" level="DEBUG"/>
+    <logger name="me.ivanmorozov.telegrambot" level="DEBUG"/>
 </configuration>

@@ -1,0 +1,47 @@
+package me.ivanmorozov.common.scrapper.repositories;
+
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Repository
+@Slf4j
+public class TgChatRepository {
+   private final ConcurrentHashMap<Long, LocalDateTime> chats = new ConcurrentHashMap<>();
+
+    @PostConstruct
+    public void init() {
+        chats.clear();
+        System.err.println(chats);
+    }
+    public void add (Long id){
+        chats.put(id, LocalDateTime.now());
+        System.err.println(chats);
+        log.info("NEW ADD / "+"Добавление нового чата " + id);
+    }
+
+    public boolean exist(Long id){
+       return chats.containsKey(id);
+    }
+
+    public void delete(Long id){
+        chats.remove(id);
+        log.info("DELETE / "+"Удаление нового чата " + id);
+    }
+    public record ChatExistsRequest(long id) {}
+    public record ChatRegisterRequest(long id) {}
+    public LocalDateTime getRegisterTime(Long id){
+        return chats.get(id);
+    }
+
+
+    @Override
+    public String toString() {
+        return "TgChatRepository{" +
+                "chats=" + chats +
+                '}';
+    }
+}
