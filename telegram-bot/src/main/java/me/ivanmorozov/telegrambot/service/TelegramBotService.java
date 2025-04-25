@@ -3,6 +3,7 @@ package me.ivanmorozov.telegrambot.service;
 
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.telegrambot.client.ScrapperApiClient;
+import me.ivanmorozov.telegrambot.client.StackExchangeClient;
 import me.ivanmorozov.telegrambot.config.TelegramBotConfig;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -25,20 +26,23 @@ import java.util.List;
 public class TelegramBotService extends TelegramLongPollingBot {
     private final TelegramBotConfig botConfig;
     private final ScrapperApiClient client;
+    private final StackExchangeClient stackClient;
 
     @Override
     public String getBotUsername() {
         return botConfig.getUsername();
     }
+
     @Override
     public String getBotToken() {
         return botConfig.getToken();
     }
 
 
-    public TelegramBotService(TelegramBotConfig botConfig, ScrapperApiClient client){
+    public TelegramBotService(TelegramBotConfig botConfig, ScrapperApiClient client, StackExchangeClient stackClient) {
         this.botConfig = botConfig;
         this.client = client;
+        this.stackClient = stackClient;
         List<BotCommand> listCommand = new ArrayList<>();
         listCommand.add(new BotCommand("/start", "Начните работу с ботом"));
         listCommand.add(new BotCommand("/track", "Подписаться на новости по ссылке"));
@@ -47,7 +51,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
         listCommand.add(new BotCommand("/list", "Показать все отслеживаемые ссылки"));
         try {
             this.execute(new SetMyCommands(listCommand, new BotCommandScopeDefault(), null));
-        } catch (TelegramApiException e){
+        } catch (TelegramApiException e) {
             log.error("Ошибка обработки команды: {}", e.getMessage());
         }
     }
@@ -55,17 +59,20 @@ public class TelegramBotService extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()){
-             String msg = update.getMessage().getText();
-             long chatId = update.getMessage().getChatId();
-             String userName = update.getMessage().getChat().getFirstName();
+        if (update.hasMessage() && update.getMessage().hasText()) {
+            String msg = update.getMessage().getText();
+            long chatId = update.getMessage().getChatId();
+            String userName = update.getMessage().getChat().getFirstName();
 
             try {
+                if (msg.startsWith("/track")){
+                    handleTrackCommand(msg,chatId);
+                    return;
+                }
 
                 switch (msg) {
                     case "/start" -> startCommand(chatId, userName);
                     case "/help" -> sendMsg(chatId, HELP_TEXT);
-
                     default -> sendMsg(chatId, "Команда не найдена :(");
                 }
             } catch (TelegramApiException e) {
@@ -74,6 +81,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
 
         }
     }
+
     private void startCommand(long chatId, String userName) throws TelegramApiException {
         String safeName = userName != null ? userName : "пользователь";
         sendMsg(chatId, "Приветствую, " + safeName + "...");
@@ -95,49 +103,33 @@ public class TelegramBotService extends TelegramLongPollingBot {
             }
         } catch (Exception e) {
             sendMsg(chatId, "❌ Произошла ошибка при попытке регистрации.");
-            log.error("Ошибка регистрации: id " + chatId  + "/ msg - " +   e.getMessage());
+            log.error("Ошибка регистрации: id " + chatId + "/ msg - " + e.getMessage());
         }
     }
-/*    private Mono<Void> startCommand(long chatId, String userName) throws TelegramApiException {
-        String greeting = "Приветствую, " + userName + ", перед началом работы давай я тебя зарегистрирую";
-return Mono.fromRunnable(()->sendMsg(chatId,greeting))
-        .then(client.isChatRegister(chatId))
-        .flatMap(isRegister -> {
-            if (isRegister){
-                String msg = "ℹ️ Вы уже зарегистрированы ранее, можете пользоваться ботом ;)";
-                log.info("Пользователь {} (chatId={}) уже зарегистрирован", userName, chatId);
-                return Mono.fromRunnable(()->sendMsg(chatId,msg));
-            }
-            return client.registerChat(chatId)
-                    .flatMap(success -> {
-                        String resultMsg = success ?
-                                "✅ Регистрация прошла успешно" :
-                                "⚠️ Ошибка регистрации. Попробуйте позже.";
-                        if (success) {
-                            log.info("Зарегистрировали пользователя {} - |id| - {}", userName, chatId);
-                        }
-                        return Mono.fromRunnable(()->sendMsg(chatId,resultMsg));
 
-                    });
-
-        })
-        .subscribeOn(Schedulers.boundedElastic())
-        .onErrorResume(e-> {
-            log.error("Ошибка в команде /start для chatId={}: {}", chatId, e.getMessage());
-            return Mono.fromRunnable(() ->
-                    sendMsg(chatId, "⛔ Произошла ошибка при обработке команды"));
-        })
-        .then();
-    }*/
-
-    private void trackCommand(long chatId, String link) throws TelegramApiException{
-        String answer = "Вы подписались на получение новостей по ссылке: " + link;
-
-        // логика подписки
-
-        sendMsg(chatId, answer);
+    private void trackCommand(long chatId, String link) throws TelegramApiException {
+        boolean isTrack = Boolean.TRUE.equals(stackClient.trackLink(link).block(Duration.ofSeconds(5)));
+        if (isTrack) {
+            String answer = "Вы подписались на получение новостей по ссылке: " + link;
+            sendMsg(chatId, answer);
+            log.info("Пользователь  с чатом " + chatId + "подписался на " + link);
+        } else {
+            log.error("Не удалось подписаться на ссылку: " + link);
+            sendMsg(chatId, "Не удалось подписаться на ссылку: " + link);
+        }
     }
-    private void unTrackCommand(long chatId, String link) throws TelegramApiException{
+
+    private void handleTrackCommand(String msg, long chatId) throws TelegramApiException {
+        String[] parts = msg.split("\\s+", 2);
+        if (parts.length < 2) {
+            sendMsg(chatId, "Пожалуйста, укажите ссылку после команды /track");
+        } else {
+            String link = parts[1];
+            trackCommand(chatId, link);
+        }
+    }
+
+    private void unTrackCommand(long chatId, String link) throws TelegramApiException {
         String answer = "Вы отписались от получение новостей по ссылке: " + link;
 
         // логика отпописки
@@ -153,12 +145,13 @@ return Mono.fromRunnable(()->sendMsg(chatId,greeting))
 
         try {
             execute(sendMessage);
-        } catch (TelegramApiException te){
-            log.error("ERROR / : "  + te.getMessage());
+        } catch (TelegramApiException te) {
+            log.error("ERROR / : " + te.getMessage());
         }
     }
-    private Mono<Void> sendReactiveMsg(long chatId, String textSend){
-        return Mono.fromRunnable(()->sendMsg(chatId,textSend))
+
+    private Mono<Void> sendReactiveMsg(long chatId, String textSend) {
+        return Mono.fromRunnable(() -> sendMsg(chatId, textSend))
                 .subscribeOn(Schedulers.boundedElastic()).then();
     }
 

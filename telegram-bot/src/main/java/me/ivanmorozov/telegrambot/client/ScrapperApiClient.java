@@ -13,6 +13,8 @@ import reactor.util.retry.Retry;
 
 import java.time.Duration;
 
+import static me.ivanmorozov.common.endpoints.ScrapperEndpoints.TG_CHAT_URI;
+
 @Component
 @Slf4j
 public class ScrapperApiClient {
@@ -20,7 +22,6 @@ public class ScrapperApiClient {
     private final Duration TIMEOUT = Duration.ofSeconds(5);
 
     public ScrapperApiClient() {
-        String TG_CHAT_URI = "http://localhost:9030";
         this.webClient = WebClient.create(TG_CHAT_URI);
     }
 
@@ -61,4 +62,7 @@ public class ScrapperApiClient {
 
                });
     }
+
+
+
 }
