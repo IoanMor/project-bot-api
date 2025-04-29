@@ -1,9 +1,11 @@
 package me.ivanmorozov.telegrambot.client;
 
 import lombok.extern.slf4j.Slf4j;
+import me.ivanmorozov.common.exception.LinkSubscribeException;
 import me.ivanmorozov.scrapper.repositories.TgChatRepository;
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 import me.ivanmorozov.common.exception.ChatAlreadyExistsException;
+import me.ivanmorozov.scrapper.repositories.UserSubsLinkRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
@@ -13,7 +15,7 @@ import reactor.util.retry.Retry;
 
 import java.time.Duration;
 
-import static me.ivanmorozov.common.endpoints.ScrapperEndpoints.TG_CHAT_URI;
+import static me.ivanmorozov.common.endpoints.ScrapperEndpoints.*;
 
 @Component
 @Slf4j
@@ -48,7 +50,7 @@ public class ScrapperApiClient {
 
     public Mono<Boolean> isChatRegister(long chatId) {
        return webClient.post()
-               .uri(ScrapperEndpoints.TG_CHAT_EXISTS)
+               .uri(TG_CHAT_EXISTS)
                .bodyValue(new TgChatRepository.ChatExistsRequest(chatId))
                .retrieve()
                .onStatus(HttpStatus.CONFLICT::equals,
@@ -63,6 +65,22 @@ public class ScrapperApiClient {
                });
     }
 
+    public Mono<Boolean> subscribeLink(long chatId, String link){
+        return webClient.post()
+                .uri(TG_CHAT_LINK_SUBSCRIBE)
+                .bodyValue(new UserSubsLinkRepository.LinkSubscribeRequest(chatId,link))
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, response ->
+                        Mono.error(new LinkSubscribeException("Ошибка подписки на ссылку - " + link )))
+                .bodyToMono(Boolean.class)
+                .timeout(TIMEOUT)
+                .retryWhen(Retry.backoff(3, Duration.ofMillis(100)))
+                .doOnError(e -> log.error(
+                        "Ошибка подписки. Чат: {}, Ссылка: {}, Причина: {}",
+                        chatId, link, e.getMessage()
+                ))
+                .onErrorReturn(false);
+    }
 
 
 }

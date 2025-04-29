@@ -21,10 +21,15 @@ public class GlobalExceptionHandler {
         log.warn(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(ex.getMessage(), "CHAT_NOT_FOUND"));
     }
-
+    @ExceptionHandler(LinkSubscribeException.class)
+    public ResponseEntity<ErrorResponse> handleLinkSubscriptionException(LinkSubscribeException ex) {
+        log.error("Subscription error: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(ex.getMessage(), "SUBSCRIPTION_ERROR"));
+    }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
         log.error("Unexpected error", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Internal server error", "INTERNAL_ERROR"));
     }
+
 }

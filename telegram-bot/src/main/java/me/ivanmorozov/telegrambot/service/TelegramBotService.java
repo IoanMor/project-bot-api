@@ -43,6 +43,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
         this.botConfig = botConfig;
         this.client = client;
         this.stackClient = stackClient;
+
         List<BotCommand> listCommand = new ArrayList<>();
         listCommand.add(new BotCommand("/start", "Начните работу с ботом"));
         listCommand.add(new BotCommand("/track", "Подписаться на новости по ссылке"));
@@ -66,7 +67,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
 
             try {
                 if (msg.startsWith("/track")){
-                    handleTrackCommand(msg,chatId);
+                    handleTrackCommand(update,msg,chatId);
                     return;
                 }
 
@@ -107,27 +108,48 @@ public class TelegramBotService extends TelegramLongPollingBot {
         }
     }
 
-    private void trackCommand(long chatId, String link) throws TelegramApiException {
-        boolean isTrack = Boolean.TRUE.equals(stackClient.trackLink(link).block(Duration.ofSeconds(5)));
-        if (isTrack) {
-            String answer = "Вы подписались на получение новостей по ссылке: " + link;
-            sendMsg(chatId, answer);
-            log.info("Пользователь  с чатом " + chatId + "подписался на " + link);
-        } else {
-            log.error("Не удалось подписаться на ссылку: " + link);
-            sendMsg(chatId, "Не удалось подписаться на ссылку: " + link);
+    private void trackCommand(Update update,long chatId, long questionID) throws TelegramApiException {
+        try {
+            String userName = update.getMessage().getChat().getFirstName();
+            boolean isTrack = stackClient.trackLink(questionID)
+                    .timeout(Duration.ofSeconds(5))
+                    .blockOptional()
+                    .orElse(false);
+            String link = "https://stackoverflow.com/questions/"+questionID;
+            if (isTrack) {
+                String answer = "✅ Вы подписаны на обновления: " + link;
+                sendMsg(chatId, answer);
+                log.info("Пользователь {} (chatId={}) подписался на вопрос {}",
+                        userName, chatId, questionID);
+            } else {
+                String errorMsg = "❌ Не удалось подписаться на вопрос";
+                log.error("{}: chatId={}, questionId={}", errorMsg, chatId, questionID);
+                sendMsg(chatId, errorMsg);
+            }
+        } catch  (RuntimeException e) {
+            log.error("Ошибка подписки chatId={}, questionId={}: {}",
+                    chatId, questionID, e.getMessage());
+            sendMsg(chatId, "⚠️ Ошибка сервера, попробуйте позже");
         }
     }
 
-    private void handleTrackCommand(String msg, long chatId) throws TelegramApiException {
-        String[] parts = msg.split("\\s+", 2);
+    private void handleTrackCommand(Update update,String linkMsg, long chatId) throws TelegramApiException {
+
+        String[] parts = linkMsg.split("\\s+", 2);
         if (parts.length < 2) {
-            sendMsg(chatId, "Пожалуйста, укажите ссылку после команды /track");
-        } else {
-            String link = parts[1];
-            trackCommand(chatId, link);
+            sendMsg(chatId, "ℹ️ Использование: /track <ссылка_на_вопрос>");
+            return;
         }
+            String link = parts[1].trim();
+        boolean isSubscribe = client.subscribeLink(chatId,link).timeout(Duration.ofSeconds(5)).blockOptional().orElse(false);
+            long questionID = Long.parseLong(link.replaceAll("\\D+",""));
+            log.info("парсинг id вопроса-" + questionID+" /success/");
+            if (isSubscribe) {
+                trackCommand(update, chatId, questionID);
+            } else {log.error("chat id - {} | Не удалось сохранить ссылку {} ", chatId,link );}
+
     }
+
 
     private void unTrackCommand(long chatId, String link) throws TelegramApiException {
         String answer = "Вы отписались от получение новостей по ссылке: " + link;
