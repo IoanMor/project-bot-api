@@ -40,8 +40,7 @@ public class TgChatRepository {
         chats.remove(id);
         log.info("DELETE / "+"Удаление нового чата " + id);
     }
-    public record ChatExistsRequest(long id) {}
-    public record ChatRegisterRequest(long id) {}
+
     public LocalDateTime getRegisterTime(Long id){
         return chats.get(id);
     }

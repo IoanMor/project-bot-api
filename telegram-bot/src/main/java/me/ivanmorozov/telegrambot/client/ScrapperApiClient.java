@@ -2,6 +2,7 @@ package me.ivanmorozov.telegrambot.client;
 
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.common.exception.LinkSubscribeException;
+import me.ivanmorozov.scrapper.dto.LinkRecords;
 import me.ivanmorozov.scrapper.repositories.TgChatRepository;
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 import me.ivanmorozov.common.exception.ChatAlreadyExistsException;
@@ -51,7 +52,7 @@ public class ScrapperApiClient {
     public Mono<Boolean> isChatRegister(long chatId) {
        return webClient.post()
                .uri(TG_CHAT_EXISTS)
-               .bodyValue(new TgChatRepository.ChatExistsRequest(chatId))
+               .bodyValue(new LinkRecords.(chatId))
                .retrieve()
                .onStatus(HttpStatus.CONFLICT::equals,
                        response-> Mono.error(new ChatAlreadyExistsException(chatId)))
@@ -81,6 +82,7 @@ public class ScrapperApiClient {
                 ))
                 .onErrorReturn(false);
     }
+
 
 
 }

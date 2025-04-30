@@ -2,40 +2,49 @@ package me.ivanmorozov.scrapper.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.ivanmorozov.scrapper.dto.ChatRecords;
+import me.ivanmorozov.scrapper.dto.LinkRecords;
 import me.ivanmorozov.scrapper.repositories.TgChatRepository;
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 
-import me.ivanmorozov.scrapper.repositories.UserSubsLinkRepository;
+import me.ivanmorozov.scrapper.services.LinkService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class TgChatController {
     private final TgChatRepository chatRepository;
-    private final UserSubsLinkRepository linkRepository;
+    private final LinkService linkService;
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_REGISTER)
-    public ResponseEntity<Void> registerChat(@RequestBody TgChatRepository.ChatRegisterRequest request) {
+    public ResponseEntity<Void> registerChat(@RequestBody ChatRecords.ChatRegisterRequest request) {
         chatRepository.add(request.id());
         return ResponseEntity.ok().build();
     }
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_EXISTS)
-    public ResponseEntity<Boolean> existsChat(@RequestBody TgChatRepository.ChatExistsRequest request) {
+    public ResponseEntity<Boolean> existsChat(@RequestBody ChatRecords.ChatExistsRequest request) {
         return ResponseEntity.ok(chatRepository.exist(request.id()));
     }
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_LINK_SUBSCRIBE)
-    public ResponseEntity<Void> subscribeLink(@RequestBody UserSubsLinkRepository.LinkSubscribeRequest request){
-        linkRepository.addSubscription(request.chatId(), request.link());
+    public ResponseEntity<Void> subscribeLink(@RequestBody LinkRecords.LinkSubscribeRequest request){
+        linkService.addLink (request.chatId(), request.link());
         return ResponseEntity.ok().build();
     }
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_LINK_SUBSCRIBE_EXISTS)
-    public ResponseEntity<Boolean> existLinks (@RequestBody UserSubsLinkRepository.LinkExistRequest request){
-        return ResponseEntity.ok(linkRepository.exists(request.chatId(), request.link()));
+    public ResponseEntity<Boolean> existLinks (@RequestBody LinkRecords.LinkExistRequest request){
+        return ResponseEntity.ok( linkService.linkExist (request.chatId(), request.link()));
+    }
+
+    @PostMapping(ScrapperEndpoints.TG_CHAT_GET_SUBSCRIBES)
+    public ResponseEntity<Set<String>> getLinks (@RequestBody LinkRecords.LinkGetRequest request){
+        return ResponseEntity.ok(linkService.getLinks(request.chatId()));
     }
 
 }

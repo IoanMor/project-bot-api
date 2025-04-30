@@ -55,7 +55,5 @@ public class UserSubsLinkRepository {
         return link.replaceAll("(?i)/questions/(\\d+).*", "/questions/$1");
     }
 
-    public record LinkExistRequest(long chatId, String link){}
-    public record LinkSubscribeRequest(long chatId, String link){}
 
 }
