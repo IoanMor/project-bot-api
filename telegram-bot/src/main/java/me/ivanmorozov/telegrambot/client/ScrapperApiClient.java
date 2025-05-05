@@ -1,12 +1,13 @@
 package me.ivanmorozov.telegrambot.client;
 
 import lombok.extern.slf4j.Slf4j;
+import me.ivanmorozov.common.records.ChatRecords;
+import me.ivanmorozov.common.records.LinkRecords;
 import me.ivanmorozov.common.exception.LinkSubscribeException;
+import me.ivanmorozov.scrapper.dto.ChatRecords;
 import me.ivanmorozov.scrapper.dto.LinkRecords;
-import me.ivanmorozov.scrapper.repositories.TgChatRepository;
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 import me.ivanmorozov.common.exception.ChatAlreadyExistsException;
-import me.ivanmorozov.scrapper.repositories.UserSubsLinkRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
@@ -31,7 +32,7 @@ public class ScrapperApiClient {
     public Mono<Boolean> registerChat(long chatId) {
         return webClient.post()
                 .uri(ScrapperEndpoints.TG_CHAT_REGISTER)
-                .bodyValue(new TgChatRepository.ChatRegisterRequest(chatId))
+                .bodyValue(new ChatRecords.ChatRegisterRequest(chatId))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response -> {
                     return response.bodyToMono(String.class)
@@ -52,7 +53,7 @@ public class ScrapperApiClient {
     public Mono<Boolean> isChatRegister(long chatId) {
        return webClient.post()
                .uri(TG_CHAT_EXISTS)
-               .bodyValue(new LinkRecords.(chatId))
+               .bodyValue(new ChatRecords.ChatExistsRequest(chatId))
                .retrieve()
                .onStatus(HttpStatus.CONFLICT::equals,
                        response-> Mono.error(new ChatAlreadyExistsException(chatId)))
@@ -69,7 +70,7 @@ public class ScrapperApiClient {
     public Mono<Boolean> subscribeLink(long chatId, String link){
         return webClient.post()
                 .uri(TG_CHAT_LINK_SUBSCRIBE)
-                .bodyValue(new UserSubsLinkRepository.LinkSubscribeRequest(chatId,link))
+                .bodyValue(new LinkRecords.LinkSubscribeRequest(chatId,link))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response ->
                         Mono.error(new LinkSubscribeException("Ошибка подписки на ссылку - " + link )))

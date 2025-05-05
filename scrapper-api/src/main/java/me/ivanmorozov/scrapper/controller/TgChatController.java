@@ -2,8 +2,9 @@ package me.ivanmorozov.scrapper.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.scrapper.dto.ChatRecords;
-import me.ivanmorozov.scrapper.dto.LinkRecords;
+import me.ivanmorozov.common.records.ChatRecords;
+import me.ivanmorozov.common.records.LinkRecords;
+
 import me.ivanmorozov.scrapper.repositories.TgChatRepository;
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 
