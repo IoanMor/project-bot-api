@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -14,8 +16,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TgChatRepository {
     private final  UserSubsLinkRepository subsLinkRepository;
    public final ConcurrentHashMap<Long, LocalDateTime> chats = new ConcurrentHashMap<>();
-
-
 
     @PostConstruct
     public void init() {
@@ -26,6 +26,10 @@ public class TgChatRepository {
         chats.put(id, LocalDateTime.now());
         System.err.println(chats);
         log.info("NEW ADD / "+"Добавление нового чата " + id);
+    }
+
+    public Set<Long> getAllChats (){
+      return new HashSet<>(chats.keySet());
     }
 
     public void addSubscriptionLink(long chatId, String link){

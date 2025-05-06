@@ -17,6 +17,7 @@ public class LinkService {
     public Set<String> getLinks (long chatId){
        return linkRepository.getSubscription(chatId);
     }
+
     public boolean linkExist (long chatId, String link) {
         return linkRepository.exists(chatId,link);
     }

@@ -16,9 +16,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+import static me.ivanmorozov.common.constMsg.Msg.*;
+
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Service
@@ -66,8 +71,8 @@ public class TelegramBotService extends TelegramLongPollingBot {
             String userName = update.getMessage().getChat().getFirstName();
 
             try {
-                if (msg.startsWith("/track")){
-                    handleTrackCommand(update,msg,chatId);
+                if (msg.startsWith("/track")) {
+                    handleTrackCommand(update, msg, chatId);
                     return;
                 }
 
@@ -108,45 +113,70 @@ public class TelegramBotService extends TelegramLongPollingBot {
         }
     }
 
-    private void trackCommand(Update update,long chatId, long questionID) throws TelegramApiException {
-        try {
-            String userName = update.getMessage().getChat().getFirstName();
-            boolean isTrack = stackClient.trackLink(questionID)
-                    .timeout(Duration.ofSeconds(5))
-                    .blockOptional()
-                    .orElse(false);
-            String link = "https://stackoverflow.com/questions/"+questionID;
-            if (isTrack) {
-                String answer = "✅ Вы подписаны на обновления: " + link;
-                sendMsg(chatId, answer);
-                log.info("Пользователь {} (chatId={}) подписался на вопрос {}",
-                        userName, chatId, questionID);
-            } else {
-                String errorMsg = "❌ Не удалось подписаться на вопрос";
-                log.error("{}: chatId={}, questionId={}", errorMsg, chatId, questionID);
-                sendMsg(chatId, errorMsg);
-            }
-        } catch  (RuntimeException e) {
-            log.error("Ошибка подписки chatId={}, questionId={}: {}",
-                    chatId, questionID, e.getMessage());
-            sendMsg(chatId, "⚠️ Ошибка сервера, попробуйте позже");
+    private void trackCommand(Update update, long chatId, Optional<Long> questionID) throws TelegramApiException {
+        String link = "https://stackoverflow.com/questions/" + questionID;
+        String userName = Optional.ofNullable(update.getMessage().getChat().getUserName()).orElse("UNKNOWN");
+
+        boolean isTrack = stackClient.trackLink(questionID)
+                .timeout(Duration.ofSeconds(5))
+                .onErrorResume(e -> {
+                    log.error("Ошибка при подписке chatId={}, questionId={}: {}", chatId, questionID, e.getMessage());
+                    return Mono.just(false);
+                })
+                .blockOptional()
+                .orElse(false);
+
+        if (isTrack) {
+            String answer = "✅ Вы подписаны на обновления: " + link;
+            sendMsg(chatId, answer);
+            log.info("Пользователь {} (chatId={}) подписался на вопрос {}",
+                    userName, chatId, questionID);
+        } else {
+            String errorMsg = "❌ Не удалось подписаться на вопрос";
+            log.error("{}: chatId={}, questionId={}", errorMsg, chatId, questionID);
+            sendMsg(chatId, errorMsg);
         }
+
     }
 
-    private void handleTrackCommand(Update update,String linkMsg, long chatId) throws TelegramApiException {
+    private void handleTrackCommand(Update update, String linkMsg, long chatId) throws TelegramApiException {
 
         String[] parts = linkMsg.split("\\s+", 2);
         if (parts.length < 2) {
             sendMsg(chatId, "ℹ️ Использование: /track <ссылка_на_вопрос>");
             return;
         }
-            String link = parts[1].trim();
-        boolean isSubscribe = client.subscribeLink(chatId,link).timeout(Duration.ofSeconds(5)).blockOptional().orElse(false);
-            long questionID = Long.parseLong(link.replaceAll("\\D+",""));
-            log.info("парсинг id вопроса-" + questionID+" /success/");
-            if (isSubscribe) {
-                trackCommand(update, chatId, questionID);
-            } else {log.error("chat id - {} | Не удалось сохранить ссылку {} ", chatId,link );}
+        String link = parts[1].trim();
+        Optional<Long> questionIdOp = parseQuestionId(link);
+
+        if (questionIdOp.isEmpty()) {
+            sendMsg(chatId, "❌ Неверный формат ссылки. Пример: /track https://stackoverflow.com/questions/12345");
+            return;
+        }
+
+        boolean isSubscribeExist = client.isLinkSubscribe(chatId, link)
+                .timeout(Duration.ofSeconds(5))
+                .blockOptional()
+                .orElse(false);
+
+        if (isSubscribeExist) {
+            sendMsg(chatId, "ℹ️ Вы уже подписаны на эту ссылку.");
+            return;
+        }
+
+        boolean isSubscribe = client.subscribeLink(chatId, link)
+                .timeout(Duration.ofSeconds(5))
+                .blockOptional()
+                .orElse(false);
+
+        if (!isSubscribe) {
+            log.error("chat id - {} | Не удалось подписаться на ссылку {}", chatId, link);
+            sendMsg(chatId, "❌ Не удалось подписаться на ссылку.");
+            return;
+        }
+
+        log.info("парсинг id вопроса-" + questionIdOp + " /success/");
+        trackCommand(update, chatId, questionIdOp);
 
     }
 
@@ -160,44 +190,36 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    private void sendMsg(long chatId, String textSend) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(textSend);
+//    private void sendMsg(long chatId, String textSend) {
+//        SendMessage sendMessage = new SendMessage();
+//        sendMessage.setChatId(chatId);
+//        sendMessage.setText(textSend);
+//
+//        try {
+//            execute(sendMessage);
+//        } catch (TelegramApiException te) {
+//            log.error("ERROR / : " + te.getMessage());
+//        }
+//    }
 
-        try {
-            execute(sendMessage);
-        } catch (TelegramApiException te) {
-            log.error("ERROR / : " + te.getMessage());
-        }
-    }
-
-    private Mono<Void> sendReactiveMsg(long chatId, String textSend) {
+    private Mono<Void> sendMsg(long chatId, String textSend) {
         return Mono.fromRunnable(() -> sendMsg(chatId, textSend))
                 .subscribeOn(Schedulers.boundedElastic()).then();
     }
 
-    final String START_TEXT = """
-            ✅ Регистрация прошла успешно!
-            \uD83D\uDCE2 *Как использовать?*
-            1. Отправьте `/track https://example.com`
-            2. Бот будет присылать уведомления при изменениях \s
-            """;
-    final String HELP_TEXT = "\uD83D\uDCDA *Справка по боту*\n" +
-            "\n" +
-            "Основные команды:\n" +
-            "`/start` - Начать работу с ботом\n" +
-            "`/help` - Показать эту справку\n" +
-            "`/track <ссылка>` - Добавить ссылку для отслеживания\n" +
-            "`/untrack <ссылка>` - Удалить ссылку из отслеживания\n" +
-            "`/list` - Показать все отслеживаемые ссылки\n" +
-            "`/settings` - Настройки уведомлений\n" +
-            "\n" +
-            "\uD83D\uDCE2 *Как использовать?*\n" +
-            "1. Отправьте `/track https://example.com`\n" +
-            "2. Бот будет присылать уведомления при изменениях  \n" +
-            "\n" +
-            "\uD83D\uDEE0 *Поддержка*:\n" +
-            "А кому сейчас легко?\n" +
-            "Не работает? Ну и хуй бы с ним!";
+    private Optional<Long> parseQuestionId(String link) {
+        try {
+            // Пример для StackOverflow
+            Pattern pattern = Pattern.compile("stackoverflow\\.com/questions/(\\d+)");
+            Matcher matcher = pattern.matcher(link);
+            if (matcher.find()) {
+                return Optional.of(Long.parseLong(matcher.group(1)));
+            }
+            return Optional.empty();
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
+
+
+    }
 }

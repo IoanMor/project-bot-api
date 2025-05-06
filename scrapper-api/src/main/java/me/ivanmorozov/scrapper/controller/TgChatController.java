@@ -9,10 +9,13 @@ import me.ivanmorozov.scrapper.repositories.TgChatRepository;
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 
 import me.ivanmorozov.scrapper.services.LinkService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +33,10 @@ public class TgChatController {
     @PostMapping(ScrapperEndpoints.TG_CHAT_EXISTS)
     public ResponseEntity<Boolean> existsChat(@RequestBody ChatRecords.ChatExistsRequest request) {
         return ResponseEntity.ok(chatRepository.exist(request.id()));
+    }
+    @PostMapping(value = ScrapperEndpoints.TG_CHAT_GET_ALL_REGISTER)
+    public ResponseEntity<Set<Long>> getAllChats(){
+        return ResponseEntity.ok(chatRepository.getAllChats());
     }
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_LINK_SUBSCRIBE)
