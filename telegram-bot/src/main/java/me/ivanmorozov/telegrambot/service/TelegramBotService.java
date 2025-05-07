@@ -154,29 +154,31 @@ public class TelegramBotService extends TelegramLongPollingBot {
             return;
         }
 
-        boolean isSubscribeExist = client.isLinkSubscribe(chatId, link)
-                .timeout(Duration.ofSeconds(5))
-                .blockOptional()
-                .orElse(false);
+        try {
+            Boolean alreadySubscribed = client.isLinkSubscribe(chatId, link)
+                    .timeout(Duration.ofSeconds(5))
+                    .block();
 
-        if (isSubscribeExist) {
-            sendMsg(chatId, "ℹ️ Вы уже подписаны на эту ссылку.");
-            return;
+            if (Boolean.TRUE.equals(alreadySubscribed)) {
+                sendMsg(chatId, "ℹ️ Вы уже подписаны на этот вопрос");
+                return;
+            }
+
+            Boolean subscriptionResult = client.subscribeLink(chatId, link)
+                    .timeout(Duration.ofSeconds(10))
+                    .block();
+
+            if (!Boolean.TRUE.equals(subscriptionResult)) {
+                throw new IllegalStateException("Сервер вернул false");
+            }
+
+            log.info("парсинг id вопроса-" + questionIdOp + " /success/");
+            trackCommand(update, chatId, questionIdOp);
+        } catch (Exception e) {
+            log.error("Ошибка подписки chatId={}, link={}: {}", chatId, link, e.getMessage());
+            sendMsg(chatId, "❌ Внутренняя ошибка при подписке");
+
         }
-
-        boolean isSubscribe = client.subscribeLink(chatId, link)
-                .timeout(Duration.ofSeconds(5))
-                .blockOptional()
-                .orElse(false);
-
-        if (!isSubscribe) {
-            log.error("chat id - {} | Не удалось подписаться на ссылку {}", chatId, link);
-            sendMsg(chatId, "❌ Не удалось подписаться на ссылку.");
-            return;
-        }
-
-        log.info("парсинг id вопроса-" + questionIdOp + " /success/");
-        trackCommand(update, chatId, questionIdOp);
 
     }
 
@@ -190,26 +192,26 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-//    private void sendMsg(long chatId, String textSend) {
-//        SendMessage sendMessage = new SendMessage();
-//        sendMessage.setChatId(chatId);
-//        sendMessage.setText(textSend);
-//
-//        try {
-//            execute(sendMessage);
-//        } catch (TelegramApiException te) {
-//            log.error("ERROR / : " + te.getMessage());
-//        }
-//    }
+    private void sendMsg(long chatId, String textSend) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(textSend);
 
-    private Mono<Void> sendMsg(long chatId, String textSend) {
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException te) {
+            log.error("ERROR / : " + te.getMessage());
+        }
+    }
+
+    public Mono<Void> sendReactiveMsg(long chatId, String textSend) {
         return Mono.fromRunnable(() -> sendMsg(chatId, textSend))
                 .subscribeOn(Schedulers.boundedElastic()).then();
     }
 
-    private Optional<Long> parseQuestionId(String link) {
+    public Optional<Long> parseQuestionId(String link) {
         try {
-            // Пример для StackOverflow
+            //  для StackOverflow
             Pattern pattern = Pattern.compile("stackoverflow\\.com/questions/(\\d+)");
             Matcher matcher = pattern.matcher(link);
             if (matcher.find()) {

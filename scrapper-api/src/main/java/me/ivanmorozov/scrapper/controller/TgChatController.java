@@ -34,24 +34,30 @@ public class TgChatController {
     public ResponseEntity<Boolean> existsChat(@RequestBody ChatRecords.ChatExistsRequest request) {
         return ResponseEntity.ok(chatRepository.exist(request.id()));
     }
-    @PostMapping(value = ScrapperEndpoints.TG_CHAT_GET_ALL_REGISTER)
-    public ResponseEntity<Set<Long>> getAllChats(){
+
+    @PostMapping(ScrapperEndpoints.TG_CHAT_GET_ALL_REGISTER)
+    public ResponseEntity<Set<Long>> getAllChats() {
         return ResponseEntity.ok(chatRepository.getAllChats());
     }
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_LINK_SUBSCRIBE)
-    public ResponseEntity<Void> subscribeLink(@RequestBody LinkRecords.LinkSubscribeRequest request){
-        linkService.addLink (request.chatId(), request.link());
+    public ResponseEntity<Void> subscribeLink(@RequestBody LinkRecords.LinkSubscribeRequest request) {
+        linkService.addLink(request.chatId(), request.link());
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping(ScrapperEndpoints.TG_CHAT_GET_ALL_LINK)
+    public ResponseEntity<Set<String>> getAllLink(@RequestBody LinkRecords.LinkGetRequest request){
+        return ResponseEntity.ok(linkService.getLinks(request.chatId()));
+    }
+
     @PostMapping(ScrapperEndpoints.TG_CHAT_LINK_SUBSCRIBE_EXISTS)
-    public ResponseEntity<Boolean> existLinks (@RequestBody LinkRecords.LinkExistRequest request){
-        return ResponseEntity.ok( linkService.linkExist (request.chatId(), request.link()));
+    public ResponseEntity<Boolean> existLinks(@RequestBody LinkRecords.LinkExistRequest request) {
+        return ResponseEntity.ok(linkService.linkExist(request.chatId(), request.link()));
     }
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_GET_SUBSCRIBES)
-    public ResponseEntity<Set<String>> getLinks (@RequestBody LinkRecords.LinkGetRequest request){
+    public ResponseEntity<Set<String>> getLinks(@RequestBody LinkRecords.LinkGetRequest request) {
         return ResponseEntity.ok(linkService.getLinks(request.chatId()));
     }
 

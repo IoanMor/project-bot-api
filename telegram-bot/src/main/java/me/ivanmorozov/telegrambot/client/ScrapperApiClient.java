@@ -18,6 +18,7 @@ import reactor.util.retry.Retry;
 
 import java.lang.reflect.Type;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.Set;
 
 import static me.ivanmorozov.common.endpoints.ScrapperEndpoints.*;
@@ -32,7 +33,9 @@ public class ScrapperApiClient {
         this.webClient = WebClient.create(TG_CHAT_URI);
     }
 
+
     public Mono<Boolean> registerChat(long chatId) {
+
         return webClient.post()
                 .uri(ScrapperEndpoints.TG_CHAT_REGISTER)
                 .bodyValue(new ChatRecords.ChatRegisterRequest(chatId))
@@ -55,8 +58,27 @@ public class ScrapperApiClient {
     public Mono<Set<Long>> getAllChats() {
         return webClient.post()
                 .uri(TG_CHAT_GET_ALL_REGISTER)
+                .bodyValue(Mono.empty())
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Set<Long>>(){});
+                .bodyToMono(new ParameterizedTypeReference<Set<Long>>(){})
+                .timeout(TIMEOUT)
+                .onErrorResume(e->{
+                    log.error("Ошибка при получении чатов. Тип: {}, Сообщение: {}",
+                            e.getClass().getSimpleName(), e.getMessage());
+                    return Mono.just(Set.of());
+                });
+    }
+    public Mono<Set<String>> getAllLinks(long chatId){
+        return webClient.post()
+                .uri(TG_CHAT_GET_ALL_LINK)
+                .bodyValue(new LinkRecords.LinkGetRequest(chatId))
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<Set<String>>() {})
+                .timeout(TIMEOUT)
+                .onErrorResume(e->{
+                    log.error("Ошибка в выдаче всех подписок из чата {},{}",chatId, e.getMessage());
+                    return Mono.just(Set.of());
+                });
     }
 
     public Mono<Boolean> isChatRegister(long chatId) {

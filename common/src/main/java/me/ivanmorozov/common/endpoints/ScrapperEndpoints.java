@@ -7,6 +7,7 @@ public class ScrapperEndpoints {
     public static final String TG_CHAT_EXISTS = TG_CHAT + "/check-exists";
     public static final String TG_CHAT_GET_ALL_REGISTER = TG_CHAT+"/getAll";
     public static final String TG_CHAT_LINK_SUBSCRIBE = TG_CHAT + "/subscribe";
+    public static final String TG_CHAT_GET_ALL_LINK = TG_CHAT_LINK_SUBSCRIBE + "/get-subscribes";
     public static final String TG_CHAT_LINK_SUBSCRIBE_EXISTS = TG_CHAT + "/subscribe-exists";
 
     public static final String TG_CHAT_GET_SUBSCRIBES = TG_CHAT + "/get-subscribes";
