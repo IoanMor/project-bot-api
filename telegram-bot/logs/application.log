@@ -1,0 +1,12 @@
+2025-05-10 20:26:42.049 [main]  - Starting CheckSubscribeServiceTest using Java 17.0.14 with PID 6676 (started by LORD in C:\Users\LORD\IdeaProjects\project-bot-api\telegram-bot)
+2025-05-10 20:26:42.051 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-10 20:26:42.052 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-10 20:26:44.148 [main]  - Started CheckSubscribeServiceTest in 2.395 seconds (process running for 4.783)
+2025-05-10 20:26:44.229 [main]  - Невозможно распарсить ссылку: https://stackoverflow.com/questions/123
+2025-05-10 20:26:44.275 [main]  - Невозможно распарсить ссылку: invalid-link
+2025-05-10 20:35:43.452 [main]  - Starting CheckSubscribeServiceTest using Java 17.0.14 with PID 10788 (started by LORD in C:\Users\LORD\IdeaProjects\project-bot-api\telegram-bot)
+2025-05-10 20:35:43.454 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-10 20:35:43.456 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-10 20:35:45.453 [main]  - Started CheckSubscribeServiceTest in 2.3 seconds (process running for 4.397)
+2025-05-10 20:35:45.541 [main]  - Невозможно распарсить ссылку: invalid-link
+2025-05-10 20:38:35.253 [main]  - Невозможно распарсить ссылку: invalid-link

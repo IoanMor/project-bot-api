@@ -14,3 +14,7 @@ telegram:
   bot:
     token: "7674976296:AAHby8eK6974Lpiy2milplojVpB_XbvF0RE"
     username: "LinkHawkBot"
+logging:
+  level:
+    me.ivanmorozov.telegrambot.service.CheckSubscribeService: DEBUG
+    me.ivanmorozov.telegrambot.client.StackExchangeClient: TRACE

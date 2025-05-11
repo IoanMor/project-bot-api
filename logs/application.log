@@ -1,28 +1,23 @@
-2025-05-07 13:00:32.328 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 5044 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-07 13:00:32.331 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-07 13:00:32.331 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-07 13:00:33.185 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-07 13:00:33.187 [main]  - Starting service [Tomcat]
-2025-05-07 13:00:33.187 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-07 13:00:33.233 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-07 13:00:34.265 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-05-07 13:00:34.343 [main]  - Started TelegramChatBotApplication in 2.372 seconds (process running for 3.424)
-2025-05-07 13:01:35.285 [LinkHawkBot Telegram Executor]  - chat id - 882850654 | Не удалось подписаться на ссылку https://stackoverflow.com/questions/79592526/testing-error-after-upgrading-mui-x-data-grid-to-v8-1-0-unknown-file-extensio
-2025-05-07 13:25:34.496 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 2448 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-07 13:25:34.497 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-07 13:25:34.498 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-07 13:25:35.348 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-07 13:25:35.349 [main]  - Starting service [Tomcat]
-2025-05-07 13:25:35.349 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-07 13:25:35.396 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-07 13:25:36.531 [main]  - Started TelegramChatBotApplication in 2.508 seconds (process running for 3.674)
-2025-05-07 13:25:45.499 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 10692 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-07 13:25:45.501 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-07 13:25:45.502 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-07 13:25:46.800 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-07 13:25:46.802 [main]  - Starting service [Tomcat]
-2025-05-07 13:25:46.802 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-07 13:25:46.866 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-07 13:25:48.080 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-05-07 13:25:48.160 [main]  - Started TelegramChatBotApplication in 3.042 seconds (process running for 3.961)
-2025-05-07 13:26:20.680 [LinkHawkBot Telegram Executor]  - Ошибка подписки chatId=882850654, link=https://stackoverflow.com/questions/79592526/testing-error-after-upgrading-mui-x-data-grid-to-v8-1-0-unknown-file-extensio: Сервер вернул false
+2025-05-11 20:52:40.090 [http-nio-8080-exec-1]  - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-11 20:53:03.901 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79616740
+2025-05-11 20:53:30.235 [http-nio-8080-exec-3]  - === Начало проверки обновлений ===
+2025-05-11 20:53:30.256 [reactor-http-nio-2]  - Получены чаты для проверки: [882850654]
+2025-05-11 20:53:30.257 [checkUpdates-12]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-13]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-14]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-12]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-13]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-14]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-12]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-13]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-14]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-12]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-13]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-14]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-11]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-11]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.258 [checkUpdates-11]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.260 [reactor-http-nio-2]  - Запрос к API: /questions/79616740/answers?order=desc&sort=creation&site=stackoverflow&filter=total
+2025-05-11 20:53:30.674 [reactor-http-nio-2]  - Ответ API: {"total":1}
+2025-05-11 20:53:30.675 [reactor-http-nio-2]  - Отправка: chatId=882850654, msg=🔔 Новый ответ: https://stackoverflow.com/questions/79616740
+2025-05-11 20:53:30.775 [boundedElastic-1]  - === Проверка обновлений завершена ===

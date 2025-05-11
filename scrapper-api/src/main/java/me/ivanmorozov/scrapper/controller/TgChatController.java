@@ -41,13 +41,13 @@ public class TgChatController {
     }
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_LINK_SUBSCRIBE)
-    public ResponseEntity<Void> subscribeLink(@RequestBody LinkRecords.LinkSubscribeRequest request) {
-        linkService.addLink(request.chatId(), request.link());
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Boolean> subscribeLink(@RequestBody LinkRecords.LinkSubscribeRequest request) {
+        boolean result = linkService.addLink(request.chatId(), request.link());
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_GET_ALL_LINK)
-    public ResponseEntity<Set<String>> getAllLink(@RequestBody LinkRecords.LinkGetRequest request){
+    public ResponseEntity<Set<String>> getUserLink(@RequestBody LinkRecords.LinkGetRequest request) {
         return ResponseEntity.ok(linkService.getLinks(request.chatId()));
     }
 
@@ -56,9 +56,10 @@ public class TgChatController {
         return ResponseEntity.ok(linkService.linkExist(request.chatId(), request.link()));
     }
 
-    @PostMapping(ScrapperEndpoints.TG_CHAT_GET_SUBSCRIBES)
-    public ResponseEntity<Set<String>> getLinks(@RequestBody LinkRecords.LinkGetRequest request) {
-        return ResponseEntity.ok(linkService.getLinks(request.chatId()));
+    @PostMapping(ScrapperEndpoints.TG_CHAT_DELL_LINK)
+    public ResponseEntity<Boolean> dellLink(@RequestBody LinkRecords.LinkSubscribeRequest request) {
+        return ResponseEntity.ok(linkService.unSubscribe(request.chatId(), request.link()));
     }
+
 
 }

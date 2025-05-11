@@ -19,9 +19,7 @@ import reactor.core.scheduler.Schedulers;
 import static me.ivanmorozov.common.constMsg.Msg.*;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,26 +63,48 @@ public class TelegramBotService extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            String msg = update.getMessage().getText();
-            long chatId = update.getMessage().getChatId();
-            String userName = update.getMessage().getChat().getFirstName();
+        try {
+            if (update.hasMessage() && update.getMessage().hasText()) {
+                String msg = update.getMessage().getText();
+                long chatId = update.getMessage().getChatId();
+                String userName = update.getMessage().getChat().getFirstName();
 
-            try {
-                if (msg.startsWith("/track")) {
-                    handleTrackCommand(update, msg, chatId);
+                if (msg.startsWith("/start")) {
+                    startCommand(chatId, userName);
                     return;
                 }
 
-                switch (msg) {
-                    case "/start" -> startCommand(chatId, userName);
-                    case "/help" -> sendMsg(chatId, HELP_TEXT);
-                    default -> sendMsg(chatId, "Команда не найдена :(");
+                if (isChatRegister(chatId)) {
+                    if (msg.startsWith("/track")) {
+                        handleTrackCommand(update, msg, chatId);
+                    } else if (msg.startsWith("/untrack ")) {
+                        unTrackCommand(chatId, msg);
+                    } else if ("/help".equalsIgnoreCase(msg)) {
+                        sendMsg(chatId, HELP_TEXT);
+                    } else {
+                        sendMsg(chatId, "❌ Неизвестная команда. Введите /help для списка команд");
+                    }
+                } else {
+                    sendMsg(chatId, "⛔ Для использования бота необходимо зарегистрироваться!\nВведите команду /start");
+                    return;
                 }
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
+
             }
 
+        } catch (Exception e) {
+            log.error("Ошибка обработки команды", e);
+            safelyNotifyUser(update);
+        }
+    }
+
+    private void safelyNotifyUser(Update update) {
+        try {
+            if (update != null && update.hasMessage()) {
+                sendMsg(update.getMessage().getChatId(),
+                        "⚠ Техническая ошибка. Попробуйте позже или обратитесь в поддержку");
+            }
+        } catch (Exception ex) {
+            log.error("Критическая ошибка уведомления", ex);
         }
     }
 
@@ -113,31 +133,6 @@ public class TelegramBotService extends TelegramLongPollingBot {
         }
     }
 
-    private void trackCommand(Update update, long chatId, Optional<Long> questionID) throws TelegramApiException {
-        String link = "https://stackoverflow.com/questions/" + questionID;
-        String userName = Optional.ofNullable(update.getMessage().getChat().getUserName()).orElse("UNKNOWN");
-
-        boolean isTrack = stackClient.trackLink(questionID)
-                .timeout(Duration.ofSeconds(5))
-                .onErrorResume(e -> {
-                    log.error("Ошибка при подписке chatId={}, questionId={}: {}", chatId, questionID, e.getMessage());
-                    return Mono.just(false);
-                })
-                .blockOptional()
-                .orElse(false);
-
-        if (isTrack) {
-            String answer = "✅ Вы подписаны на обновления: " + link;
-            sendMsg(chatId, answer);
-            log.info("Пользователь {} (chatId={}) подписался на вопрос {}",
-                    userName, chatId, questionID);
-        } else {
-            String errorMsg = "❌ Не удалось подписаться на вопрос";
-            log.error("{}: chatId={}, questionId={}", errorMsg, chatId, questionID);
-            sendMsg(chatId, errorMsg);
-        }
-
-    }
 
     private void handleTrackCommand(Update update, String linkMsg, long chatId) throws TelegramApiException {
 
@@ -156,43 +151,58 @@ public class TelegramBotService extends TelegramLongPollingBot {
 
         try {
             Boolean alreadySubscribed = client.isLinkSubscribe(chatId, link)
-                    .timeout(Duration.ofSeconds(5))
+                    .timeout(Duration.ofSeconds(3))
                     .block();
 
             if (Boolean.TRUE.equals(alreadySubscribed)) {
                 sendMsg(chatId, "ℹ️ Вы уже подписаны на этот вопрос");
                 return;
             }
-
             Boolean subscriptionResult = client.subscribeLink(chatId, link)
-                    .timeout(Duration.ofSeconds(10))
+                    .timeout(Duration.ofSeconds(5))
                     .block();
 
-            if (!Boolean.TRUE.equals(subscriptionResult)) {
-                throw new IllegalStateException("Сервер вернул false");
+            if (Boolean.TRUE.equals(subscriptionResult)) {
+                sendMsg(chatId, "✅ Вы подписаны на: " + link);
+                log.info("Пользователь подписался: chatId={}, questionId={}", chatId, questionIdOp.get());
+            } else {
+                sendMsg(chatId, "❌ Не удалось подписаться (проверьте ссылку)");
             }
 
-            log.info("парсинг id вопроса-" + questionIdOp + " /success/");
-            trackCommand(update, chatId, questionIdOp);
         } catch (Exception e) {
-            log.error("Ошибка подписки chatId={}, link={}: {}", chatId, link, e.getMessage());
-            sendMsg(chatId, "❌ Внутренняя ошибка при подписке");
+            log.error("Ошибка подписки chatId={}: {}", chatId, e.getMessage());
+            sendMsg(chatId, "⚠️ Временная ошибка сервера");
+        }
+    }
 
+
+    private void unTrackCommand(long chatId, String linkMsg) throws TelegramApiException {
+        String[] parts = linkMsg.split("\\s+", 2);
+        if (parts.length < 2) {
+            sendMsg(chatId, "ℹ️ Использование: /untrack <ссылка_на_вопрос>");
+            return;
+        }
+        String link = parts[1].trim();
+
+        try {
+            Boolean isUnTruck = client.unsubscribeLink(chatId, linkMsg)
+                    .timeout(Duration.ofSeconds(5))
+                    .block();
+            if (Boolean.TRUE.equals(isUnTruck)) {
+                sendMsg(chatId, "Вы отписались от получение новостей по ссылке: " + link);
+                log.info("Пользователь отписался: chatId={}, link={}", chatId, link);
+            } else {
+                sendMsg(chatId, "❌ Не удалось отписаться (проверьте ссылку)");
+            }
+        } catch (Exception e) {
+            log.error("Ошибка отписки chatId={}: {}", chatId, e.getMessage());
+            sendMsg(chatId, "⚠️ Временная ошибка сервера");
         }
 
     }
 
 
-    private void unTrackCommand(long chatId, String link) throws TelegramApiException {
-        String answer = "Вы отписались от получение новостей по ссылке: " + link;
-
-        // логика отпописки
-
-        sendMsg(chatId, answer);
-    }
-
-
-    private void sendMsg(long chatId, String textSend) {
+    public void sendMsg(long chatId, String textSend) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText(textSend);
@@ -209,6 +219,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
                 .subscribeOn(Schedulers.boundedElastic()).then();
     }
 
+
     public Optional<Long> parseQuestionId(String link) {
         try {
             //  для StackOverflow
@@ -222,6 +233,9 @@ public class TelegramBotService extends TelegramLongPollingBot {
             return Optional.empty();
         }
 
+    }
 
+    private boolean isChatRegister(long chatId) {
+        return Boolean.TRUE.equals(client.isChatRegister(chatId).timeout(Duration.ofSeconds(5)).block());
     }
 }

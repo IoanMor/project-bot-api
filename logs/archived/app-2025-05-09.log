@@ -1,0 +1,91 @@
+2025-05-07 13:00:32.328 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 5044 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-07 13:00:32.331 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-07 13:00:32.331 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-07 13:00:33.185 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-07 13:00:33.187 [main]  - Starting service [Tomcat]
+2025-05-07 13:00:33.187 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-07 13:00:33.233 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-07 13:00:34.265 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-07 13:00:34.343 [main]  - Started TelegramChatBotApplication in 2.372 seconds (process running for 3.424)
+2025-05-07 13:01:35.285 [LinkHawkBot Telegram Executor]  - chat id - 882850654 | Не удалось подписаться на ссылку https://stackoverflow.com/questions/79592526/testing-error-after-upgrading-mui-x-data-grid-to-v8-1-0-unknown-file-extensio
+2025-05-07 13:25:34.496 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 2448 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-07 13:25:34.497 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-07 13:25:34.498 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-07 13:25:35.348 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-07 13:25:35.349 [main]  - Starting service [Tomcat]
+2025-05-07 13:25:35.349 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-07 13:25:35.396 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-07 13:25:36.531 [main]  - Started TelegramChatBotApplication in 2.508 seconds (process running for 3.674)
+2025-05-07 13:25:45.499 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 10692 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-07 13:25:45.501 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-07 13:25:45.502 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-07 13:25:46.800 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-07 13:25:46.802 [main]  - Starting service [Tomcat]
+2025-05-07 13:25:46.802 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-07 13:25:46.866 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-07 13:25:48.080 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-07 13:25:48.160 [main]  - Started TelegramChatBotApplication in 3.042 seconds (process running for 3.961)
+2025-05-07 13:26:20.680 [LinkHawkBot Telegram Executor]  - Ошибка подписки chatId=882850654, link=https://stackoverflow.com/questions/79592526/testing-error-after-upgrading-mui-x-data-grid-to-v8-1-0-unknown-file-extensio: Сервер вернул false
+2025-05-09 19:20:16.186 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 29180 (C:\Users\LORD\IdeaProjects\project-bot-api\telegram-bot\target\classes started by LORD in C:\Users\LORD\IdeaProjects\project-bot-api)
+2025-05-09 19:20:16.187 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-09 19:20:16.187 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-09 19:20:16.969 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-09 19:20:16.971 [main]  - Starting service [Tomcat]
+2025-05-09 19:20:16.971 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-09 19:20:17.025 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-09 19:20:18.103 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-09 19:20:18.178 [main]  - Started TelegramChatBotApplication in 2.31 seconds (process running for 3.395)
+2025-05-09 19:21:03.499 [LinkHawkBot Telegram Executor]  - Ошибка подписки chatId=882850654, link=https://stackoverflow.com/questions/79592526/testing-error-after-upgrading-mui-x-data-grid-to-v8-1-0-unknown-file-extensio: Сервер вернул false
+2025-05-09 19:22:44.885 [LinkHawkBot Telegram Executor]  - Ошибка подписки chatId=882850654, link=https://stackoverflow.com/questions/79592526/testing-error-after-upgrading-mui-x-data-grid-to-v8-1-0-unknown-file-extensio: Сервер вернул false
+2025-05-09 19:23:35.577 [LinkHawkBot Telegram Executor]  - Ошибка подписки chatId=882850654, link=https://stackoverflow.com/questions/79592526/testing-error-after-upgrading-mui-x-data-grid-to-v8-1-0-unknown-file-extensio: Сервер вернул false
+2025-05-09 20:43:57.918 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 28920 (C:\Users\LORD\IdeaProjects\project-bot-api\telegram-bot\target\classes started by LORD in C:\Users\LORD\IdeaProjects\project-bot-api)
+2025-05-09 20:43:57.919 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-09 20:43:57.920 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-09 20:43:58.642 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-09 20:43:58.642 [main]  - Starting service [Tomcat]
+2025-05-09 20:43:58.642 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-09 20:43:58.701 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-09 20:43:59.612 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-09 20:43:59.682 [main]  - Started TelegramChatBotApplication in 2.058 seconds (process running for 2.715)
+2025-05-09 20:45:03.651 [LinkHawkBot Telegram Executor]  - Ошибка подписки chatId=882850654, link=https://stackoverflow.com/questions/79592526/testing-error-after-upgrading-mui-x-data-grid-to-v8-1-0-unknown-file-extensio: Сервер вернул false
+2025-05-09 20:54:11.140 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 30280 (C:\Users\LORD\IdeaProjects\project-bot-api\telegram-bot\target\classes started by LORD in C:\Users\LORD\IdeaProjects\project-bot-api)
+2025-05-09 20:54:11.142 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-09 20:54:11.142 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-09 20:54:11.861 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-09 20:54:11.862 [main]  - Starting service [Tomcat]
+2025-05-09 20:54:11.862 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-09 20:54:11.921 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-09 20:54:12.841 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-09 20:54:12.922 [main]  - Started TelegramChatBotApplication in 2.065 seconds (process running for 2.746)
+2025-05-09 20:54:21.052 [LinkHawkBot Telegram Executor]  - ❌ Не удалось подписаться на вопрос: chatId=882850654, questionId=Optional[79592526]
+2025-05-09 21:13:53.669 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 25944 (C:\Users\LORD\IdeaProjects\project-bot-api\telegram-bot\target\classes started by LORD in C:\Users\LORD\IdeaProjects\project-bot-api)
+2025-05-09 21:13:53.670 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-09 21:13:53.670 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-09 21:13:54.385 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-09 21:13:54.386 [main]  - Starting service [Tomcat]
+2025-05-09 21:13:54.387 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-09 21:13:54.436 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-09 21:13:55.277 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-09 21:13:55.348 [main]  - Started TelegramChatBotApplication in 1.962 seconds (process running for 2.602)
+2025-05-09 21:14:14.284 [LinkHawkBot Telegram Executor]  - ❌ Не удалось подписаться на вопрос: chatId=882850654, questionId=Optional[79592526]
+2025-05-09 21:14:41.100 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 2604 (C:\Users\LORD\IdeaProjects\project-bot-api\telegram-bot\target\classes started by LORD in C:\Users\LORD\IdeaProjects\project-bot-api)
+2025-05-09 21:14:41.101 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-09 21:14:41.101 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-09 21:14:41.793 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-09 21:14:41.793 [main]  - Starting service [Tomcat]
+2025-05-09 21:14:41.793 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-09 21:14:41.845 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-09 21:14:42.771 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-09 21:14:42.853 [main]  - Started TelegramChatBotApplication in 2.033 seconds (process running for 2.645)
+2025-05-09 21:14:53.003 [LinkHawkBot Telegram Executor]  - ❌ Не удалось подписаться на вопрос: chatId=882850654, questionId=Optional[79592526]
+2025-05-09 21:16:14.973 [LinkHawkBot Telegram Executor]  - ❌ Не удалось подписаться на вопрос: chatId=882850654, questionId=Optional[79592526]
+2025-05-09 21:26:41.707 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 28304 (C:\Users\LORD\IdeaProjects\project-bot-api\telegram-bot\target\classes started by LORD in C:\Users\LORD\IdeaProjects\project-bot-api)
+2025-05-09 21:26:41.708 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-09 21:26:41.709 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-09 21:26:42.403 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-09 21:26:42.405 [main]  - Starting service [Tomcat]
+2025-05-09 21:26:42.405 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-09 21:26:42.461 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-09 21:26:43.322 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-09 21:26:43.392 [main]  - Started TelegramChatBotApplication in 1.968 seconds (process running for 2.554)
+2025-05-09 21:26:54.882 [LinkHawkBot Telegram Executor]  - ❌ Не удалось подписаться на вопрос: chatId=882850654, questionId=Optional[79592526]

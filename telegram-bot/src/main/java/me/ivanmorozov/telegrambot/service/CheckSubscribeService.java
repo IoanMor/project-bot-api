@@ -12,6 +12,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
+import reactor.util.retry.Retry;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -23,40 +24,48 @@ public class CheckSubscribeService {
     private final ScrapperApiClient scrapperApiClient;
     private final StackExchangeClient stackClient;
     private final TelegramBotService tgService;
-    private final Scheduler scheduler = Schedulers.boundedElastic();
+    private final Scheduler scheduler = Schedulers.newParallel("checkUpdates", 4);
 
-    @Scheduled(fixedDelay = 300_000) // 5 мин
+    @Scheduled(fixedDelay = 60000) // 1 мин
     public void checkUpdates() {
+        log.info("=== Начало проверки обновлений ===");
         scrapperApiClient.getAllChats()
+                .doOnNext(chatIds -> log.debug("Получены чаты для проверки: {}", chatIds))
                 .timeout(Duration.ofSeconds(10))
+                .doOnError(e -> log.error("Ошибка получения чатов: {}", e.getMessage()))
+                .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
                 .flatMapMany(Flux::fromIterable)
-                .flatMap(chatId -> checkUserSubscriptions(chatId)
-                        .subscribeOn(scheduler)
-                        .onErrorResume(e -> {
-                    log.error("Ошибка при проверке подписок chatId={}: {}", chatId, e.getMessage());
-                    return Mono.empty();
-                }))
-                .subscribe();
+                .parallel()
+                .runOn(scheduler)
+                .flatMap(this::checkUserSubscriptions)
+                .subscribe(null,
+                        e -> log.error("Ошибка в checkUpdates: {}", e.getMessage()),
+                        () -> log.info("=== Проверка обновлений завершена ==="));
+
     }
 
-    private Mono<Void> checkUserSubscriptions(Long chatId) {
+    public Mono<Void> checkUserSubscriptions(Long chatId) {
         return scrapperApiClient.getAllLinks(chatId)
-                .timeout(Duration.ofSeconds(10))
                 .flatMapMany(Flux::fromIterable)
                 .flatMap(link -> {
-                    Optional<Long> questIdOpt  = tgService.parseQuestionId(link);
-                    if (questIdOpt.isEmpty()){
-                        log.warn("Невозможно распарсить ссылку: {}", link);
+                    try {
+                        Long questionId = tgService.parseQuestionId(link)
+                                .orElseThrow(() -> new IllegalArgumentException("Invalid link"));
+
+                        return stackClient.trackLink(questionId)
+                                .filter(Boolean.TRUE::equals)
+                                .flatMap(__ -> {
+                                    String msg = "🔔 Новый ответ: " + link;
+                                    log.info("Отправка: chatId={}, msg={}", chatId, msg);
+                                    return tgService.sendReactiveMsg(chatId, msg);
+                                });
+                    } catch (Exception e) {
+                        log.error("Ошибка обработки ссылки: {}", link, e);
                         return Mono.empty();
                     }
-                    return stackClient.trackLink(questIdOpt)
-                            .filter(hasUpdates -> hasUpdates)
-                            .flatMap(ifUpd -> tgService.sendReactiveMsg(chatId, "🔔 Новый ответ на вопрос: " + link));
-                        })
-
+                })
                 .then();
     }
-
 
 
 }

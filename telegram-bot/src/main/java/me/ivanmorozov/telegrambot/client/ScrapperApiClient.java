@@ -1,6 +1,7 @@
 package me.ivanmorozov.telegrambot.client;
 
 import lombok.extern.slf4j.Slf4j;
+import me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow;
 import me.ivanmorozov.common.records.ChatRecords;
 import me.ivanmorozov.common.records.LinkRecords;
 import me.ivanmorozov.common.exception.LinkSubscribeException;
@@ -10,6 +11,7 @@ import me.ivanmorozov.common.exception.ChatAlreadyExistsException;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -22,6 +24,7 @@ import java.util.Collections;
 import java.util.Set;
 
 import static me.ivanmorozov.common.endpoints.ScrapperEndpoints.*;
+import static me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow.*;
 
 @Component
 @Slf4j
@@ -58,7 +61,8 @@ public class ScrapperApiClient {
     public Mono<Set<Long>> getAllChats() {
         return webClient.post()
                 .uri(TG_CHAT_GET_ALL_REGISTER)
-                .bodyValue(Mono.empty())
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue("{}")
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Set<Long>>(){})
                 .timeout(TIMEOUT)
@@ -68,19 +72,6 @@ public class ScrapperApiClient {
                     return Mono.just(Set.of());
                 });
     }
-    public Mono<Set<String>> getAllLinks(long chatId){
-        return webClient.post()
-                .uri(TG_CHAT_GET_ALL_LINK)
-                .bodyValue(new LinkRecords.LinkGetRequest(chatId))
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Set<String>>() {})
-                .timeout(TIMEOUT)
-                .onErrorResume(e->{
-                    log.error("Ошибка в выдаче всех подписок из чата {},{}",chatId, e.getMessage());
-                    return Mono.just(Set.of());
-                });
-    }
-
     public Mono<Boolean> isChatRegister(long chatId) {
         return webClient.post()
                 .uri(TG_CHAT_EXISTS)
@@ -115,10 +106,24 @@ public class ScrapperApiClient {
                 .onErrorReturn(false);
     }
 
+    public Mono<Set<String>> getAllLinks(long chatId){
+        return webClient.post()
+                .uri(TG_CHAT_GET_ALL_LINK)
+                .bodyValue(new LinkRecords.LinkGetRequest(chatId))
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<Set<String>>() {})
+                .timeout(TIMEOUT)
+                .onErrorResume(e->{
+                    log.error("Ошибка в выдаче всех подписок из чата {},{}",chatId, e.getMessage());
+                    return Mono.just(Set.of());
+                });
+    }
+
     public Mono<Boolean> isLinkSubscribe(long chatId, String link) {
+        String normalizedLink = normalizeLink(link);
         return webClient.post()
                 .uri(TG_CHAT_LINK_SUBSCRIBE_EXISTS)
-                .bodyValue(new LinkRecords.LinkExistRequest(chatId, link))
+                .bodyValue(new LinkRecords.LinkExistRequest(chatId, normalizedLink))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response ->
                         Mono.error(new LinkSubscribeException("Подписка на ссылку уже оформлена : " + link)))
@@ -127,6 +132,22 @@ public class ScrapperApiClient {
                 .retryWhen(Retry.backoff(3, Duration.ofMillis(100)))
                 .onErrorResume(e -> {
                     log.error("Ошибка поиска ссылки :{}:{}", link, e.getMessage());
+                    return Mono.just(false);
+                });
+    }
+
+    public Mono<Boolean> unsubscribeLink(long chatId, String link){
+        return webClient.post()
+                .uri(TG_CHAT_DELL_LINK)
+                .bodyValue(new LinkRecords.LinkSubscribeRequest(chatId, link))
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, response ->
+                        Mono.error(new LinkSubscribeException("Не удалось отписаться от ссылки:" + link)))
+                .bodyToMono(Boolean.class)
+                .timeout(TIMEOUT)
+                .retryWhen(Retry.backoff(3, Duration.ofMillis(100)))
+                .onErrorResume(e->{
+                    log.error("Не удалось отписаться от ссылки: {}, {}", link, e.getMessage());
                     return Mono.just(false);
                 });
     }
