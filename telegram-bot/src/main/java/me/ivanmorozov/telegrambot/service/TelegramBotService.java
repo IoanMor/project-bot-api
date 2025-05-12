@@ -51,8 +51,8 @@ public class TelegramBotService extends TelegramLongPollingBot {
         listCommand.add(new BotCommand("/start", "Начните работу с ботом"));
         listCommand.add(new BotCommand("/track", "Подписаться на новости по ссылке"));
         listCommand.add(new BotCommand("/untrack", "Отписаться от новостей"));
-        listCommand.add(new BotCommand("/help", "Информация и помощь"));
         listCommand.add(new BotCommand("/list", "Показать все отслеживаемые ссылки"));
+        listCommand.add(new BotCommand("/help", "Информация и помощь"));
         try {
             this.execute(new SetMyCommands(listCommand, new BotCommandScopeDefault(), null));
         } catch (TelegramApiException e) {
@@ -77,11 +77,14 @@ public class TelegramBotService extends TelegramLongPollingBot {
                 if (isChatRegister(chatId)) {
                     if (msg.startsWith("/track")) {
                         handleTrackCommand(update, msg, chatId);
-                    } else if (msg.startsWith("/untrack ")) {
+                    } else if (msg.startsWith("/untrack")) {
                         unTrackCommand(chatId, msg);
                     } else if ("/help".equalsIgnoreCase(msg)) {
                         sendMsg(chatId, HELP_TEXT);
-                    } else {
+                    } else if (msg.equalsIgnoreCase("/list")){
+                        getAllSubscribes(chatId);
+                    }
+                    else {
                         sendMsg(chatId, "❌ Неизвестная команда. Введите /help для списка команд");
                     }
                 } else {
@@ -185,7 +188,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
         String link = parts[1].trim();
 
         try {
-            Boolean isUnTruck = client.unsubscribeLink(chatId, linkMsg)
+            Boolean isUnTruck = client.unsubscribeLink(chatId, link)
                     .timeout(Duration.ofSeconds(5))
                     .block();
             if (Boolean.TRUE.equals(isUnTruck)) {
@@ -201,6 +204,21 @@ public class TelegramBotService extends TelegramLongPollingBot {
 
     }
 
+    private void getAllSubscribes(long chatId){
+       Set<String> links = client.getAllLinks(chatId)
+               .timeout(Duration.ofSeconds(5))
+               .block();
+        if (links == null || links.isEmpty()) {
+            sendMsg(chatId, "ℹ️ Вы еще не подписались ни на одну ссылку");
+        } else {
+            StringBuilder message = new StringBuilder("📋 Ваши подписки:\n");
+            int i = 1;
+            for (String link : links) {
+                message.append(i++).append(" - ").append(link).append("\n");
+            }
+            sendMsg(chatId, message.toString());
+        }
+    }
 
     public void sendMsg(long chatId, String textSend) {
         SendMessage sendMessage = new SendMessage();

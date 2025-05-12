@@ -8,6 +8,7 @@ import me.ivanmorozov.common.records.LinkRecords;
 import me.ivanmorozov.scrapper.repositories.TgChatRepository;
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 
+import me.ivanmorozov.scrapper.repositories.UserSubsLinkRepository;
 import me.ivanmorozov.scrapper.services.LinkService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TgChatController {
     private final TgChatRepository chatRepository;
     private final LinkService linkService;
+    private final UserSubsLinkRepository linkRepository;
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_REGISTER)
     public ResponseEntity<Void> registerChat(@RequestBody ChatRecords.ChatRegisterRequest request) {
@@ -48,6 +50,7 @@ public class TgChatController {
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_GET_ALL_LINK)
     public ResponseEntity<Set<String>> getUserLink(@RequestBody LinkRecords.LinkGetRequest request) {
+        linkRepository.debugGetUserLinkRep(); // потом удалить
         return ResponseEntity.ok(linkService.getLinks(request.chatId()));
     }
 
