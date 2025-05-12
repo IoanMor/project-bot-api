@@ -76,7 +76,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
 
                 if (isChatRegister(chatId)) {
                     if (msg.startsWith("/track")) {
-                        handleTrackCommand(update, msg, chatId);
+                        handleTrackCommand(msg, chatId);
                     } else if (msg.startsWith("/untrack")) {
                         unTrackCommand(chatId, msg);
                     } else if ("/help".equalsIgnoreCase(msg)) {
@@ -137,7 +137,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    private void handleTrackCommand(Update update, String linkMsg, long chatId) throws TelegramApiException {
+    private void handleTrackCommand(String linkMsg, long chatId) throws TelegramApiException {
 
         String[] parts = linkMsg.split("\\s+", 2);
         if (parts.length < 2) {
@@ -220,6 +220,10 @@ public class TelegramBotService extends TelegramLongPollingBot {
         }
     }
 
+    public void trackStock (long chatId, String ticker){
+
+    }
+
     public void sendMsg(long chatId, String textSend) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
@@ -250,7 +254,6 @@ public class TelegramBotService extends TelegramLongPollingBot {
         } catch (NumberFormatException e) {
             return Optional.empty();
         }
-
     }
 
     private boolean isChatRegister(long chatId) {
