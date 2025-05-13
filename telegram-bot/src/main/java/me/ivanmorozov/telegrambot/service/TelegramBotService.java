@@ -2,8 +2,10 @@ package me.ivanmorozov.telegrambot.service;
 
 
 import lombok.extern.slf4j.Slf4j;
+import me.ivanmorozov.common.exception.StockSubscribeException;
 import me.ivanmorozov.telegrambot.client.ScrapperApiClient;
 import me.ivanmorozov.telegrambot.client.StackExchangeClient;
+import me.ivanmorozov.telegrambot.client.StockApiClient;
 import me.ivanmorozov.telegrambot.config.TelegramBotConfig;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -18,6 +20,7 @@ import reactor.core.scheduler.Schedulers;
 
 import static me.ivanmorozov.common.constMsg.Msg.*;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -29,7 +32,7 @@ import java.util.regex.Pattern;
 public class TelegramBotService extends TelegramLongPollingBot {
     private final TelegramBotConfig botConfig;
     private final ScrapperApiClient client;
-    private final StackExchangeClient stackClient;
+   private final StockApiClient stockClient;
 
     @Override
     public String getBotUsername() {
@@ -42,16 +45,20 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    public TelegramBotService(TelegramBotConfig botConfig, ScrapperApiClient client, StackExchangeClient stackClient) {
+    public TelegramBotService(TelegramBotConfig botConfig, ScrapperApiClient client, StackExchangeClient stackClient, StockApiClient stackClient1) {
         this.botConfig = botConfig;
         this.client = client;
-        this.stackClient = stackClient;
+        this.stockClient = stackClient1;
+
 
         List<BotCommand> listCommand = new ArrayList<>();
         listCommand.add(new BotCommand("/start", "Начните работу с ботом"));
         listCommand.add(new BotCommand("/track", "Подписаться на новости по ссылке"));
         listCommand.add(new BotCommand("/untrack", "Отписаться от новостей"));
+        listCommand.add(new BotCommand("/tStock", "Подписаться на получение цены акции"));
+        listCommand.add(new BotCommand("/utStock", "Отписаться от получении цены акции"));
         listCommand.add(new BotCommand("/list", "Показать все отслеживаемые ссылки"));
+        listCommand.add(new BotCommand("/lStock", "Показать все отслеживаемые акции"));
         listCommand.add(new BotCommand("/help", "Информация и помощь"));
         try {
             this.execute(new SetMyCommands(listCommand, new BotCommandScopeDefault(), null));
@@ -220,9 +227,43 @@ public class TelegramBotService extends TelegramLongPollingBot {
         }
     }
 
-    public void trackStock (long chatId, String ticker){
+    public void trackStock (long chatId, String userMsg){
+        String[] parts = userMsg.split("\\s+", 2);
+        if (parts.length < 2) {
+            sendMsg(chatId, "ℹ️ Использование: /untrack <ссылка_на_вопрос>");
+            return;
+        }
+        String ticker = parts[1].trim();
+        if (ticker.isBlank()){
+            sendMsg(chatId, "❌ Неверный формат тикера. Пример: /tStock AAPL (пример акции Apple) " +
+                    "\n Узнать подробнее о тикере: https://ru.wikipedia.org/wiki/%D0%A2%D0%B8%D0%BA%D0%B5%D1%80");
+            return;
+        }
 
-    }
+        try {
+            boolean isStock = Boolean.TRUE.equals(client.isExistStock(chatId, ticker)
+                    .timeout(Duration.ofSeconds(5))
+                    .block());
+            if (isStock){
+                sendMsg(chatId,"ℹ️ Вы уже подписаны на этот тикер(Акцию)");
+                return;
+            }
+                boolean subscribe = Boolean.TRUE.equals(client.subscribeStock(chatId, ticker)
+                        .timeout(Duration.ofSeconds(5))
+                        .block());
+            if (subscribe){
+                sendMsg(chatId,"✅ Вы подписаны на: " + ticker);
+                log.info("Пописка на акцию прошла успешно,{}|{}", chatId, ticker);
+            }  else {
+                sendMsg(chatId, "❌ Не удалось подписаться (проверьте тикер)");
+            }
+            } catch (Exception e){
+            log.error("Ошибка при подписке на акцию {}|{}", ticker, e.getMessage());
+            sendMsg(chatId, "⚠️ При подписке что-то пошло не так");
+        }
+        }
+
+
 
     public void sendMsg(long chatId, String textSend) {
         SendMessage sendMessage = new SendMessage();

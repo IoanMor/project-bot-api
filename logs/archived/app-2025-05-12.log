@@ -1,0 +1,65 @@
+2025-05-11 20:52:40.090 [http-nio-8080-exec-1]  - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-11 20:53:03.901 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79616740
+2025-05-11 20:53:30.235 [http-nio-8080-exec-3]  - === Начало проверки обновлений ===
+2025-05-11 20:53:30.256 [reactor-http-nio-2]  - Получены чаты для проверки: [882850654]
+2025-05-11 20:53:30.257 [checkUpdates-12]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-13]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-14]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-12]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-13]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-14]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-12]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-13]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-14]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-12]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-13]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-14]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-11]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.257 [checkUpdates-11]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.258 [checkUpdates-11]  - === Проверка обновлений завершена ===
+2025-05-11 20:53:30.260 [reactor-http-nio-2]  - Запрос к API: /questions/79616740/answers?order=desc&sort=creation&site=stackoverflow&filter=total
+2025-05-11 20:53:30.674 [reactor-http-nio-2]  - Ответ API: {"total":1}
+2025-05-11 20:53:30.675 [reactor-http-nio-2]  - Отправка: chatId=882850654, msg=🔔 Новый ответ: https://stackoverflow.com/questions/79616740
+2025-05-11 20:53:30.775 [boundedElastic-1]  - === Проверка обновлений завершена ===
+2025-05-12 10:06:26.141 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 2912 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-12 10:06:26.143 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-12 10:06:26.144 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-12 10:06:26.957 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-12 10:06:26.958 [main]  - Starting service [Tomcat]
+2025-05-12 10:06:26.958 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-12 10:06:27.002 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-12 10:06:27.959 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-12 10:06:28.030 [main]  - Started TelegramChatBotApplication in 2.301 seconds (process running for 3.257)
+2025-05-12 10:07:07.573 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79592526
+2025-05-12 10:09:04.283 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79617342
+2025-05-12 10:10:28.950 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 7684 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-12 10:10:28.952 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-12 10:10:28.953 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-12 10:10:29.773 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-12 10:10:29.774 [main]  - Starting service [Tomcat]
+2025-05-12 10:10:29.774 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-12 10:10:29.824 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-12 10:10:30.755 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-12 10:10:30.828 [main]  - Started TelegramChatBotApplication in 2.263 seconds (process running for 3.356)
+2025-05-12 10:16:59.431 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 9152 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-12 10:16:59.432 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-12 10:16:59.432 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-12 10:17:00.372 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-12 10:17:00.372 [main]  - Starting service [Tomcat]
+2025-05-12 10:17:00.372 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-12 10:17:00.429 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-12 10:17:01.335 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-12 10:17:01.419 [main]  - Started TelegramChatBotApplication in 2.41 seconds (process running for 3.303)
+2025-05-12 10:17:33.814 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79617342
+2025-05-12 10:17:43.796 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79592526
+2025-05-12 10:53:19.133 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 2596 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-12 10:53:19.135 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-12 10:53:19.136 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-12 10:53:19.896 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-12 10:53:19.897 [main]  - Starting service [Tomcat]
+2025-05-12 10:53:19.897 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-12 10:53:19.941 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-12 10:53:20.857 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-12 10:53:20.932 [main]  - Started TelegramChatBotApplication in 2.264 seconds (process running for 3.151)
+2025-05-12 10:53:33.078 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79617342
+2025-05-12 10:54:00.536 [LinkHawkBot Telegram Executor]  - Пользователь отписался: chatId=882850654, link=https://stackoverflow.com/questions/79617342
