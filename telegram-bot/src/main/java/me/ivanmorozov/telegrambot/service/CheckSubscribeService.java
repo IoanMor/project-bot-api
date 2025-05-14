@@ -41,7 +41,6 @@ public class CheckSubscribeService {
                 .subscribe(null,
                         e -> log.error("Ошибка в checkUpdates: {}", e.getMessage()),
                         () -> log.info("=== Проверка обновлений завершена ==="));
-
     }
 
     public Mono<Void> checkUserSubscriptions(Long chatId) {

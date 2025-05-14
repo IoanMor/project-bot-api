@@ -45,10 +45,10 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    public TelegramBotService(TelegramBotConfig botConfig, ScrapperApiClient client, StackExchangeClient stackClient, StockApiClient stackClient1) {
+    public TelegramBotService(TelegramBotConfig botConfig, ScrapperApiClient client,  StockApiClient stackClient) {
         this.botConfig = botConfig;
         this.client = client;
-        this.stockClient = stackClient1;
+        this.stockClient = stackClient;
 
 
         List<BotCommand> listCommand = new ArrayList<>();
