@@ -2,9 +2,7 @@ package me.ivanmorozov.telegrambot.service;
 
 
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.common.exception.StockSubscribeException;
 import me.ivanmorozov.telegrambot.client.ScrapperApiClient;
-import me.ivanmorozov.telegrambot.client.StackExchangeClient;
 import me.ivanmorozov.telegrambot.client.StockApiClient;
 import me.ivanmorozov.telegrambot.config.TelegramBotConfig;
 import org.springframework.stereotype.Service;
@@ -32,7 +30,7 @@ import java.util.regex.Pattern;
 public class TelegramBotService extends TelegramLongPollingBot {
     private final TelegramBotConfig botConfig;
     private final ScrapperApiClient client;
-   private final StockApiClient stockClient;
+    private final StockApiClient stockClient;
 
     @Override
     public String getBotUsername() {
@@ -45,7 +43,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    public TelegramBotService(TelegramBotConfig botConfig, ScrapperApiClient client,  StockApiClient stackClient) {
+    public TelegramBotService(TelegramBotConfig botConfig, ScrapperApiClient client, StockApiClient stackClient) {
         this.botConfig = botConfig;
         this.client = client;
         this.stockClient = stackClient;
@@ -70,53 +68,63 @@ public class TelegramBotService extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        if (!update.hasMessage() || !update.getMessage().hasText()) {
+            return;
+        }
         try {
-            if (update.hasMessage() && update.getMessage().hasText()) {
-                String msg = update.getMessage().getText();
-                long chatId = update.getMessage().getChatId();
-                String userName = update.getMessage().getChat().getFirstName();
+            String msg = update.getMessage().getText();
+            long chatId = update.getMessage().getChatId();
+            String userName = update.getMessage().getChat().getFirstName();
+            // Обработка команды /start
+            if (msg.startsWith("/start")) {
+                startCommand(chatId, userName);
+                return;
+            }
 
-                if (msg.startsWith("/start")) {
-                    startCommand(chatId, userName);
-                    return;
-                }
+            // Проверка регистрации
+            if (!isChatRegister(chatId)) {
+                sendMsg(chatId, "⛔ Для использования бота необходимо зарегистрироваться!\nВведите команду /start");
+                return;
+            }
 
-                if (isChatRegister(chatId)) {
-                    if (msg.startsWith("/track")) {
-                        handleTrackCommand(msg, chatId);
-                    } else if (msg.startsWith("/untrack")) {
-                        unTrackCommand(chatId, msg);
-                    } else if ("/help".equalsIgnoreCase(msg)) {
-                        sendMsg(chatId, HELP_TEXT);
-                    } else if (msg.equalsIgnoreCase("/list")){
-                        getAllSubscribes(chatId);
-                    }
-                    else {
-                        sendMsg(chatId, "❌ Неизвестная команда. Введите /help для списка команд");
-                    }
-                } else {
-                    sendMsg(chatId, "⛔ Для использования бота необходимо зарегистрироваться!\nВведите команду /start");
-                    return;
-                }
-
+            // Основной блок команд
+            if (msg.startsWith("/track")) {
+                handleTrackCommand(msg, chatId);
+            }
+            else if (msg.startsWith("/untrack")) {
+                unTrackCommand(chatId, msg);
+            }
+            else if (msg.startsWith("/tStock")) {
+                trackStock(chatId, msg);
+            }
+            else if (msg.startsWith("/utStock")) {
+                untrackStock(chatId, msg);
+            }
+            else if (msg.startsWith("/listStock")) {
+                getAllStockSubscribes(chatId);
+            }
+            else if (msg.startsWith("/listLinks")) {
+                getAllLinksSubscribes(chatId);
+            }
+            else if ("/help".equalsIgnoreCase(msg)) {
+                sendMsg(chatId, HELP_TEXT);
+            }
+            else {
+                sendMsg(chatId, "❌ Неизвестная команда. Введите /help для списка команд");
             }
 
         } catch (Exception e) {
-            log.error("Ошибка обработки команды", e);
-            safelyNotifyUser(update);
+            log.error("Ошибка обработки команды: {}", e.getMessage());
+            if (update.hasMessage()) {
+                try {
+                    sendMsg(update.getMessage().getChatId(), "⚠️ Произошла ошибка при обработке команды");
+                } catch (Exception ex) {
+                    log.error("Не удалось отправить сообщение об ошибке: {}", ex.getMessage());
+                }
+            }
         }
     }
 
-    private void safelyNotifyUser(Update update) {
-        try {
-            if (update != null && update.hasMessage()) {
-                sendMsg(update.getMessage().getChatId(),
-                        "⚠ Техническая ошибка. Попробуйте позже или обратитесь в поддержку");
-            }
-        } catch (Exception ex) {
-            log.error("Критическая ошибка уведомления", ex);
-        }
-    }
 
     private void startCommand(long chatId, String userName) throws TelegramApiException {
         String safeName = userName != null ? userName : "пользователь";
@@ -199,7 +207,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
                     .timeout(Duration.ofSeconds(5))
                     .block();
             if (Boolean.TRUE.equals(isUnTruck)) {
-                sendMsg(chatId, "Вы отписались от получение новостей по ссылке: " + link);
+                sendMsg(chatId, "ℹ️ Вы отписались от получение новостей по ссылке: " + link);
                 log.info("Пользователь отписался: chatId={}, link={}", chatId, link);
             } else {
                 sendMsg(chatId, "❌ Не удалось отписаться (проверьте ссылку)");
@@ -211,10 +219,10 @@ public class TelegramBotService extends TelegramLongPollingBot {
 
     }
 
-    private void getAllSubscribes(long chatId){
-       Set<String> links = client.getAllLinks(chatId)
-               .timeout(Duration.ofSeconds(5))
-               .block();
+    private void getAllLinksSubscribes(long chatId) {
+        Set<String> links = client.getAllLinks(chatId)
+                .timeout(Duration.ofSeconds(5))
+                .block();
         if (links == null || links.isEmpty()) {
             sendMsg(chatId, "ℹ️ Вы еще не подписались ни на одну ссылку");
         } else {
@@ -227,16 +235,16 @@ public class TelegramBotService extends TelegramLongPollingBot {
         }
     }
 
-    public void trackStock (long chatId, String userMsg){
+    public void trackStock(long chatId, String userMsg) {
         String[] parts = userMsg.split("\\s+", 2);
         if (parts.length < 2) {
-            sendMsg(chatId, "ℹ️ Использование: /untrack <ссылка_на_вопрос>");
+            sendMsg(chatId, "ℹ️ Использование: /tSock <тикер_акции>");
             return;
         }
         String ticker = parts[1].trim();
-        if (ticker.isBlank()){
-            sendMsg(chatId, "❌ Неверный формат тикера. Пример: /tStock AAPL (пример акции Apple) " +
-                    "\n Узнать подробнее о тикере: https://ru.wikipedia.org/wiki/%D0%A2%D0%B8%D0%BA%D0%B5%D1%80");
+
+        if (ticker.isBlank() || ticker==null) {
+            sendMsg(chatId, "❌ Неверный формат. Пример: /tStock AAPL (пример акции Apple)");
             return;
         }
 
@@ -244,25 +252,63 @@ public class TelegramBotService extends TelegramLongPollingBot {
             boolean isStock = Boolean.TRUE.equals(client.isExistStock(chatId, ticker)
                     .timeout(Duration.ofSeconds(5))
                     .block());
-            if (isStock){
-                sendMsg(chatId,"ℹ️ Вы уже подписаны на этот тикер(Акцию)");
+            if (isStock) {
+                sendMsg(chatId, "ℹ️ Вы уже подписаны на этот тикер(Акцию)");
                 return;
             }
-                boolean subscribe = Boolean.TRUE.equals(client.subscribeStock(chatId, ticker)
-                        .timeout(Duration.ofSeconds(5))
-                        .block());
-            if (subscribe){
-                sendMsg(chatId,"✅ Вы подписаны на: " + ticker);
+            boolean subscribe = Boolean.TRUE.equals(client.subscribeStock(chatId, ticker)
+                    .timeout(Duration.ofSeconds(5))
+                    .block());
+            if (subscribe) {
+                sendMsg(chatId, "✅ Вы подписаны на: " + ticker);
                 log.info("Пописка на акцию прошла успешно,{}|{}", chatId, ticker);
-            }  else {
+            } else {
                 sendMsg(chatId, "❌ Не удалось подписаться (проверьте тикер)");
             }
-            } catch (Exception e){
+        } catch (Exception e) {
             log.error("Ошибка при подписке на акцию {}|{}", ticker, e.getMessage());
             sendMsg(chatId, "⚠️ При подписке что-то пошло не так");
         }
+    }
+
+    public void untrackStock(long chatId, String userMsg) {
+        String[] parts = userMsg.split("\\s+", 2);
+        if (parts.length < 2) {
+            sendMsg(chatId, "ℹ️ Использование: /utSock <тикер_акции>");
+            return;
+        }
+        String ticker = parts[1].trim();
+
+        try {
+            boolean isDelete = Boolean.TRUE.equals(client.unSubscribeStock(chatId, ticker).timeout(Duration.ofSeconds(5)).block());
+            if (isDelete) {
+                sendMsg(chatId, "ℹ️ Вы отписались от получение цены Акции, тикер : " + ticker);
+                log.info("Пользователь отписался: chatId={}, ticker={}", chatId, ticker);
+            } else {
+                sendMsg(chatId, "❌ Не удалось отписаться (проверьте тикер)");
+            }
+        } catch (Exception e) {
+            log.error("Ошибка отписки от акции chatId={}: {}", chatId, e.getMessage());
+            sendMsg(chatId, "⚠️ Временная ошибка сервера");
         }
 
+    }
+
+    public void getAllStockSubscribes(long chatId) {
+        Set<String> stock = client.getSubscribeStock(chatId).timeout(Duration.ofSeconds(5)).block();
+        if (stock == null || stock.isEmpty()) {
+            sendMsg(chatId, "ℹ️ Вы еще не подписались ни на одну акцию");
+        } else {
+
+            StringBuilder message = new StringBuilder("📋 Стоимость интерисующих вас акций:\n");
+            int i = 1;
+            for (String oneStock : stock) {
+                BigDecimal price = stockClient.getPrice(oneStock).timeout(Duration.ofSeconds(5)).block();
+                message.append(i++).append(" - ").append(oneStock).append(" - rub.").append(price).append("\n");
+            }
+            sendMsg(chatId, message.toString());
+        }
+    }
 
 
     public void sendMsg(long chatId, String textSend) {

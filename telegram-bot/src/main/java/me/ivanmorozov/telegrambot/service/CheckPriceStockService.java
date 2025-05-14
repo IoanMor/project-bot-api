@@ -22,7 +22,7 @@ public class CheckPriceStockService {
     private final ScrapperApiClient scrapperApiClient;
     private final StockApiClient stockApiClient;
     private final TelegramBotService telegramBotService;
-    private final Scheduler scheduler = Schedulers.newParallel("checkUpdates", 4);
+
     @Scheduled(cron = "0 30 9 * * ?")
     public void sendTimeStock(){
         scrapperApiClient.getAllChats()
@@ -32,7 +32,7 @@ public class CheckPriceStockService {
                 .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
                 .flatMapMany(Flux::fromIterable)
                 .parallel()
-                .runOn(scheduler)
+                .runOn(Schedulers.boundedElastic())
                 .flatMap(this::checkSubscribeStock)
                 .subscribe(
                         null,

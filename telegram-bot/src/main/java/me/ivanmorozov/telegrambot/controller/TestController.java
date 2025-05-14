@@ -3,16 +3,15 @@ package me.ivanmorozov.telegrambot.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.telegrambot.client.ScrapperApiClient;
+import me.ivanmorozov.telegrambot.client.StockApiClient;
 import me.ivanmorozov.telegrambot.service.CheckSubscribeService;
 import me.ivanmorozov.telegrambot.service.TelegramBotService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 @RestController
@@ -22,6 +21,7 @@ public class TestController {
     private final CheckSubscribeService checkService;
     private final ScrapperApiClient client;
     private final TelegramBotService tgService;
+    private final StockApiClient stockApiClient;
 
     @PostMapping("/test/check-updates")
     public String testCheck() {
@@ -50,4 +50,6 @@ public class TestController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+
 }

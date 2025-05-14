@@ -24,7 +24,6 @@ public class CheckSubscribeService {
     private final ScrapperApiClient scrapperApiClient;
     private final StackExchangeClient stackClient;
     private final TelegramBotService tgService;
-    private final Scheduler scheduler = Schedulers.newParallel("checkUpdates", 4);
 
     @Scheduled(fixedDelay = 60000) // 1 мин
     public void checkUpdates() {
@@ -36,7 +35,7 @@ public class CheckSubscribeService {
                 .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
                 .flatMapMany(Flux::fromIterable)
                 .parallel()
-                .runOn(scheduler)
+                .runOn(Schedulers.boundedElastic())
                 .flatMap(this::checkUserSubscriptions)
                 .subscribe(null,
                         e -> log.error("Ошибка в checkUpdates: {}", e.getMessage()),

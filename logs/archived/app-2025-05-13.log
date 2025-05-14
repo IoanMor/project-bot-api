@@ -1,0 +1,328 @@
+2025-05-13 13:58:03.176 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 6632 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-13 13:58:03.181 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-13 13:58:03.183 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-13 13:58:05.131 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-13 13:58:05.133 [main]  - Starting service [Tomcat]
+2025-05-13 13:58:05.133 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-13 13:58:05.244 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-13 13:58:07.772 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-13 13:58:07.809 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 8528 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-13 13:58:07.811 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-13 13:58:07.813 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-13 13:58:07.930 [main]  - Started TelegramChatBotApplication in 5.253 seconds (process running for 6.276)
+2025-05-13 13:58:09.064 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-13 13:58:09.066 [main]  - Starting service [Tomcat]
+2025-05-13 13:58:09.066 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-13 13:58:09.114 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-13 13:58:10.185 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-13 13:58:10.195 [main]  - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-05-13 13:58:10.220 [main]  - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2025-05-13 13:58:32.909 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 5236 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-13 13:58:32.910 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-13 13:58:32.911 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-13 13:58:33.649 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-13 13:58:33.650 [main]  - Starting service [Tomcat]
+2025-05-13 13:58:33.650 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-13 13:58:33.694 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-13 13:58:34.620 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-13 13:58:34.692 [main]  - Started TelegramChatBotApplication in 2.168 seconds (process running for 2.962)
+2025-05-13 13:58:51.945 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79617342
+2025-05-13 13:59:08.160 [LinkHawkBot Telegram Executor]  - Ошибка отписки chatId=882850654
+me.ivanmorozov.common.exception.LinkSubscribeException: Некорректная ссылка
+	at me.ivanmorozov.telegrambot.client.ScrapperApiClient.lambda$unsubscribeLink$11(ScrapperApiClient.java:146)
+	Suppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: 
+Error has been observed at the following site(s):
+	*__checkpoint ⇢ 404 NOT_FOUND from DELETE http://localhost:9030/links/unsubscribe [DefaultWebClient]
+Original Stack Trace:
+		at me.ivanmorozov.telegrambot.client.ScrapperApiClient.lambda$unsubscribeLink$11(ScrapperApiClient.java:146)
+		at org.springframework.web.reactive.function.client.DefaultWebClient$DefaultResponseSpec$StatusHandler.apply(DefaultWebClient.java:721)
+		at org.springframework.web.reactive.function.client.DefaultWebClient$DefaultResponseSpec.applyStatusHandlers(DefaultWebClient.java:686)
+		at org.springframework.web.reactive.function.client.DefaultWebClient$DefaultResponseSpec.handleBodyMono(DefaultWebClient.java:655)
+		at org.springframework.web.reactive.function.client.DefaultWebClient$DefaultResponseSpec.lambda$bodyToMono$2(DefaultWebClient.java:573)
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:132)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onNext(FluxContextWrite.java:107)
+		at reactor.core.publisher.FluxDoFinally$DoFinallySubscriber.onNext(FluxDoFinally.java:113)
+		at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onNext(MonoPeekTerminal.java:180)
+		at reactor.core.publisher.FluxPeekFuseable$PeekConditionalSubscriber.onNext(FluxPeekFuseable.java:854)
+		at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onNext(FluxSwitchIfEmpty.java:74)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200)
+		at reactor.core.publisher.FluxMap$MapSubscriber.onNext(FluxMap.java:122)
+		at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onNext(FluxOnErrorResume.java:79)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200)
+		at reactor.core.publisher.MonoNext$NextSubscriber.onNext(MonoNext.java:82)
+		at reactor.core.publisher.MonoFlatMapMany$FlatMapManyInner.onNext(MonoFlatMapMany.java:251)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onNext(FluxContextWrite.java:107)
+		at reactor.core.publisher.Operators$ScalarSubscription.request(Operators.java:2571)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.request(FluxContextWrite.java:136)
+		at reactor.core.publisher.MonoFlatMapMany$FlatMapManyMain.onSubscribeInner(MonoFlatMapMany.java:150)
+		at reactor.core.publisher.MonoFlatMapMany$FlatMapManyInner.onSubscribe(MonoFlatMapMany.java:246)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onSubscribe(FluxContextWrite.java:101)
+		at reactor.core.publisher.FluxJust.subscribe(FluxJust.java:68)
+		at reactor.core.publisher.Flux.subscribe(Flux.java:8840)
+		at reactor.core.publisher.MonoFlatMapMany$FlatMapManyMain.onNext(MonoFlatMapMany.java:196)
+		at reactor.core.publisher.SerializedSubscriber.onNext(SerializedSubscriber.java:99)
+		at reactor.core.publisher.FluxRetryWhen$RetryWhenMainSubscriber.onNext(FluxRetryWhen.java:178)
+		at reactor.core.publisher.MonoCreate$DefaultMonoSink.success(MonoCreate.java:176)
+		at reactor.netty.http.client.HttpClientConnect$HttpIOHandlerObserver.onStateChange(HttpClientConnect.java:435)
+		at reactor.netty.ReactorNetty$CompositeConnectionObserver.onStateChange(ReactorNetty.java:710)
+		at reactor.netty.resources.DefaultPooledConnectionProvider$DisposableAcquire.onStateChange(DefaultPooledConnectionProvider.java:205)
+		at reactor.netty.resources.DefaultPooledConnectionProvider$PooledConnection.onStateChange(DefaultPooledConnectionProvider.java:466)
+		at reactor.netty.http.client.HttpClientOperations.onInboundNext(HttpClientOperations.java:726)
+		at reactor.netty.channel.ChannelOperationsHandler.channelRead(ChannelOperationsHandler.java:114)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+		at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:436)
+		at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:346)
+		at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:333)
+		at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:455)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:290)
+		at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:251)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+		at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:440)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:166)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:788)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+		at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+		at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+		at java.base/java.lang.Thread.run(Thread.java:840)
+	Suppressed: java.lang.Exception: #block terminated with an error
+		at reactor.core.publisher.BlockingSingleSubscriber.blockingGet(BlockingSingleSubscriber.java:104)
+		at reactor.core.publisher.Mono.block(Mono.java:1779)
+		at me.ivanmorozov.telegrambot.service.TelegramBotService.unTrackCommand(TelegramBotService.java:194)
+		at me.ivanmorozov.telegrambot.service.TelegramBotService.onUpdateReceived(TelegramBotService.java:82)
+		at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+		at org.telegram.telegrambots.meta.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
+		at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:312)
+2025-05-13 14:00:31.709 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 8596 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-13 14:00:31.710 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-13 14:00:31.712 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-13 14:00:32.418 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-13 14:00:32.418 [main]  - Starting service [Tomcat]
+2025-05-13 14:00:32.419 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-13 14:00:32.474 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-13 14:00:33.461 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-13 14:00:33.535 [main]  - Started TelegramChatBotApplication in 2.202 seconds (process running for 3.129)
+2025-05-13 14:00:54.651 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79617342
+2025-05-13 14:01:00.567 [LinkHawkBot Telegram Executor]  - Ошибка отписки chatId=882850654
+me.ivanmorozov.common.exception.LinkSubscribeException: Некорректная ссылка
+	at me.ivanmorozov.telegrambot.client.ScrapperApiClient.lambda$unsubscribeLink$11(ScrapperApiClient.java:146)
+	Suppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: 
+Error has been observed at the following site(s):
+	*__checkpoint ⇢ 404 NOT_FOUND from POST http://localhost:9030/links/unsubscribe [DefaultWebClient]
+Original Stack Trace:
+		at me.ivanmorozov.telegrambot.client.ScrapperApiClient.lambda$unsubscribeLink$11(ScrapperApiClient.java:146)
+		at org.springframework.web.reactive.function.client.DefaultWebClient$DefaultResponseSpec$StatusHandler.apply(DefaultWebClient.java:721)
+		at org.springframework.web.reactive.function.client.DefaultWebClient$DefaultResponseSpec.applyStatusHandlers(DefaultWebClient.java:686)
+		at org.springframework.web.reactive.function.client.DefaultWebClient$DefaultResponseSpec.handleBodyMono(DefaultWebClient.java:655)
+		at org.springframework.web.reactive.function.client.DefaultWebClient$DefaultResponseSpec.lambda$bodyToMono$2(DefaultWebClient.java:573)
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:132)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onNext(FluxContextWrite.java:107)
+		at reactor.core.publisher.FluxDoFinally$DoFinallySubscriber.onNext(FluxDoFinally.java:113)
+		at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onNext(MonoPeekTerminal.java:180)
+		at reactor.core.publisher.FluxPeekFuseable$PeekConditionalSubscriber.onNext(FluxPeekFuseable.java:854)
+		at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onNext(FluxSwitchIfEmpty.java:74)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200)
+		at reactor.core.publisher.FluxMap$MapSubscriber.onNext(FluxMap.java:122)
+		at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onNext(FluxOnErrorResume.java:79)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200)
+		at reactor.core.publisher.MonoNext$NextSubscriber.onNext(MonoNext.java:82)
+		at reactor.core.publisher.MonoFlatMapMany$FlatMapManyInner.onNext(MonoFlatMapMany.java:251)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onNext(FluxContextWrite.java:107)
+		at reactor.core.publisher.Operators$ScalarSubscription.request(Operators.java:2571)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.request(FluxContextWrite.java:136)
+		at reactor.core.publisher.MonoFlatMapMany$FlatMapManyMain.onSubscribeInner(MonoFlatMapMany.java:150)
+		at reactor.core.publisher.MonoFlatMapMany$FlatMapManyInner.onSubscribe(MonoFlatMapMany.java:246)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onSubscribe(FluxContextWrite.java:101)
+		at reactor.core.publisher.FluxJust.subscribe(FluxJust.java:68)
+		at reactor.core.publisher.Flux.subscribe(Flux.java:8840)
+		at reactor.core.publisher.MonoFlatMapMany$FlatMapManyMain.onNext(MonoFlatMapMany.java:196)
+		at reactor.core.publisher.SerializedSubscriber.onNext(SerializedSubscriber.java:99)
+		at reactor.core.publisher.FluxRetryWhen$RetryWhenMainSubscriber.onNext(FluxRetryWhen.java:178)
+		at reactor.core.publisher.MonoCreate$DefaultMonoSink.success(MonoCreate.java:176)
+		at reactor.netty.http.client.HttpClientConnect$HttpIOHandlerObserver.onStateChange(HttpClientConnect.java:435)
+		at reactor.netty.ReactorNetty$CompositeConnectionObserver.onStateChange(ReactorNetty.java:710)
+		at reactor.netty.resources.DefaultPooledConnectionProvider$DisposableAcquire.onStateChange(DefaultPooledConnectionProvider.java:205)
+		at reactor.netty.resources.DefaultPooledConnectionProvider$PooledConnection.onStateChange(DefaultPooledConnectionProvider.java:466)
+		at reactor.netty.http.client.HttpClientOperations.onInboundNext(HttpClientOperations.java:726)
+		at reactor.netty.channel.ChannelOperationsHandler.channelRead(ChannelOperationsHandler.java:114)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+		at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:436)
+		at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:346)
+		at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:333)
+		at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:455)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:290)
+		at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:251)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+		at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:440)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:166)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:788)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+		at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+		at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+		at java.base/java.lang.Thread.run(Thread.java:840)
+	Suppressed: java.lang.Exception: #block terminated with an error
+		at reactor.core.publisher.BlockingSingleSubscriber.blockingGet(BlockingSingleSubscriber.java:104)
+		at reactor.core.publisher.Mono.block(Mono.java:1779)
+		at me.ivanmorozov.telegrambot.service.TelegramBotService.unTrackCommand(TelegramBotService.java:194)
+		at me.ivanmorozov.telegrambot.service.TelegramBotService.onUpdateReceived(TelegramBotService.java:82)
+		at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+		at org.telegram.telegrambots.meta.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
+		at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:312)
+2025-05-13 14:02:02.429 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 8532 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-13 14:02:02.431 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-13 14:02:02.431 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-13 14:02:03.146 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-13 14:02:03.147 [main]  - Starting service [Tomcat]
+2025-05-13 14:02:03.147 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-13 14:02:03.191 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-13 14:02:04.060 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-13 14:02:04.134 [main]  - Started TelegramChatBotApplication in 2.08 seconds (process running for 2.868)
+2025-05-13 14:02:14.982 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79617342
+2025-05-13 14:02:21.826 [LinkHawkBot Telegram Executor]  - Ошибка отписки chatId=882850654
+me.ivanmorozov.common.exception.LinkSubscribeException: Некорректная ссылка
+	at me.ivanmorozov.telegrambot.client.ScrapperApiClient.lambda$unsubscribeLink$11(ScrapperApiClient.java:146)
+	Suppressed: reactor.core.publisher.FluxOnAssembly$OnAssemblyException: 
+Error has been observed at the following site(s):
+	*__checkpoint ⇢ 400 BAD_REQUEST from POST http://localhost:9030/tg-chat/deleteSubsLink [DefaultWebClient]
+Original Stack Trace:
+		at me.ivanmorozov.telegrambot.client.ScrapperApiClient.lambda$unsubscribeLink$11(ScrapperApiClient.java:146)
+		at org.springframework.web.reactive.function.client.DefaultWebClient$DefaultResponseSpec$StatusHandler.apply(DefaultWebClient.java:721)
+		at org.springframework.web.reactive.function.client.DefaultWebClient$DefaultResponseSpec.applyStatusHandlers(DefaultWebClient.java:686)
+		at org.springframework.web.reactive.function.client.DefaultWebClient$DefaultResponseSpec.handleBodyMono(DefaultWebClient.java:655)
+		at org.springframework.web.reactive.function.client.DefaultWebClient$DefaultResponseSpec.lambda$bodyToMono$2(DefaultWebClient.java:573)
+		at reactor.core.publisher.MonoFlatMap$FlatMapMain.onNext(MonoFlatMap.java:132)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onNext(FluxContextWrite.java:107)
+		at reactor.core.publisher.FluxDoFinally$DoFinallySubscriber.onNext(FluxDoFinally.java:113)
+		at reactor.core.publisher.MonoPeekTerminal$MonoTerminalPeekSubscriber.onNext(MonoPeekTerminal.java:180)
+		at reactor.core.publisher.FluxPeekFuseable$PeekConditionalSubscriber.onNext(FluxPeekFuseable.java:854)
+		at reactor.core.publisher.FluxSwitchIfEmpty$SwitchIfEmptySubscriber.onNext(FluxSwitchIfEmpty.java:74)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200)
+		at reactor.core.publisher.FluxMap$MapSubscriber.onNext(FluxMap.java:122)
+		at reactor.core.publisher.FluxOnErrorResume$ResumeSubscriber.onNext(FluxOnErrorResume.java:79)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200)
+		at reactor.core.publisher.FluxPeek$PeekSubscriber.onNext(FluxPeek.java:200)
+		at reactor.core.publisher.MonoNext$NextSubscriber.onNext(MonoNext.java:82)
+		at reactor.core.publisher.MonoFlatMapMany$FlatMapManyInner.onNext(MonoFlatMapMany.java:251)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onNext(FluxContextWrite.java:107)
+		at reactor.core.publisher.Operators$ScalarSubscription.request(Operators.java:2571)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.request(FluxContextWrite.java:136)
+		at reactor.core.publisher.MonoFlatMapMany$FlatMapManyMain.onSubscribeInner(MonoFlatMapMany.java:150)
+		at reactor.core.publisher.MonoFlatMapMany$FlatMapManyInner.onSubscribe(MonoFlatMapMany.java:246)
+		at reactor.core.publisher.FluxContextWrite$ContextWriteSubscriber.onSubscribe(FluxContextWrite.java:101)
+		at reactor.core.publisher.FluxJust.subscribe(FluxJust.java:68)
+		at reactor.core.publisher.Flux.subscribe(Flux.java:8840)
+		at reactor.core.publisher.MonoFlatMapMany$FlatMapManyMain.onNext(MonoFlatMapMany.java:196)
+		at reactor.core.publisher.SerializedSubscriber.onNext(SerializedSubscriber.java:99)
+		at reactor.core.publisher.FluxRetryWhen$RetryWhenMainSubscriber.onNext(FluxRetryWhen.java:178)
+		at reactor.core.publisher.MonoCreate$DefaultMonoSink.success(MonoCreate.java:176)
+		at reactor.netty.http.client.HttpClientConnect$HttpIOHandlerObserver.onStateChange(HttpClientConnect.java:435)
+		at reactor.netty.ReactorNetty$CompositeConnectionObserver.onStateChange(ReactorNetty.java:710)
+		at reactor.netty.resources.DefaultPooledConnectionProvider$DisposableAcquire.onStateChange(DefaultPooledConnectionProvider.java:205)
+		at reactor.netty.resources.DefaultPooledConnectionProvider$PooledConnection.onStateChange(DefaultPooledConnectionProvider.java:466)
+		at reactor.netty.http.client.HttpClientOperations.onInboundNext(HttpClientOperations.java:726)
+		at reactor.netty.channel.ChannelOperationsHandler.channelRead(ChannelOperationsHandler.java:114)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+		at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:436)
+		at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:346)
+		at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:333)
+		at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:455)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:290)
+		at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:251)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412)
+		at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:440)
+		at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:166)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:788)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+		at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+		at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+		at java.base/java.lang.Thread.run(Thread.java:840)
+	Suppressed: java.lang.Exception: #block terminated with an error
+		at reactor.core.publisher.BlockingSingleSubscriber.blockingGet(BlockingSingleSubscriber.java:104)
+		at reactor.core.publisher.Mono.block(Mono.java:1779)
+		at me.ivanmorozov.telegrambot.service.TelegramBotService.unTrackCommand(TelegramBotService.java:194)
+		at me.ivanmorozov.telegrambot.service.TelegramBotService.onUpdateReceived(TelegramBotService.java:82)
+		at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+		at org.telegram.telegrambots.meta.generics.LongPollingBot.onUpdatesReceived(LongPollingBot.java:27)
+		at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$HandlerThread.run(DefaultBotSession.java:312)
+2025-05-13 14:03:48.098 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 2180 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-13 14:03:48.099 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-13 14:03:48.100 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-13 14:03:48.820 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-13 14:03:48.821 [main]  - Starting service [Tomcat]
+2025-05-13 14:03:48.822 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-13 14:03:48.865 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-13 14:03:49.759 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-13 14:03:49.834 [main]  - Started TelegramChatBotApplication in 2.113 seconds (process running for 2.976)
+2025-05-13 14:04:00.137 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79617342
+2025-05-13 14:04:06.066 [LinkHawkBot Telegram Executor]  - Пользователь отписался: chatId=882850654, link=https://stackoverflow.com/questions/79617342
+2025-05-13 14:10:07.813 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79617342
+2025-05-13 14:12:53.322 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=7610309765, questionId=79619532
+2025-05-13 15:42:55.884 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 6648 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-13 15:42:55.885 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-13 15:42:55.886 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-13 15:42:56.696 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-13 15:42:56.698 [main]  - Starting service [Tomcat]
+2025-05-13 15:42:56.698 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-13 15:42:56.741 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-13 15:42:57.678 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-13 15:42:57.749 [main]  - Started TelegramChatBotApplication in 2.245 seconds (process running for 3.065)
+2025-05-13 15:43:11.798 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79617342
