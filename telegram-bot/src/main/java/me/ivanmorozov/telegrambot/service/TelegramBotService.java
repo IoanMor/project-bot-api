@@ -53,10 +53,10 @@ public class TelegramBotService extends TelegramLongPollingBot {
         listCommand.add(new BotCommand("/start", "Начните работу с ботом"));
         listCommand.add(new BotCommand("/track", "Подписаться на новости по ссылке"));
         listCommand.add(new BotCommand("/untrack", "Отписаться от новостей"));
-        listCommand.add(new BotCommand("/tStock", "Подписаться на получение цены акции"));
-        listCommand.add(new BotCommand("/utStock", "Отписаться от получении цены акции"));
-        listCommand.add(new BotCommand("/list", "Показать все отслеживаемые ссылки"));
-        listCommand.add(new BotCommand("/lStock", "Показать все отслеживаемые акции"));
+        listCommand.add(new BotCommand("/tstock", "Подписаться на получение цены акции"));
+        listCommand.add(new BotCommand("/utstock", "Отписаться от получении цены акции"));
+        listCommand.add(new BotCommand("/links", "Показать все отслеживаемые ссылки"));
+        listCommand.add(new BotCommand("/stock", "Показать все отслеживаемые акции"));
         listCommand.add(new BotCommand("/help", "Информация и помощь"));
         try {
             this.execute(new SetMyCommands(listCommand, new BotCommandScopeDefault(), null));
@@ -75,35 +75,33 @@ public class TelegramBotService extends TelegramLongPollingBot {
             String msg = update.getMessage().getText();
             long chatId = update.getMessage().getChatId();
             String userName = update.getMessage().getChat().getFirstName();
-            // Обработка команды /start
+
             if (msg.startsWith("/start")) {
                 startCommand(chatId, userName);
                 return;
             }
 
-            // Проверка регистрации
             if (!isChatRegister(chatId)) {
                 sendMsg(chatId, "⛔ Для использования бота необходимо зарегистрироваться!\nВведите команду /start");
                 return;
             }
 
-            // Основной блок команд
             if (msg.startsWith("/track")) {
                 handleTrackCommand(msg, chatId);
             }
             else if (msg.startsWith("/untrack")) {
                 unTrackCommand(chatId, msg);
             }
-            else if (msg.startsWith("/tStock")) {
+            else if (msg.startsWith("/tstock")) {
                 trackStock(chatId, msg);
             }
-            else if (msg.startsWith("/utStock")) {
+            else if (msg.startsWith("/utstock")) {
                 untrackStock(chatId, msg);
             }
-            else if (msg.startsWith("/listStock")) {
+            else if (msg.startsWith("/stock")) {
                 getAllStockSubscribes(chatId);
             }
-            else if (msg.startsWith("/listLinks")) {
+            else if (msg.startsWith("/links")) {
                 getAllLinksSubscribes(chatId);
             }
             else if ("/help".equalsIgnoreCase(msg)) {

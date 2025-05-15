@@ -54,7 +54,7 @@ public class ScrapperApiClient {
                     if (e instanceof ChatRegisterException) {
                         return Mono.error(e);
                     }
-                    return Mono.error(new ChatRegisterException("Registration failed"));
+                    return Mono.error(new ChatRegisterException("Ошибка регистраци"));
                 });
     }
 

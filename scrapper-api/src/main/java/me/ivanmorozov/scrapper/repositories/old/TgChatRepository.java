@@ -1,4 +1,4 @@
-package me.ivanmorozov.scrapper.repositories;
+package me.ivanmorozov.scrapper.repositories.old;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

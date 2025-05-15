@@ -6,19 +6,15 @@ import me.ivanmorozov.common.records.ChatRecords;
 import me.ivanmorozov.common.records.LinkRecords;
 
 import me.ivanmorozov.common.records.StockRecords;
-import me.ivanmorozov.scrapper.repositories.TgChatRepository;
+import me.ivanmorozov.scrapper.repositories.old.TgChatRepository;
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 
-import me.ivanmorozov.scrapper.repositories.UserSubsLinkRepository;
 import me.ivanmorozov.scrapper.services.LinkService;
 import me.ivanmorozov.scrapper.services.StockService;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequiredArgsConstructor

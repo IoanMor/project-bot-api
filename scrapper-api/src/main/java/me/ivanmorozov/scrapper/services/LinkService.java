@@ -2,7 +2,7 @@ package me.ivanmorozov.scrapper.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.scrapper.repositories.UserSubsLinkRepository;
+import me.ivanmorozov.scrapper.repositories.old.UserSubsLinkRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;

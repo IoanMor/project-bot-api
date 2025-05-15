@@ -1,7 +1,7 @@
 package me.ivanmorozov.scrapper.services;
 
 import lombok.RequiredArgsConstructor;
-import me.ivanmorozov.scrapper.repositories.StockRepositories;
+import me.ivanmorozov.scrapper.repositories.old.StockRepositories;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
