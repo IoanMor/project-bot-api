@@ -1,13 +1,12 @@
 package me.ivanmorozov.scrapper.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tg_chats")
@@ -20,4 +19,10 @@ public class TelegramChat {
 
     @Column(name = "registered_at", nullable = false)
     private LocalDateTime registeredAt;
+
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SubscribeStock> stockSubscriptions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SubscribeLink> linkSubscriptions = new ArrayList<>();
 }

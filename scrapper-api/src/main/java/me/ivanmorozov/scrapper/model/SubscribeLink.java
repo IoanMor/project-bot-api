@@ -13,7 +13,7 @@ import java.util.Set;
 public class SubscribeLink {
     @Id
     @Column(name = "id_link")
-    private Long id;
+    private long id;
 
     @ManyToOne
     @JoinColumn(name = "chat_id", referencedColumnName = "chat_id")
