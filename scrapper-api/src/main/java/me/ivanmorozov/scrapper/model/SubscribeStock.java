@@ -21,4 +21,7 @@ public class SubscribeStock {
 
     @Column(name = "ticker", nullable = false, length = 10)
     private String ticker;
+
+    private int countStock;
+
 }

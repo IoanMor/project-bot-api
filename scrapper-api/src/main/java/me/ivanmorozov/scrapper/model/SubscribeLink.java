@@ -22,4 +22,5 @@ public class SubscribeLink {
     @Column(name = "link", nullable = false, length = 100)
     private String link;
 
+    private int answer;
 }

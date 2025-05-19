@@ -27,8 +27,9 @@ public interface LinkRepository extends JpaRepository<SubscribeLink, Long> {
     @Query(value = "SELECT link FROM links WHERE chat_id = :chatId", nativeQuery = true)
     Set<String> getLinks(@Param("chatId") long chatId);
 
-
     @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM SubscribeLink l WHERE l.chat.chatId = :chatId AND l.link = :link")
     boolean existsByLink(@Param("chatId") long chatId, @Param("link") String link);
 
+    @Query(value = "SELECT count_answer FROM links WHERE chat_id =:chatId AND link=:link", nativeQuery = true)
+    int getCountAnswer(@Param("chatId") long chatId, @Param("link") String link);
 }

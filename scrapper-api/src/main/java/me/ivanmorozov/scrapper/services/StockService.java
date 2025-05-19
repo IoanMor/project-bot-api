@@ -1,6 +1,9 @@
 package me.ivanmorozov.scrapper.services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import me.ivanmorozov.scrapper.model.SubscribeStock;
+import me.ivanmorozov.scrapper.repositories.StockRepository;
 import me.ivanmorozov.scrapper.repositories.old.StockRepositories;
 import org.springframework.stereotype.Service;
 
@@ -8,22 +11,35 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StockService {
-    private final StockRepositories stockRepositories;
+    private final StockRepository stockRepository;
 
-    public boolean subscribeOnStock(long chatId, String ticker) {
-        return stockRepositories.addStock(chatId, ticker);
+    public boolean subscribe(long chatId, String ticker) {
+        try {
+            stockRepository.insertStock(chatId, ticker);
+            return true;
+        } catch (Exception e) {
+            log.error("Ошибка подписки чата {} на тикер {}: {}", chatId, ticker, e.getMessage());
+            return false;
+        }
     }
 
-    public boolean isStock(long chatId, String ticker) {
-        return stockRepositories.existStock(chatId, ticker);
+    public boolean unsubscribe(long chatId, String ticker) {
+        try {
+            stockRepository.removeStock(chatId, ticker);
+            return true;
+        } catch (Exception e) {
+            log.error("Ошибка отписки чата {} от тикера {}: {}", chatId, ticker, e.getMessage());
+            return false;
+        }
     }
 
-    public boolean unSubscribeStock(long chatId, String ticker) {
-        return stockRepositories.removeStock(chatId, ticker);
+    public boolean isSubscribed(long chatId, String ticker) {
+        return stockRepository.existsByTicker(chatId, ticker);
     }
 
-    public Set<String> getSubscribeStock(long chatId) {
-        return stockRepositories.getStock(chatId);
+    public Set<String> getSubscriptions(long chatId) {
+        return stockRepository.getTickersByChatId(chatId);
     }
 }

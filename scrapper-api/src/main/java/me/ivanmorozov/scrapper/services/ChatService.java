@@ -2,10 +2,7 @@ package me.ivanmorozov.scrapper.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.common.exception.ChatAlreadyExistsException;
-import me.ivanmorozov.common.exception.ChatListException;
-import me.ivanmorozov.common.exception.ChatNotFoundException;
-import me.ivanmorozov.common.exception.ChatRegisterException;
+import me.ivanmorozov.common.exception.ChatServiceException;
 import me.ivanmorozov.scrapper.repositories.TelegramChatRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +23,7 @@ public class ChatService {
             return true;
         } catch (Exception e) {
             log.error("Ошибка регистрации чата {}: {}", chatId, e.getMessage());
-            throw new ChatRegisterException("Произошла ошибка в регистрации чата \n{error : " + e.getMessage() + "}");
+            throw new ChatServiceException("Произошла ошибка в регистрации чата \n{error : " + e.getMessage() + "}",e);
         }
     }
 
@@ -37,7 +34,7 @@ public class ChatService {
             return chats;
         } catch (Exception e) {
             log.error("Ошибка получения списка чатов: {}", e.getMessage());
-            throw new ChatListException("Ошибка получения списка чатов \n{error : " + e.getMessage() + "}");
+            throw new ChatServiceException("Ошибка получения списка чатов \n{error : " + e.getMessage() + "}", e);
         }
     }
 
@@ -46,7 +43,7 @@ public class ChatService {
             return chatRepository.existsById(chatId);
         } catch (Exception e) {
             log.error("Ошибка проверки существования чата {}: {}", chatId, e.getMessage());
-            throw new ChatAlreadyExistsException("Ошибка проверки чата \n{error : " + e.getMessage() + "}");
+            throw new ChatServiceException("Ошибка проверки чата \n{error : " + e.getMessage() + "}", e);
         }
     }
 
@@ -55,9 +52,9 @@ public class ChatService {
             return Optional.ofNullable(chatRepository.getRegisterTime(chatId))
                     .orElseThrow(() -> {
                         log.debug("Чат {} не найден", chatId);
-                        return new ChatNotFoundException(chatId);
+                        return new ChatServiceException("Чат не найден");
                     });
-        } catch (ChatNotFoundException e) {
+        } catch (ChatServiceException e) {
             throw e;
         } catch (Exception e) {
             log.error("Ошибка получения времени регистрации чата {}: {}", chatId, e.getMessage());

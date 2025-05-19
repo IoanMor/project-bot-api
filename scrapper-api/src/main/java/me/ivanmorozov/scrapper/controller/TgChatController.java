@@ -6,7 +6,7 @@ import me.ivanmorozov.common.records.ChatRecords;
 import me.ivanmorozov.common.records.LinkRecords;
 
 import me.ivanmorozov.common.records.StockRecords;
-import me.ivanmorozov.scrapper.repositories.old.TgChatRepository;
+
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 
 import me.ivanmorozov.scrapper.services.LinkService;
