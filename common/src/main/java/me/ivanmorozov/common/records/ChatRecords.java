@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Positive;
 import java.util.Set;
 
 public class ChatRecords {
-    public record ChatExistsRequest(@Positive long id) {}
-    public record ChatRegisterRequest(@Positive long id) {}
-    public record ChatGetAllRegister(Set<Long> id){}
+    public record ChatExistsRequest(@Positive long chatId) {}
+    public record ChatRegisterRequest(@Positive long chatId) {}
+
 }

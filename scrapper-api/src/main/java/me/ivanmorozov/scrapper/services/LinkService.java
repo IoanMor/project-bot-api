@@ -54,6 +54,14 @@ public class LinkService {
     public Set<String> getSubscriptions(long chatId) {
         return linkRepository.getLinks(chatId);
     }
+
+    public void updateCountAnswer(long chatId, String link, int count) {
+        linkRepository.updateCountAnswer(chatId, link, count);
+    }
+
+    public int getCountAnswer(long chatId, String link) {
+        return linkRepository.getCountAnswer(chatId, link);
+    }
 }
 
 

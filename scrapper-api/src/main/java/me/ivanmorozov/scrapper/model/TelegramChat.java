@@ -1,8 +1,7 @@
 package me.ivanmorozov.scrapper.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,6 +11,8 @@ import java.util.List;
 @Table(name = "tg_chats")
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
 public class TelegramChat {
     @Id
     @Column(name = "chat_id")

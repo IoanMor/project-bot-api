@@ -9,6 +9,8 @@ import me.ivanmorozov.common.records.StockRecords;
 
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 
+import me.ivanmorozov.scrapper.client.StackExchangeClient;
+import me.ivanmorozov.scrapper.services.ChatService;
 import me.ivanmorozov.scrapper.services.LinkService;
 import me.ivanmorozov.scrapper.services.StockService;
 import org.springframework.http.ResponseEntity;
@@ -20,68 +22,71 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Slf4j
 public class TgChatController {
-    private final TgChatRepository chatRepository;
+    private final ChatService chatService;
     private final LinkService linkService;
     private final StockService stockService;
 
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_REGISTER)
-    public ResponseEntity<Void> registerChat(@RequestBody ChatRecords.ChatRegisterRequest request) {
-        chatRepository.add(request.id());
+    public ResponseEntity<Void> registrationChat(@RequestBody ChatRecords.ChatRegisterRequest request) {
+        chatService.registerChat(request.chatId());
         return ResponseEntity.ok().build();
     }
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_EXISTS)
-    public ResponseEntity<Boolean> existsChat(@RequestBody ChatRecords.ChatExistsRequest request) {
-        return ResponseEntity.ok(chatRepository.exist(request.id()));
+    public ResponseEntity<Boolean> isChatExist(@RequestBody ChatRecords.ChatExistsRequest request) {
+        return ResponseEntity.ok(chatService.isChatExist(request.chatId()));
     }
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_GET_ALL_REGISTER)
     public ResponseEntity<Set<Long>> getAllChats() {
-        return ResponseEntity.ok(chatRepository.getAllChats());
+        return ResponseEntity.ok(chatService.getAllRegisteredChat());
     }
 
-    @PostMapping(ScrapperEndpoints.TG_CHAT_LINK_SUBSCRIBE)
-    public ResponseEntity<Boolean> subscribeLink(@RequestBody LinkRecords.LinkSubscribeRequest request) {
-        boolean result = linkService.addLink(request.chatId(), request.link());
-        return ResponseEntity.ok(result);
+    @PostMapping(ScrapperEndpoints.TG_LINK_SUBSCRIBE)
+    public ResponseEntity<Boolean> subscribeToLink(@RequestBody LinkRecords.LinkSubscribeRequest request) {
+        return ResponseEntity.ok(linkService.subscribe(request.chatId(), request.link()));
     }
 
-    @PostMapping(ScrapperEndpoints.TG_CHAT_GET_ALL_LINK)
-    public ResponseEntity<Set<String>> getUserLink(@RequestBody LinkRecords.LinkGetRequest request) {
-        return ResponseEntity.ok(linkService.getLinks(request.chatId()));
+    @PostMapping(ScrapperEndpoints.TG_GET_ALL_LINK)
+    public ResponseEntity<Set<String>> getAllSubscribeLinks(@RequestBody LinkRecords.LinkGetRequest request) {
+        return ResponseEntity.ok(linkService.getAllSubscribeLinks(request.chatId()));
     }
 
-    @PostMapping(ScrapperEndpoints.TG_CHAT_LINK_SUBSCRIBE_EXISTS)
-    public ResponseEntity<Boolean> existLinks(@RequestBody LinkRecords.LinkExistRequest request) {
-        return ResponseEntity.ok(linkService.linkExist(request.chatId(), request.link()));
+    @PostMapping(ScrapperEndpoints.TG_LINK_SUBSCRIBE_EXISTS)
+    public ResponseEntity<Boolean> isLinkExist(@RequestBody LinkRecords.LinkExistRequest request) {
+        return ResponseEntity.ok(linkService.isSubscribed(request.chatId(), request.link()));
     }
 
-    @PostMapping(ScrapperEndpoints.TG_CHAT_DELL_LINK)
-    public ResponseEntity<Boolean> dellLink(@RequestBody LinkRecords.LinkSubscribeRequest request) {
+    @PostMapping(ScrapperEndpoints.TG_DELL_LINK)
+    public ResponseEntity<Boolean> unsubscribeFromLink(@RequestBody LinkRecords.LinkSubscribeRequest request) {
         return ResponseEntity.ok(linkService.unSubscribe(request.chatId(), request.link()));
     }
 
+    @PostMapping(ScrapperEndpoints.TG_GET_COUNT_ANSWER)
+    public ResponseEntity<Integer> getCountSubscribeAnswer(@RequestBody LinkRecords.LinkGetCountAnswerRequest request) {
+        return ResponseEntity.ok(linkService.getCountAnswer(request.chatId(),request.link()));
+    }
+
+
     @PostMapping(ScrapperEndpoints.TG_STOCK_SUBSCRIBE)
-    public ResponseEntity<Boolean> subscribeOnStock(@RequestBody StockRecords.StockSubscribeRequest request) {
-        return ResponseEntity.ok(stockService.subscribeOnStock(request.chatId(), request.ticker()));
+    public ResponseEntity<Boolean> subscribeToStock(@RequestBody StockRecords.StockSubscribeRequest request) {
+        return ResponseEntity.ok(stockService.subscribe(request.chatId(), request.ticker()));
     }
 
     @PostMapping(ScrapperEndpoints.TG_STOCK_CHECK_EXISTS)
-    public ResponseEntity<Boolean> existStock(@RequestBody StockRecords.StockExistRequest request){
-        return ResponseEntity.ok(stockService.isStock(request.chatId(), request.ticker()));
+    public ResponseEntity<Boolean> isStockExist(@RequestBody StockRecords.StockExistRequest request) {
+        return ResponseEntity.ok(stockService.isSubscribed(request.chatId(), request.ticker()));
     }
 
     @PostMapping(ScrapperEndpoints.TG_STOCK_UNSUBSCRIBE)
-    public ResponseEntity<Boolean> unSubscribeStock(@RequestBody StockRecords.StockSubscribeRequest request){
-        return ResponseEntity.ok(stockService.unSubscribeStock(request.chatId(), request.ticker()));
+    public ResponseEntity<Boolean> unSubscribeFromStock(@RequestBody StockRecords.StockSubscribeRequest request) {
+        return ResponseEntity.ok(stockService.unsubscribe(request.chatId(), request.ticker()));
     }
 
     @PostMapping(ScrapperEndpoints.TG_STOCK_GET_SUBSCRIPTIONS)
-    public ResponseEntity<Set<String>> getSubscribeStock(@RequestBody StockRecords.StockGetRequest request){
-        return ResponseEntity.ok(stockService.getSubscribeStock(request.chatId()));
+    public ResponseEntity<Set<String>> getAllSubscribeStock(@RequestBody StockRecords.StockGetRequest request) {
+        return ResponseEntity.ok(stockService.getSubscriptions(request.chatId()));
     }
-
-
 
 }

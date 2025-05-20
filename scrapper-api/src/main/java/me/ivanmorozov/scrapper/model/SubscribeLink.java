@@ -1,7 +1,9 @@
 package me.ivanmorozov.scrapper.model;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Set;
@@ -10,9 +12,11 @@ import java.util.Set;
 @Table(name = "links")
 @Setter
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SubscribeLink {
     @Id
     @Column(name = "id_link")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne
@@ -22,5 +26,6 @@ public class SubscribeLink {
     @Column(name = "link", nullable = false, length = 100)
     private String link;
 
-    private int answer;
+    @Column(name = "count_answer", nullable = false)
+    private int countAnswer;
 }

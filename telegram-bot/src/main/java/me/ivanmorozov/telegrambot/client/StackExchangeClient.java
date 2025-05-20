@@ -10,18 +10,19 @@ import reactor.core.publisher.Mono;
 
 
 import java.time.Duration;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static me.ivanmorozov.common.apiUrl.APIUrl.STACK_API_URL;
 
 @Component
 @Slf4j
+
 public class StackExchangeClient {
     private final WebClient webClient;
-    private final Map<Long, Integer> lastAnswerCounts = new ConcurrentHashMap<>();
-    public StackExchangeClient() {
+    private final ScrapperApiClient client;
+
+
+    public StackExchangeClient(ScrapperApiClient client) {
+        this.client = client;
         this.webClient = WebClient.builder()
                 .baseUrl(STACK_API_URL)
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE).build();
@@ -30,7 +31,6 @@ public class StackExchangeClient {
     public Mono<Boolean> trackLink(Long questionId) {
         String url = "/questions/" + questionId + "/answers?order=desc&sort=creation&site=stackoverflow&filter=total";
         log.info("Запрос к API: {}", url);
-
         return webClient.get()
                 .uri(url)
                 .retrieve()
@@ -38,11 +38,14 @@ public class StackExchangeClient {
                 .doOnNext(response -> log.info("Ответ API: {}", response))
                 .map(response -> {
                     int currentCount = response.path("total").asInt();
-                    boolean hasNew = currentCount > lastAnswerCounts.getOrDefault(questionId, 0);
-                    if (hasNew) {
-                        lastAnswerCounts.put(questionId, currentCount);
+                    int storedCount = client.getCountAnswer();
+
+                    if (currentCount > storedCount) {
+                        log.info("Новое сообщение по ссылке {} ",link);
+                        linkService.updateCountAnswer(chatId, link, currentCount);
+                        return true;
                     }
-                    return hasNew;
+                    return false;
                 })
                 .timeout(Duration.ofSeconds(5))
                 .onErrorResume(e -> {

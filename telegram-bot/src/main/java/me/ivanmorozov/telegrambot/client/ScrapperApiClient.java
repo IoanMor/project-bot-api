@@ -1,26 +1,23 @@
 package me.ivanmorozov.telegrambot.client;
 
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.common.exception.*;
-import me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow;
+import me.ivanmorozov.common.exception.ChatServiceException;
+import me.ivanmorozov.common.exception.LinkServiceException;
+import me.ivanmorozov.common.exception.StockServiceException;
 import me.ivanmorozov.common.records.ChatRecords;
 import me.ivanmorozov.common.records.LinkRecords;
 
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 import me.ivanmorozov.common.records.StockRecords;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
-import java.lang.reflect.Type;
 import java.time.Duration;
-import java.util.Collections;
 import java.util.Set;
 
 import static me.ivanmorozov.common.endpoints.ScrapperEndpoints.*;
@@ -44,17 +41,17 @@ public class ScrapperApiClient {
                 .bodyValue(new ChatRecords.ChatRegisterRequest(chatId))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response -> response.bodyToMono(String.class)
-                        .flatMap(body -> Mono.error(new ChatRegisterException("Ошибка регистрации чата. Статус: " + response.statusCode() +
+                        .flatMap(body -> Mono.error(new ChatServiceException("Ошибка регистрации чата. Статус: " + response.statusCode() +
                                 ", Body: " + body))))
                 .toBodilessEntity()
                 .timeout(TIMEOUT)
                 .retryWhen(Retry.backoff(3, Duration.ofMillis(100)))
                 .thenReturn(true)
                 .onErrorResume(e -> {
-                    if (e instanceof ChatRegisterException) {
+                    if (e instanceof ChatServiceException) {
                         return Mono.error(e);
                     }
-                    return Mono.error(new ChatRegisterException("Ошибка регистраци"));
+                    return Mono.error(new ChatServiceException("Ошибка регистраци"));
                 });
     }
 
@@ -80,7 +77,7 @@ public class ScrapperApiClient {
                 .bodyValue(new ChatRecords.ChatExistsRequest(chatId))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError,
-                        response -> Mono.error(new ChatAlreadyExistsException("Ошибка поичка чата: " + chatId)))
+                        response -> Mono.error(new ChatServiceException("Ошибка поичка чата: " + chatId)))
                 .bodyToMono(Boolean.class)
                 .timeout(TIMEOUT)
                 .retryWhen(Retry.backoff(3, Duration.ofMillis(100)))
@@ -93,11 +90,11 @@ public class ScrapperApiClient {
 
     public Mono<Boolean> subscribeLink(long chatId, String link) {
         return webClient.post()
-                .uri(TG_CHAT_LINK_SUBSCRIBE)
+                .uri(TG_LINK_SUBSCRIBE)
                 .bodyValue(new LinkRecords.LinkSubscribeRequest(chatId, link))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response ->
-                        Mono.error(new LinkSubscribeException("Ошибка подписки на ссылку - " + link)))
+                        Mono.error(new LinkServiceException("Ошибка подписки на ссылку - " + link)))
                 .bodyToMono(Boolean.class)
                 .timeout(TIMEOUT)
                 .retryWhen(Retry.backoff(3, Duration.ofMillis(100)))
@@ -110,7 +107,7 @@ public class ScrapperApiClient {
 
     public Mono<Set<String>> getAllLinks(long chatId) {
         return webClient.post()
-                .uri(TG_CHAT_GET_ALL_LINK)
+                .uri(TG_GET_ALL_LINK)
                 .bodyValue(new LinkRecords.LinkGetRequest(chatId))
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Set<String>>() {
@@ -125,11 +122,11 @@ public class ScrapperApiClient {
     public Mono<Boolean> isLinkSubscribe(long chatId, String link) {
         String normalizedLink = normalizeLink(link);
         return webClient.post()
-                .uri(TG_CHAT_LINK_SUBSCRIBE_EXISTS)
+                .uri(TG_LINK_SUBSCRIBE_EXISTS)
                 .bodyValue(new LinkRecords.LinkExistRequest(chatId, normalizedLink))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response ->
-                        Mono.error(new LinkSubscribeException("Подписка на ссылку уже оформлена : " + link)))
+                        Mono.error(new LinkServiceException("Подписка на ссылку уже оформлена : " + link)))
                 .bodyToMono(Boolean.class)
                 .timeout(TIMEOUT)
                 .retryWhen(Retry.backoff(3, Duration.ofMillis(100)))
@@ -141,11 +138,11 @@ public class ScrapperApiClient {
 
     public Mono<Boolean> unsubscribeLink(long chatId, String link) {
         return webClient.post()
-                .uri(TG_CHAT_DELL_LINK)
+                .uri(TG_DELL_LINK)
                 .bodyValue(new LinkRecords.LinkSubscribeRequest(chatId, link))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response ->
-                        Mono.error(new LinkSubscribeException("Не удалось отписаться от ссылки:" + link)))
+                        Mono.error(new LinkServiceException("Не удалось отписаться от ссылки:" + link)))
                 .bodyToMono(Boolean.class)
                 .timeout(TIMEOUT)
                 .retryWhen(Retry.backoff(3, Duration.ofMillis(100)))
@@ -155,13 +152,29 @@ public class ScrapperApiClient {
                 });
     }
 
+    public Mono<Integer> getCountAnswer(long chatId, String link) {
+        return webClient.post()
+                .uri(TG_GET_COUNT_ANSWER)
+                .bodyValue(new LinkRecords.LinkGetCountAnswerRequest(chatId, link))
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, response -> Mono.error(new LinkServiceException("Не удалось получить количество ответов " + link)))
+                .bodyToMono(Integer.class)
+                .timeout(TIMEOUT)
+                .retryWhen(Retry.backoff(3, Duration.ofMillis(100)))
+                .onErrorResume(e -> {
+                    log.error("Не удалось получить количество ответов  {}", link);
+                    return Mono.just(-1);
+                });
+
+    }
+
     public Mono<Boolean> subscribeStock(long chatId, String ticker) {
         return webClient.post()
                 .uri(TG_STOCK_SUBSCRIBE)
                 .bodyValue(new StockRecords.StockSubscribeRequest(chatId, ticker))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response ->
-                        Mono.error(new StockSubscribeException("Ошибка при подписке")))
+                        Mono.error(new StockServiceException("Ошибка при подписке")))
                 .bodyToMono(Boolean.class)
                 .timeout(TIMEOUT)
                 .retryWhen(Retry.backoff(3, Duration.ofMillis(100)))
@@ -172,12 +185,12 @@ public class ScrapperApiClient {
     }
 
     public Mono<Boolean> isExistStock(long chatId, String ticker) {
-       return webClient.post()
+        return webClient.post()
                 .uri(TG_CHAT_EXISTS)
                 .bodyValue(new StockRecords.StockExistRequest(chatId, ticker))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response ->
-                        Mono.error(new StockAlreadyExist("Ошибка в посике акции")))
+                        Mono.error(new StockServiceException("Ошибка в посике акции")))
                 .bodyToMono(Boolean.class)
                 .timeout(TIMEOUT)
                 .retryWhen(Retry.backoff(3, Duration.ofMillis(100)))
@@ -187,12 +200,13 @@ public class ScrapperApiClient {
                 });
     }
 
-    public Mono<Set<String>> getSubscribeStock(long chatId){
+    public Mono<Set<String>> getSubscribeStock(long chatId) {
         return webClient.post()
                 .uri(TG_STOCK_GET_SUBSCRIPTIONS)
                 .bodyValue(new StockRecords.StockGetRequest(chatId))
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Set<String>>() {})
+                .bodyToMono(new ParameterizedTypeReference<Set<String>>() {
+                })
                 .timeout(TIMEOUT)
                 .retryWhen(Retry.backoff(3, Duration.ofMillis(100)))
                 .onErrorResume(e -> {
@@ -201,13 +215,13 @@ public class ScrapperApiClient {
                 });
     }
 
-    public Mono<Boolean> unSubscribeStock(long chatId, String ticker){
+    public Mono<Boolean> unSubscribeStock(long chatId, String ticker) {
         return webClient.post()
                 .uri(TG_STOCK_UNSUBSCRIBE)
                 .bodyValue(new StockRecords.StockSubscribeRequest(chatId, ticker))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response ->
-                        Mono.error(new StockSubscribeException("Ошибка при отписке акции")))
+                        Mono.error(new StockServiceException("Ошибка при отписке акции")))
                 .bodyToMono(Boolean.class)
                 .timeout(TIMEOUT)
                 .retryWhen(Retry.backoff(3, Duration.ofMillis(100)))

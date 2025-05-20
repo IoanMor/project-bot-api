@@ -5,17 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.telegrambot.client.ScrapperApiClient;
 import me.ivanmorozov.telegrambot.client.StackExchangeClient;
 
-import org.hibernate.query.sql.internal.ParameterRecognizerImpl;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 import reactor.util.retry.Retry;
 
 import java.time.Duration;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
