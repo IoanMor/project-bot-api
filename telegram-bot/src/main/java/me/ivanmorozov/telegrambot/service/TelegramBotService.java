@@ -29,7 +29,7 @@ import java.util.*;
 public class TelegramBotService extends TelegramLongPollingBot {
     private final TelegramBotConfig botConfig;
     private final ScrapperApiClient client;
-    private final StockApiClient stockClient;
+
 
     @Override
     public String getBotUsername() {
@@ -42,10 +42,9 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    public TelegramBotService(TelegramBotConfig botConfig, ScrapperApiClient client, StockApiClient stackClient) {
+    public TelegramBotService(TelegramBotConfig botConfig, ScrapperApiClient client) {
         this.botConfig = botConfig;
         this.client = client;
-        this.stockClient = stackClient;
 
 
         List<BotCommand> listCommand = new ArrayList<>();
@@ -87,26 +86,19 @@ public class TelegramBotService extends TelegramLongPollingBot {
 
             if (msg.startsWith("/track")) {
                 handleTrackCommand(msg, chatId);
-            }
-            else if (msg.startsWith("/untrack")) {
+            } else if (msg.startsWith("/untrack")) {
                 unTrackCommand(chatId, msg);
-            }
-            else if (msg.startsWith("/tstock")) {
+            } else if (msg.startsWith("/tstock")) {
                 trackStock(chatId, msg);
-            }
-            else if (msg.startsWith("/utstock")) {
+            } else if (msg.startsWith("/utstock")) {
                 untrackStock(chatId, msg);
-            }
-            else if (msg.startsWith("/stock")) {
+            } else if (msg.startsWith("/stock")) {
                 getAllStockSubscribes(chatId);
-            }
-            else if (msg.startsWith("/links")) {
+            } else if (msg.startsWith("/links")) {
                 getAllLinksSubscribes(chatId);
-            }
-            else if ("/help".equalsIgnoreCase(msg)) {
+            } else if ("/help".equalsIgnoreCase(msg)) {
                 sendMsg(chatId, HELP_TEXT);
-            }
-            else {
+            } else {
                 sendMsg(chatId, "❌ Неизвестная команда. Введите /help для списка команд");
             }
 
@@ -240,7 +232,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
         }
         String ticker = parts[1].trim();
 
-        if (ticker.isBlank() || ticker==null) {
+        if (ticker.isBlank() || ticker == null) {
             sendMsg(chatId, "❌ Неверный формат. Пример: /tStock AAPL (пример акции Apple)");
             return;
         }
@@ -292,18 +284,32 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
     public void getAllStockSubscribes(long chatId) {
-        Set<String> stock = client.getSubscribeStock(chatId).timeout(Duration.ofSeconds(5)).block();
-        if (stock == null || stock.isEmpty()) {
-            sendMsg(chatId, "ℹ️ Вы еще не подписались ни на одну акцию");
-        } else {
+        try {
+            Set<String> stock = client.getSubscribeStock(chatId).timeout(Duration.ofSeconds(5)).block();
+            if (stock == null || stock.isEmpty()) {
+                sendMsg(chatId, "ℹ️ Вы еще не подписались ни на одну акцию");
+                return;
+            } else {
 
-            StringBuilder message = new StringBuilder("📋 Стоимость интерисующих вас акций:\n");
-            int i = 1;
-            for (String oneStock : stock) {
-                BigDecimal price = stockClient.getPrice(oneStock).timeout(Duration.ofSeconds(5)).block();
-                message.append(i++).append(" - ").append(oneStock).append(" - rub.").append(price).append("\n");
+                StringBuilder message = new StringBuilder("📋 Стоимость интерисующих вас акций:\n");
+                int counter = 1;
+                for (String oneStock : stock) {
+
+
+                    BigDecimal price = client.getPriceStock(oneStock).timeout(Duration.ofSeconds(5)).block();
+                    message.append(counter++)
+                            .append(" - ")
+                            .append(stock)
+                            .append(" - rub.")
+                            .append(price != null ? String.format("%.2f", price) : "N/A")
+                            .append("\n");
+
+                }
+                sendMsg(chatId, message.toString());
             }
-            sendMsg(chatId, message.toString());
+        } catch (Exception e) {
+            log.error("Ошибка получения подписок для chatId {}: {}", chatId, e.getMessage());
+            sendMsg(chatId, "⚠️ Произошла ошибка при получении данных. Попробуйте позже.");
         }
     }
 

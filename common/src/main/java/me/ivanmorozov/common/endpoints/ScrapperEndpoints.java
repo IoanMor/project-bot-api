@@ -20,4 +20,5 @@ public class ScrapperEndpoints {
     public static final String TG_STOCK_CHECK_EXISTS = TG_STOCK + "/check-exists";
     public static final String TG_STOCK_UNSUBSCRIBE = TG_STOCK + "/unsubscribe";
     public static final String TG_STOCK_GET_SUBSCRIPTIONS = TG_STOCK + "/get-subscriptions";
+    public static final String TG_STOCK_GET_PRICE = TG_STOCK + "/get-price-stock";
 }
