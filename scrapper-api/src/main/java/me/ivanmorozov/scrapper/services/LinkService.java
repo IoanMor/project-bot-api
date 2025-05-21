@@ -51,9 +51,6 @@ public class LinkService {
         return linkRepository.existsByLink(chatId, link);
     }
 
-    public Set<String> getSubscriptions(long chatId) {
-        return linkRepository.getLinks(chatId);
-    }
 
     public void updateCountAnswer(long chatId, String link, int count) {
         linkRepository.updateCountAnswer(chatId, link, count);

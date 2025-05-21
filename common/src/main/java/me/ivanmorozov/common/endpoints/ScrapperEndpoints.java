@@ -1,9 +1,11 @@
 package me.ivanmorozov.common.endpoints;
 
 public class ScrapperEndpoints {
-    public static final String TG_CHAT_URI = "http://localhost:9030";
+    public static final String TG_SCRAPPER_URI = "http://localhost:9030";
+    public static final String TG_BOT_URI = "http://localhost:8080";
 
     public static final String TG_CHAT = "/tg-chat";
+    public static final String TG_BOT_SEND_MESSAGE = TG_CHAT + "/send/userMsg";
     public static final String TG_CHAT_REGISTER = TG_CHAT + "/register";
     public static final String TG_CHAT_EXISTS = TG_CHAT + "/check-exists";
     public static final String TG_CHAT_GET_ALL_REGISTER = TG_CHAT+"/getAll-chats";

@@ -1,4 +1,4 @@
-package me.ivanmorozov.telegrambot.client;
+package me.ivanmorozov.scrapper.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

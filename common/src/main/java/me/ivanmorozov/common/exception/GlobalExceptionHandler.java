@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    public record ErrorResponse(String msg, String errorCode){}
+    public record ErrorResponse(String msg, String errorCode) {
+    }
 
 
     @ExceptionHandler(LinkServiceException.class)
@@ -23,12 +24,18 @@ public class GlobalExceptionHandler {
         log.error("Ошибка в выполнеии  : {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(ex.getMessage(), "ERROR_ON_STOCK_SERVICE"));
     }
+
     @ExceptionHandler(ChatServiceException.class)
     public ResponseEntity<ErrorResponse> handleLinkSubscriptionException(ChatServiceException ex) {
         log.error("Ошибка в выполнеии  : {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(ex.getMessage(), "ERROR_ON_STOCK_SERVICE"));
     }
 
+    @ExceptionHandler(SendChatException.class)
+    public ResponseEntity<ErrorResponse> handleSendChatException(SendChatException ex) {
+        log.error("Ошибка в выполнении: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(ex.getMessage(), "ERROR_SENS_MESSAGE"));
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {

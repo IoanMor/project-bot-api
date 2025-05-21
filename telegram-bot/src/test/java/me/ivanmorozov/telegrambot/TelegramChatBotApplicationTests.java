@@ -1,6 +1,6 @@
 package me.ivanmorozov.telegrambot;
 
-import me.ivanmorozov.telegrambot.client.StockApiClient;
+import me.ivanmorozov.scrapper.client.StockApiClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -3,15 +3,12 @@ package me.ivanmorozov.telegrambot.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.telegrambot.client.ScrapperApiClient;
-import me.ivanmorozov.telegrambot.client.StockApiClient;
-import me.ivanmorozov.telegrambot.service.CheckSubscribeService;
+import me.ivanmorozov.scrapper.client.StockApiClient;
+import me.ivanmorozov.scrapper.services.CheckSubscribeService;
 import me.ivanmorozov.telegrambot.service.TelegramBotService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
-import java.math.BigDecimal;
 import java.util.Set;
 
 @RestController

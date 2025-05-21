@@ -5,7 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.common.exception.ChatServiceException;
 import me.ivanmorozov.scrapper.repositories.TelegramChatRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.util.retry.Retry;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
@@ -62,6 +65,12 @@ public class ChatService {
         }
     }
 
+    public Flux<Long> getAllChatsWithRetry() {
+        return Flux.defer(() -> Flux.fromIterable(getAllRegisteredChat()))
+                .timeout(Duration.ofSeconds(10))
+                .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
+                .doOnError(e -> log.error("Окончательная ошибка получения чатов: {}", e.getMessage()));
 
+    }
 
 }

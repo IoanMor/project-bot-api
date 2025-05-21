@@ -3,7 +3,7 @@ package me.ivanmorozov.telegrambot.service;
 
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.telegrambot.client.ScrapperApiClient;
-import me.ivanmorozov.telegrambot.client.StockApiClient;
+import me.ivanmorozov.scrapper.client.StockApiClient;
 import me.ivanmorozov.telegrambot.config.TelegramBotConfig;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -17,12 +17,11 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import static me.ivanmorozov.common.constMsg.Msg.*;
+import static me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow.parseQuestionId;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 @Service
@@ -327,21 +326,8 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    public Optional<Long> parseQuestionId(String link) {
-        try {
-            //  для StackOverflow
-            Pattern pattern = Pattern.compile("stackoverflow\\.com/questions/(\\d+)");
-            Matcher matcher = pattern.matcher(link);
-            if (matcher.find()) {
-                return Optional.of(Long.parseLong(matcher.group(1)));
-            }
-            return Optional.empty();
-        } catch (NumberFormatException e) {
-            return Optional.empty();
-        }
-    }
-
     private boolean isChatRegister(long chatId) {
         return Boolean.TRUE.equals(client.isChatRegister(chatId).timeout(Duration.ofSeconds(5)).block());
     }
+
 }

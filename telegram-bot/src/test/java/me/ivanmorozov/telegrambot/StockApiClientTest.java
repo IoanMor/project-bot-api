@@ -1,18 +1,16 @@
 package me.ivanmorozov.telegrambot;
 
 
-import me.ivanmorozov.telegrambot.client.StockApiClient;
+import me.ivanmorozov.scrapper.client.StockApiClient;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class StockApiClientTest {
 

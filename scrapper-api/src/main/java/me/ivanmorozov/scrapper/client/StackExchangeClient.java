@@ -1,34 +1,38 @@
-package me.ivanmorozov.telegrambot.client;
+package me.ivanmorozov.scrapper.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
+import me.ivanmorozov.scrapper.services.LinkService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
 import java.time.Duration;
 
 import static me.ivanmorozov.common.apiUrl.APIUrl.STACK_API_URL;
+import static me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow.parseQuestionId;
 
 @Component
 @Slf4j
 
 public class StackExchangeClient {
     private final WebClient webClient;
-    private final ScrapperApiClient client;
+    private final LinkService linkService;
+    private final TelegramBotClient botClient;
 
-
-    public StackExchangeClient(ScrapperApiClient client) {
-        this.client = client;
+    public StackExchangeClient(LinkService linkService, TelegramBotClient botClient) {
+        this.linkService = linkService;
+        this.botClient = botClient;
         this.webClient = WebClient.builder()
                 .baseUrl(STACK_API_URL)
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE).build();
     }
 
-    public Mono<Boolean> trackLink(Long questionId) {
+    public Mono<Boolean> trackLink(Long questionId, long chatId, String link) {
         String url = "/questions/" + questionId + "/answers?order=desc&sort=creation&site=stackoverflow&filter=total";
         log.info("Запрос к API: {}", url);
         return webClient.get()
@@ -38,8 +42,7 @@ public class StackExchangeClient {
                 .doOnNext(response -> log.info("Ответ API: {}", response))
                 .map(response -> {
                     int currentCount = response.path("total").asInt();
-                    int storedCount = client.getCountAnswer();
-
+                    int storedCount = linkService.getCountAnswer(chatId, link);
                     if (currentCount > storedCount) {
                         log.info("Новое сообщение по ссылке {} ",link);
                         linkService.updateCountAnswer(chatId, link, currentCount);
@@ -53,4 +56,7 @@ public class StackExchangeClient {
                     return Mono.just(false);
                 });
     }
+
+
+
 }

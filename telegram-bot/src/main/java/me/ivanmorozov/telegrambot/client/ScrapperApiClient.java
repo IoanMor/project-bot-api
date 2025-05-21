@@ -30,7 +30,7 @@ public class ScrapperApiClient {
     private final Duration TIMEOUT = Duration.ofSeconds(5);
 
     public ScrapperApiClient() {
-        this.webClient = WebClient.create(TG_CHAT_URI);
+        this.webClient = WebClient.create(TG_SCRAPPER_URI);
     }
 
 
