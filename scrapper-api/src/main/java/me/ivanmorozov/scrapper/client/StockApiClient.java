@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import static me.ivanmorozov.common.apiUrl.APIUrl.STOCK_API_URL;
 
 @Component
-
 public class StockApiClient {
     private final WebClient webClient;
 

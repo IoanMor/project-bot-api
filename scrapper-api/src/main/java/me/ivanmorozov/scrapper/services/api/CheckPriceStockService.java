@@ -1,20 +1,19 @@
-package me.ivanmorozov.scrapper.services;
+package me.ivanmorozov.scrapper.services.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.ivanmorozov.common.exception.StockServiceException;
+import me.ivanmorozov.scrapper.client.StockApiClient;
 import me.ivanmorozov.scrapper.client.TelegramBotClient;
-import me.ivanmorozov.telegrambot.client.ScrapperApiClient;
-import me.ivanmorozov.telegrambot.client.StockApiClient;
+import me.ivanmorozov.scrapper.services.db.ChatService;
+import me.ivanmorozov.scrapper.services.db.StockService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
-import reactor.util.retry.Retry;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +21,7 @@ import java.time.Duration;
 public class CheckPriceStockService {
    private final ChatService chatService;
    private final StockService stockService;
+   private final StockApiClient stockApiClient;
    private final TelegramBotClient botClient;
 
     @Scheduled(cron = "0 30 9 * * ?")
@@ -38,10 +38,20 @@ public class CheckPriceStockService {
     public Mono<Void> checkSubscribeStock(long chatId) {
       return Flux.fromIterable(stockService.getSubscriptions(chatId))
               .flatMap(ticker -> {
-                  try {
-                      return
-                  }
-              })
+
+                      return stockApiClient.getPrice(ticker)
+                              .filter(price -> price.compareTo(BigDecimal.ZERO)>=0)
+                              .flatMap(price->{
+                                  String msg = String.format("%s - цена = %2f", ticker,price);
+                                  return botClient.sendReactiveMsg(chatId,msg);
+                              })
+                              .onErrorResume(e->{
+                                  log.error("Ошибка обработки акции {}: {}", ticker, e.getMessage());
+                                  return Mono.empty();
+                              })
+                              .subscribeOn(Schedulers.boundedElastic());
+
+              }).then();
     }
 
 }

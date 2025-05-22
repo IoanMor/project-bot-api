@@ -1,4 +1,4 @@
-package me.ivanmorozov.scrapper.services;
+package me.ivanmorozov.scrapper.services.db;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

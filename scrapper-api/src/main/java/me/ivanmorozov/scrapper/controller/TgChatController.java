@@ -9,13 +9,13 @@ import me.ivanmorozov.common.records.StockRecords;
 
 import me.ivanmorozov.common.endpoints.ScrapperEndpoints;
 
-import me.ivanmorozov.scrapper.client.StackExchangeClient;
-import me.ivanmorozov.scrapper.services.ChatService;
-import me.ivanmorozov.scrapper.services.LinkService;
-import me.ivanmorozov.scrapper.services.StockService;
+import me.ivanmorozov.scrapper.services.db.ChatService;
+import me.ivanmorozov.scrapper.services.db.LinkService;
+import me.ivanmorozov.scrapper.services.db.StockService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 @RestController
@@ -65,7 +65,7 @@ public class TgChatController {
 
     @PostMapping(ScrapperEndpoints.TG_GET_COUNT_ANSWER)
     public ResponseEntity<Integer> getCountSubscribeAnswer(@RequestBody LinkRecords.LinkGetCountAnswerRequest request) {
-        return ResponseEntity.ok(linkService.getCountAnswer(request.chatId(),request.link()));
+        return ResponseEntity.ok(linkService.getCountAnswer(request.chatId(), request.link()));
     }
 
 
@@ -87,6 +87,11 @@ public class TgChatController {
     @PostMapping(ScrapperEndpoints.TG_STOCK_GET_SUBSCRIPTIONS)
     public ResponseEntity<Set<String>> getAllSubscribeStock(@RequestBody StockRecords.StockGetRequest request) {
         return ResponseEntity.ok(stockService.getSubscriptions(request.chatId()));
+    }
+
+    @PostMapping(ScrapperEndpoints.TG_STOCK_GET_PRICE)
+    public ResponseEntity<BigDecimal> getPriceStock(@RequestBody StockRecords.StockPriceRequest request) {
+        return ResponseEntity.ok(stockService.getStockPrice(request.ticker()));
     }
 
 }

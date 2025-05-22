@@ -1,12 +1,16 @@
-package me.ivanmorozov.scrapper.services;
+package me.ivanmorozov.scrapper.services.db;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.ivanmorozov.scrapper.client.StockApiClient;
 import me.ivanmorozov.scrapper.model.SubscribeStock;
 import me.ivanmorozov.scrapper.repositories.StockRepository;
-import me.ivanmorozov.scrapper.repositories.old.StockRepositories;
-import org.springframework.stereotype.Service;
 
+import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
+
+import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.Set;
 
 @Service
@@ -14,6 +18,7 @@ import java.util.Set;
 @Slf4j
 public class StockService {
     private final StockRepository stockRepository;
+    private final StockApiClient stockApiClient;
 
     public boolean subscribe(long chatId, String ticker) {
         try {
@@ -41,5 +46,9 @@ public class StockService {
 
     public Set<String> getSubscriptions(long chatId) {
         return stockRepository.getTickersByChatId(chatId);
+    }
+
+    public BigDecimal getStockPrice(String ticker){
+       return stockApiClient.getPrice(ticker).timeout(Duration.ofSeconds(5)).block();
     }
 }

@@ -2,19 +2,17 @@ package me.ivanmorozov.scrapper.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.scrapper.services.LinkService;
+import me.ivanmorozov.scrapper.services.db.LinkService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
 import java.time.Duration;
 
 import static me.ivanmorozov.common.apiUrl.APIUrl.STACK_API_URL;
-import static me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow.parseQuestionId;
 
 @Component
 @Slf4j
@@ -22,11 +20,11 @@ import static me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow.parseQuestion
 public class StackExchangeClient {
     private final WebClient webClient;
     private final LinkService linkService;
-    private final TelegramBotClient botClient;
 
-    public StackExchangeClient(LinkService linkService, TelegramBotClient botClient) {
+
+    public StackExchangeClient(LinkService linkService) {
         this.linkService = linkService;
-        this.botClient = botClient;
+
         this.webClient = WebClient.builder()
                 .baseUrl(STACK_API_URL)
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE).build();

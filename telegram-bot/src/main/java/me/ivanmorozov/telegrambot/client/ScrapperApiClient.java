@@ -17,6 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Set;
 
@@ -230,4 +231,27 @@ public class ScrapperApiClient {
                     return Mono.just(false);
                 });
     }
+
+    public Mono<BigDecimal> getPriceStock(String ticker){
+        return webClient.post()
+                .uri(TG_STOCK_GET_PRICE)
+                .bodyValue(new StockRecords.StockPriceRequest(ticker))
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, response ->
+                        Mono.error(new StockServiceException("Ошибка при получении цены акции")))
+                .bodyToMono(BigDecimal.class)
+                .timeout(TIMEOUT)
+                .retryWhen(Retry.backoff(3,Duration.ofMillis(100)))
+                .doOnSuccess(price -> {
+                    if (price.compareTo(BigDecimal.ZERO) < 0) {
+                        log.warn("Получена некорректная цена для {}: {}", ticker, price);
+                    }
+                })
+                .onErrorResume(e->{
+                    log.error("Не удалось получить цену акции из {}", ticker);
+                    return Mono.just(BigDecimal.valueOf(-1));
+                });
+
+    }
+
 }
