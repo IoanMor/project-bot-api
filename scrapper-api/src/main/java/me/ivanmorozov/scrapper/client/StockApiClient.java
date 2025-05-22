@@ -30,7 +30,6 @@ public class StockApiClient {
                 .flatMap(response -> parsingPrice(response, ticker))
                 .onErrorResume(e -> Mono.error(new RuntimeException("Ошибка при получении цены акции  " + ticker + "\n" + e.getMessage())));
     }
-
     private Mono<BigDecimal> parsingPrice(String jsonResponse, String ticker) {
         try {
             JsonNode root = new ObjectMapper().readTree(jsonResponse);
