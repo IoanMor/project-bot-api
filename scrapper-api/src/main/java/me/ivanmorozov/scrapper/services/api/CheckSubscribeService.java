@@ -3,7 +3,7 @@ package me.ivanmorozov.scrapper.services.api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import me.ivanmorozov.scrapper.client.StackExchangeClient;
+import me.ivanmorozov.scrapper.client.StackOverflowClient;
 
 import me.ivanmorozov.scrapper.client.TelegramBotClient;
 import me.ivanmorozov.scrapper.services.db.ChatService;
@@ -26,7 +26,7 @@ public class CheckSubscribeService {
     private final LinkService linkService;
     private final ChatService chatService;
     private final TelegramBotClient botClient;
-    private final StackExchangeClient client;
+    private final StackOverflowClient client;
 
     @Scheduled(fixedDelay = 60000) // 1 мин
     public void checkUpdates() {

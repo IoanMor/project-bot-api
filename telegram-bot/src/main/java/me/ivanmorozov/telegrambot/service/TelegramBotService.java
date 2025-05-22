@@ -241,6 +241,9 @@ public class TelegramBotService extends TelegramLongPollingBot {
             boolean isStock = Boolean.TRUE.equals(client.isExistStock(chatId, ticker)
                     .timeout(Duration.ofSeconds(5))
                     .block());
+
+            System.out.println(isStock); // потом удалить
+
             if (isStock) {
                 sendMsg(chatId, "ℹ️ Вы уже подписаны на этот тикер(Акцию)");
                 return;

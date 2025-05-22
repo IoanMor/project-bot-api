@@ -3,11 +3,11 @@ package me.ivanmorozov.scrapper.services.db;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.scrapper.client.StockApiClient;
-import me.ivanmorozov.scrapper.model.SubscribeStock;
 import me.ivanmorozov.scrapper.repositories.StockRepository;
 
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -16,6 +16,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class StockService {
     private final StockRepository stockRepository;
     private final StockApiClient stockApiClient;
@@ -40,7 +41,8 @@ public class StockService {
         }
     }
 
-    public boolean isSubscribed(long chatId, String ticker) {
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public boolean isTickerSubscribed(long chatId, String ticker) {
         return stockRepository.existsByTicker(chatId, ticker);
     }
 

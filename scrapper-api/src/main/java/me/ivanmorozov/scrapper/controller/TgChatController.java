@@ -76,7 +76,9 @@ public class TgChatController {
 
     @PostMapping(ScrapperEndpoints.TG_STOCK_CHECK_EXISTS)
     public ResponseEntity<Boolean> isStockExist(@RequestBody StockRecords.StockExistRequest request) {
-        return ResponseEntity.ok(stockService.isSubscribed(request.chatId(), request.ticker()));
+        boolean result = stockService.isTickerSubscribed(request.chatId(), request.ticker());
+        System.out.println(result);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping(ScrapperEndpoints.TG_STOCK_UNSUBSCRIBE)

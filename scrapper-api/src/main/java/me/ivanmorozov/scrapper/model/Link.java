@@ -6,16 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Entity
-@Table(name = "stock")
+@Table(name = "links")
 @Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SubscribeStock {
+public class Link {
     @Id
-    @Column(name = "id_stock")
+    @Column(name = "id_link")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
@@ -23,10 +21,9 @@ public class SubscribeStock {
     @JoinColumn(name = "chat_id", referencedColumnName = "chat_id")
     private TelegramChat chat;
 
-    @Column(name = "ticker", nullable = false, length = 10)
-    private String ticker;
+    @Column(name = "link", nullable = false, length = 1000)
+    private String link;
 
-    @Column(name = "count_stock", nullable = false)
-    private int countStock;
-
+    @Column(name = "count_answer", nullable = false)
+    private int countAnswer;
 }

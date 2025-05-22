@@ -1,6 +1,6 @@
 package me.ivanmorozov.scrapper.repositories;
 
-import me.ivanmorozov.scrapper.model.SubscribeLink;
+import me.ivanmorozov.scrapper.model.Link;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Set;
 
 @Repository
-public interface LinkRepository extends JpaRepository<SubscribeLink, Long> {
+public interface LinkRepository extends JpaRepository<Link, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO links(chat_id,link) VALUES (:chatId,:link) ON CONFLICT DO NOTHING", nativeQuery = true)
+    @Query(value = "INSERT INTO links(chat_id,link) VALUES (:chatId,:link)", nativeQuery = true)
     void insertLink(@Param("chatId") long chatId, @Param("link") String link);
 
     @Modifying
@@ -27,7 +27,7 @@ public interface LinkRepository extends JpaRepository<SubscribeLink, Long> {
     @Query(value = "SELECT link FROM links WHERE chat_id = :chatId", nativeQuery = true)
     Set<String> getLinks(@Param("chatId") long chatId);
 
-    @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM SubscribeLink l WHERE l.chat.chatId = :chatId AND l.link = :link")
+    @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM Link l WHERE l.chat.chatId = :chatId AND l.link = :link")
     boolean existsByLink(@Param("chatId") long chatId, @Param("link") String link);
 
     @Query(value = "SELECT count_answer FROM links WHERE chat_id =:chatId AND link=:link", nativeQuery = true)

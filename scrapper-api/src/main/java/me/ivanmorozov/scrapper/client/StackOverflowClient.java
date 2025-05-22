@@ -17,12 +17,12 @@ import static me.ivanmorozov.common.apiUrl.APIUrl.STACK_API_URL;
 @Component
 @Slf4j
 
-public class StackExchangeClient {
+public class StackOverflowClient {
     private final WebClient webClient;
     private final LinkService linkService;
 
 
-    public StackExchangeClient(LinkService linkService) {
+    public StackOverflowClient(LinkService linkService) {
         this.linkService = linkService;
 
         this.webClient = WebClient.builder()

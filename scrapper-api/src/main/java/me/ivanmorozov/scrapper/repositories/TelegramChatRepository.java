@@ -1,8 +1,6 @@
 package me.ivanmorozov.scrapper.repositories;
 
-import jdk.incubator.vector.VectorOperators;
 import me.ivanmorozov.scrapper.model.TelegramChat;
-import org.springframework.boot.autoconfigure.data.r2dbc.R2dbcRepositoriesAutoConfiguration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

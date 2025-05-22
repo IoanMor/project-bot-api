@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RequiredArgsConstructor
 public class TelegramChat {
     @Id
     @Column(name = "chat_id")
@@ -22,8 +21,8 @@ public class TelegramChat {
     private LocalDateTime registeredAt;
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SubscribeStock> stockSubscriptions = new ArrayList<>();
+    private List<Stock> stockSubscriptions = new ArrayList<>();
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SubscribeLink> linkSubscriptions = new ArrayList<>();
+    private List<Link> linkSubscriptions = new ArrayList<>();
 }
