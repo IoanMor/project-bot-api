@@ -43,7 +43,15 @@ public class StockService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public boolean isTickerSubscribed(long chatId, String ticker) {
-        return stockRepository.existsByTicker(chatId, ticker);
+        try {
+            System.out.println("Метод isTickerSubscribed вызван для chatId=" + chatId + ", ticker=" + ticker);
+            boolean exists = stockRepository.existsByTicker(chatId, ticker);
+            System.out.println("Результат: " + exists);
+            return exists;
+        } catch (Exception e) {
+            System.out.println("Ошибка в isTickerSubscribed: " + e.getMessage());
+            throw e;
+        }
     }
 
     public Set<String> getSubscriptions(long chatId) {

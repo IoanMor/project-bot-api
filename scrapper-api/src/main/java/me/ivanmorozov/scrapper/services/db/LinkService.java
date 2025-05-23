@@ -7,6 +7,7 @@ import me.ivanmorozov.common.exception.LinkServiceException;
 import me.ivanmorozov.scrapper.repositories.LinkRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Set;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class LinkService {
     private final LinkRepository linkRepository;
 

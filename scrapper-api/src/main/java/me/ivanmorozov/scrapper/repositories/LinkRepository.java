@@ -34,6 +34,7 @@ public interface LinkRepository extends JpaRepository<Link, Long> {
     int getCountAnswer(@Param("chatId") long chatId, @Param("link") String link);
 
     @Modifying
-    @Query(value = "UPDATE links SET count_answer = :count WHERE chat_Id=:chatId AND link=:link", nativeQuery = true)
-    void updateCountAnswer(@Param("chatId") long chatId,@Param("link") String link, @Param("count") int count);
+    @Transactional
+    @Query(value = "UPDATE links SET count_answer = :count WHERE chat_id = :chatId AND link = :link", nativeQuery = true)
+    void updateCountAnswer(@Param("chatId") long chatId, @Param("link") String link, @Param("count") int count);
 }

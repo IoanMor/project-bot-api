@@ -1,101 +1,138 @@
-2025-05-22 11:07:56.271 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 3836 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-22 11:07:56.273 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-22 11:07:56.274 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-22 11:07:57.045 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-22 11:07:57.047 [main]  - Starting service [Tomcat]
-2025-05-22 11:07:57.048 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-22 11:07:57.093 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-22 11:07:58.161 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-05-22 11:07:58.238 [main]  - Started TelegramChatBotApplication in 2.32 seconds (process running for 3.151)
-2025-05-22 11:22:01.391 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 4364 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-22 11:22:01.392 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-22 11:22:01.393 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-22 11:22:02.555 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-22 11:22:02.557 [main]  - Starting service [Tomcat]
-2025-05-22 11:22:02.557 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-22 11:22:02.641 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-22 11:22:03.847 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-05-22 11:22:03.937 [main]  - Started TelegramChatBotApplication in 3.127 seconds (process running for 4.196)
-2025-05-22 14:04:01.318 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 9084 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-22 14:04:01.319 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-22 14:04:01.319 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-22 14:04:02.201 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-22 14:04:02.202 [main]  - Starting service [Tomcat]
-2025-05-22 14:04:02.202 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-22 14:04:02.249 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-22 14:04:03.369 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-05-22 14:04:03.446 [main]  - Started TelegramChatBotApplication in 2.571 seconds (process running for 3.523)
-2025-05-22 14:04:17.096 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79633573
-2025-05-22 14:22:15.546 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 4940 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-22 14:22:15.547 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-22 14:22:15.548 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-22 14:22:16.324 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-22 14:22:16.325 [main]  - Starting service [Tomcat]
-2025-05-22 14:22:16.325 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-22 14:22:16.367 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-22 14:22:17.353 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-05-22 14:22:17.427 [main]  - Started TelegramChatBotApplication in 2.274 seconds (process running for 3.199)
-2025-05-22 15:00:28.288 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 7560 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-22 15:00:28.290 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-22 15:00:28.291 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-22 15:00:29.289 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-22 15:00:29.291 [main]  - Starting service [Tomcat]
-2025-05-22 15:00:29.291 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-22 15:00:29.341 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-22 15:00:30.314 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-05-22 15:00:30.391 [main]  - Started TelegramChatBotApplication in 2.533 seconds (process running for 3.472)
-2025-05-22 15:20:54.527 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 9060 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-22 15:20:54.529 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-22 15:20:54.530 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-22 15:20:55.453 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-22 15:20:55.455 [main]  - Starting service [Tomcat]
-2025-05-22 15:20:55.455 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-22 15:20:55.501 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-22 15:20:56.541 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-05-22 15:20:56.638 [main]  - Started TelegramChatBotApplication in 2.551 seconds (process running for 3.428)
-2025-05-22 15:26:04.135 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 9712 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-22 15:26:04.137 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-22 15:26:04.138 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-22 15:26:05.119 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-22 15:26:05.121 [main]  - Starting service [Tomcat]
-2025-05-22 15:26:05.121 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-22 15:26:05.171 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-22 15:26:06.370 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-05-22 15:26:06.457 [main]  - Started TelegramChatBotApplication in 2.808 seconds (process running for 3.675)
-2025-05-22 15:37:29.086 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 5924 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-22 15:37:29.088 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-22 15:37:29.089 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-22 15:37:29.985 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-22 15:37:29.986 [main]  - Starting service [Tomcat]
-2025-05-22 15:37:29.986 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-22 15:37:30.036 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-22 15:37:31.143 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-05-22 15:37:31.222 [main]  - Started TelegramChatBotApplication in 2.668 seconds (process running for 3.574)
-2025-05-22 15:43:09.484 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 3444 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-22 15:43:09.485 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-22 15:43:09.486 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-22 15:43:10.501 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-22 15:43:10.503 [main]  - Starting service [Tomcat]
-2025-05-22 15:43:10.503 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-22 15:43:10.550 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-22 15:43:11.628 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-05-22 15:43:11.707 [main]  - Started TelegramChatBotApplication in 2.718 seconds (process running for 3.624)
-2025-05-22 15:54:14.659 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 9380 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-22 15:54:14.661 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-22 15:54:14.662 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-22 15:54:15.777 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-22 15:54:15.778 [main]  - Starting service [Tomcat]
-2025-05-22 15:54:15.778 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-22 15:54:15.824 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-22 15:54:16.997 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-05-22 15:54:17.080 [main]  - Started TelegramChatBotApplication in 2.904 seconds (process running for 3.835)
-2025-05-22 16:12:53.768 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 8644 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-05-22 16:12:53.769 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-05-22 16:12:53.770 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-05-22 16:12:54.676 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-05-22 16:12:54.678 [main]  - Starting service [Tomcat]
-2025-05-22 16:12:54.678 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-05-22 16:12:54.724 [main]  - Initializing Spring embedded WebApplicationContext
-2025-05-22 16:12:55.700 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-05-22 16:12:55.780 [main]  - Started TelegramChatBotApplication in 2.457 seconds (process running for 3.308)
-2025-05-22 16:14:09.470 [LinkHawkBot Telegram Executor]  - Пользователь подписался: chatId=882850654, questionId=79633681
+2025-05-23 09:50:45.896 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 3408 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 09:50:45.899 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 09:50:45.900 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 09:50:46.926 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 09:50:46.927 [main]  - Starting service [Tomcat]
+2025-05-23 09:50:46.927 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 09:50:46.985 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 09:50:48.302 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 09:50:48.390 [main]  - Started TelegramChatBotApplication in 2.958 seconds (process running for 4.043)
+2025-05-23 10:12:17.470 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 1660 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 10:12:17.471 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 10:12:17.471 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 10:12:18.662 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 10:12:18.663 [main]  - Starting service [Tomcat]
+2025-05-23 10:12:18.663 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 10:12:18.720 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 10:12:19.899 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 10:12:19.981 [main]  - Started TelegramChatBotApplication in 3.027 seconds (process running for 4.081)
+2025-05-23 10:13:09.387 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 5000 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 10:13:09.389 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 10:13:09.390 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 10:13:10.506 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 10:13:10.507 [main]  - Starting service [Tomcat]
+2025-05-23 10:13:10.507 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 10:13:10.557 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 10:13:11.706 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 10:13:11.796 [main]  - Started TelegramChatBotApplication in 2.887 seconds (process running for 3.876)
+2025-05-23 10:17:45.370 [LinkHawkBot Telegram Executor]  - Ошибка обработки команды: java.util.concurrent.TimeoutException: Did not observe any item or terminal signal within 5000ms in 'onErrorResume' (and no fallback has been configured)
+2025-05-23 10:18:10.984 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 7092 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 10:18:10.987 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 10:18:10.988 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 10:18:12.070 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 10:18:12.072 [main]  - Starting service [Tomcat]
+2025-05-23 10:18:12.072 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 10:18:12.131 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 10:18:13.313 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 10:18:13.412 [main]  - Started TelegramChatBotApplication in 3.042 seconds (process running for 4.522)
+2025-05-23 10:18:46.635 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 9420 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 10:18:46.637 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 10:18:46.638 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 10:18:47.678 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 10:18:47.680 [main]  - Starting service [Tomcat]
+2025-05-23 10:18:47.680 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 10:18:47.733 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 10:18:48.760 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 10:18:48.852 [main]  - Started TelegramChatBotApplication in 2.715 seconds (process running for 3.834)
+2025-05-23 10:23:50.261 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 9148 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 10:23:50.263 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 10:23:50.265 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 10:23:51.296 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 10:23:51.296 [main]  - Starting service [Tomcat]
+2025-05-23 10:23:51.296 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 10:23:51.341 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 10:23:52.591 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 10:23:52.673 [main]  - Started TelegramChatBotApplication in 2.828 seconds (process running for 3.994)
+2025-05-23 10:23:59.236 [LinkHawkBot Telegram Executor]  - Пописка на акцию прошла успешно,882850654|SBER
+2025-05-23 11:21:34.160 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 2452 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 11:21:34.161 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 11:21:34.161 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 11:21:35.080 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 11:21:35.083 [main]  - Starting service [Tomcat]
+2025-05-23 11:21:35.083 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 11:21:35.130 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 11:21:36.175 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 11:21:36.258 [main]  - Started TelegramChatBotApplication in 2.543 seconds (process running for 3.409)
+2025-05-23 11:31:12.033 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 10396 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 11:31:12.034 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 11:31:12.035 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 11:31:13.123 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 11:31:13.124 [main]  - Starting service [Tomcat]
+2025-05-23 11:31:13.125 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 11:31:13.175 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 11:31:14.216 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 11:31:14.293 [main]  - Started TelegramChatBotApplication in 2.703 seconds (process running for 3.585)
+2025-05-23 11:41:57.257 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 1192 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 11:41:57.259 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 11:41:57.260 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 11:41:58.195 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 11:41:58.196 [main]  - Starting service [Tomcat]
+2025-05-23 11:41:58.197 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 11:41:58.242 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 11:41:59.223 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 11:41:59.301 [main]  - Started TelegramChatBotApplication in 2.492 seconds (process running for 3.301)
+2025-05-23 11:44:40.907 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 7548 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 11:44:40.909 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 11:44:40.910 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 11:44:41.860 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 11:44:41.862 [main]  - Starting service [Tomcat]
+2025-05-23 11:44:41.862 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 11:44:41.908 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 11:44:43.034 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 11:44:43.115 [main]  - Started TelegramChatBotApplication in 2.652 seconds (process running for 3.505)
+2025-05-23 13:21:23.772 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 8724 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 13:21:23.774 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 13:21:23.775 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 13:21:24.741 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 13:21:24.742 [main]  - Starting service [Tomcat]
+2025-05-23 13:21:24.742 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 13:21:24.796 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 13:21:25.818 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 13:21:25.904 [main]  - Started TelegramChatBotApplication in 2.667 seconds (process running for 3.57)
+2025-05-23 13:40:11.691 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 10016 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 13:40:11.693 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 13:40:11.694 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 13:40:12.990 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 13:40:12.993 [main]  - Starting service [Tomcat]
+2025-05-23 13:40:12.993 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 13:40:13.067 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 13:40:14.266 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 13:40:14.349 [main]  - Started TelegramChatBotApplication in 3.022 seconds (process running for 3.762)
+2025-05-23 13:59:07.618 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 10344 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 13:59:07.620 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 13:59:07.620 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 13:59:08.600 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 13:59:08.601 [main]  - Starting service [Tomcat]
+2025-05-23 13:59:08.601 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 13:59:08.650 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 13:59:09.710 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 13:59:09.791 [main]  - Started TelegramChatBotApplication in 2.645 seconds (process running for 3.483)
+2025-05-23 14:25:57.159 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 8464 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 14:25:57.162 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 14:25:57.162 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 14:25:58.079 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 14:25:58.081 [main]  - Starting service [Tomcat]
+2025-05-23 14:25:58.081 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 14:25:58.132 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 14:25:59.159 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 14:25:59.239 [main]  - Started TelegramChatBotApplication in 2.517 seconds (process running for 3.345)
+2025-05-23 14:33:31.744 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 10900 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-05-23 14:33:31.745 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-23 14:33:31.746 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-05-23 14:33:32.621 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-05-23 14:33:32.622 [main]  - Starting service [Tomcat]
+2025-05-23 14:33:32.622 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-23 14:33:32.675 [main]  - Initializing Spring embedded WebApplicationContext
+2025-05-23 14:33:33.619 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-05-23 14:33:33.697 [main]  - Started TelegramChatBotApplication in 2.314 seconds (process running for 3.063)
+2025-05-23 14:47:05.522 [http-nio-8080-exec-1]  - Initializing Spring DispatcherServlet 'dispatcherServlet'

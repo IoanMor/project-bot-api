@@ -5,17 +5,20 @@ import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.common.exception.ChatServiceException;
 import me.ivanmorozov.scrapper.repositories.TelegramChatRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.util.retry.Retry;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class ChatService {
     private final TelegramChatRepository chatRepository;
 
@@ -26,13 +29,14 @@ public class ChatService {
             return true;
         } catch (Exception e) {
             log.error("Ошибка регистрации чата {}: {}", chatId, e.getMessage());
-            throw new ChatServiceException("Произошла ошибка в регистрации чата \n{error : " + e.getMessage() + "}",e);
+            throw new ChatServiceException("Произошла ошибка в регистрации чата \n{error : " + e.getMessage() + "}", e);
         }
     }
 
     public Set<Long> getAllRegisteredChat() {
         try {
             Set<Long> chats = chatRepository.getAllChats();
+            System.err.println(chats); // удалить
             log.debug("Получено {} зарегистрированных чатов", chats.size());
             return chats;
         } catch (Exception e) {
@@ -66,11 +70,17 @@ public class ChatService {
     }
 
     public Flux<Long> getAllChatsWithRetry() {
-        return Flux.defer(() -> Flux.fromIterable(getAllRegisteredChat()))
-                .timeout(Duration.ofSeconds(10))
-                .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
-                .doOnError(e -> log.error("Окончательная ошибка получения чатов: {}", e.getMessage()));
-
+        return Flux.defer(() -> {
+                    Set<Long> chats = getAllRegisteredChat();
+                    log.debug("Получено {} чатов для проверки", chats.size());
+                    return Flux.fromIterable(chats);
+                })
+                .timeout(Duration.ofSeconds(30)) // Увеличьте таймаут
+                .retryWhen(Retry.backoff(3, Duration.ofSeconds(1))
+                        .doBeforeRetry(r -> log.warn("Повторная попытка #{}. Причина: {}",
+                                r.totalRetries(), r.failure().getMessage())))
+                .doOnError(e -> log.error("Окончательная ошибка получения чатов: {}", e.getMessage()))
+                .doOnComplete(() -> log.debug("Успешно загружены все чаты"));
     }
 
 }

@@ -3,7 +3,6 @@ package me.ivanmorozov.telegrambot.service;
 
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.telegrambot.client.ScrapperApiClient;
-import me.ivanmorozov.scrapper.client.StockApiClient;
 import me.ivanmorozov.telegrambot.config.TelegramBotConfig;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;

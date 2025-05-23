@@ -187,7 +187,7 @@ public class ScrapperApiClient {
 
     public Mono<Boolean> isExistStock(long chatId, String ticker) {
         return webClient.post()
-                .uri(TG_CHAT_EXISTS)
+                .uri(TG_STOCK_CHECK_EXISTS)
                 .bodyValue(new StockRecords.StockExistRequest(chatId, ticker))
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, response ->

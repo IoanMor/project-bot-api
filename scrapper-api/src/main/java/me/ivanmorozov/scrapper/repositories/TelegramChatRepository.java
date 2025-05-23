@@ -19,6 +19,7 @@ public interface TelegramChatRepository extends JpaRepository<TelegramChat,Long>
     void insertNewChat(@Param("chatId") long chatId, @Param("createdAt") LocalDateTime createdAt);
 
     @Query(value = "SELECT chat_id FROM tg_chats", nativeQuery = true)
+    @Transactional(readOnly = true)
     Set<Long> getAllChats();
 
     @Query(value = "SELECT chat_id FROM tg_chats WHERE chat_id=:chatId", nativeQuery = true)

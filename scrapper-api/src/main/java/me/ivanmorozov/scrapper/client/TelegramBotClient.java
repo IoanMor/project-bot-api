@@ -20,7 +20,7 @@ public class TelegramBotClient {
     private final Duration TIMEOUT = Duration.ofSeconds(5);
 
     public TelegramBotClient() {
-        this.webClient = WebClient.create(TG_SCRAPPER_URI);
+        this.webClient = WebClient.create(TG_BOT_URI);
     }
 
     public Mono<Void> sendReactiveMsg(long chatId, String msg) {

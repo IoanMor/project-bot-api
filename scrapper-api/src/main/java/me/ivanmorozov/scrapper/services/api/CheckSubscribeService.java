@@ -30,14 +30,25 @@ public class CheckSubscribeService {
 
     @Scheduled(fixedDelay = 60000) // 1 мин
     public void checkUpdates() {
-      chatService.getAllChatsWithRetry()
-              .flatMap(this::checkUserSubscriptions).subscribeOn(Schedulers.boundedElastic())
-              .doOnComplete(()-> log.info("=Проверка чатов завершена="))
-              .subscribe(
-                      null,
-                      error -> log.error("Фатальная ошибка при проверке: {}", error.getMessage())
-              );
+        log.info("=== Запуск проверки обновлений ===");
+        chatService.getAllChatsWithRetry()
+                .parallel()
+                .runOn(Schedulers.boundedElastic())
+                .flatMap(chatId -> checkUserSubscriptions(chatId)
+                        .timeout(Duration.ofSeconds(30))
+                        .onErrorResume(e -> {
+                            log.error("Ошибка при проверке чата {}: {}", chatId, e.getMessage());
+                            return Mono.empty();
+                        }))
+                .sequential()
+                .subscribe(
+                        result -> {},
+                        error -> log.error("Фатальная ошибка в потоке проверки: {}", error.getMessage()),
+                        () -> log.info("Цикл проверки завершен успешно")
+                );
+
     }
+
     public Mono<Void> checkUserSubscriptions(Long chatId) {
         return Flux.fromIterable(linkService.getAllSubscribeLinks(chatId))
                 .flatMap(link -> {
@@ -46,6 +57,11 @@ public class CheckSubscribeService {
                                 .orElseThrow(() -> new IllegalArgumentException("Invalid link"));
 
                         return client.trackLink(questionId, chatId, link)
+                                .timeout(Duration.ofSeconds(5))
+                                .onErrorResume(e -> {
+                                    log.error("Ошибка при проверке кол-ва ответов {}: {}", link, e.getMessage());
+                                    return Mono.empty();
+                                })
                                 .filter(Boolean.TRUE::equals)
                                 .flatMap(__ -> {
                                     String msg = "🔔 Новый ответ: " + link;
@@ -59,5 +75,6 @@ public class CheckSubscribeService {
                 })
                 .then();
     }
+
 
 }
