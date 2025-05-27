@@ -1,4 +1,4 @@
-package me.ivanmorozov.scrapper.controller;
+package me.ivanmorozov.scrapper.controller.old;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 import java.util.Set;
 
-@RestController
+
 @RequiredArgsConstructor
 @Slf4j
 public class TgChatController {
