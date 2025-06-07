@@ -9,10 +9,12 @@ logging:
 
 spring:
   kafka:
+    admin:
+      auto-create: true
     bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       group-id: telegram-bot
       auto-offset-reset: earliest

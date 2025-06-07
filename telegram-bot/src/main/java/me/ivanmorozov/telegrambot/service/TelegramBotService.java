@@ -2,8 +2,12 @@ package me.ivanmorozov.telegrambot.service;
 
 
 import lombok.extern.slf4j.Slf4j;
+import me.ivanmorozov.common.kafka.KafkaTopics;
+import me.ivanmorozov.common.records.ChatRecords;
+import me.ivanmorozov.common.records.LinkRecords;
 import me.ivanmorozov.telegrambot.client.ScrapperApiClient;
 import me.ivanmorozov.telegrambot.config.TelegramBotConfig;
+import me.ivanmorozov.telegrambot.service.kafka.TelegramKafkaProducer;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
@@ -29,6 +33,8 @@ public class TelegramBotService extends TelegramLongPollingBot {
     private final TelegramBotConfig botConfig;
     private final ScrapperApiClient client;
 
+    private final TelegramKafkaProducer kafkaProducer;
+
 
     @Override
     public String getBotUsername() {
@@ -41,9 +47,10 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    public TelegramBotService(TelegramBotConfig botConfig, ScrapperApiClient client) {
+    public TelegramBotService(TelegramBotConfig botConfig, ScrapperApiClient client, TelegramKafkaProducer kafkaProducer) {
         this.botConfig = botConfig;
         this.client = client;
+        this.kafkaProducer = kafkaProducer;
 
 
         List<BotCommand> listCommand = new ArrayList<>();
@@ -118,25 +125,13 @@ public class TelegramBotService extends TelegramLongPollingBot {
         String safeName = userName != null ? userName : "пользователь";
         sendMsg(chatId, "Приветствую, " + safeName + "...");
 
-        try {
-            boolean isRegistered = Boolean.TRUE.equals(client.isChatRegister(chatId)
-                    .block(Duration.ofSeconds(5)));
+        kafkaProducer.send(
+                KafkaTopics.TG_CHAT_EXIST_REQ,
+                String.valueOf(chatId),
+                new ChatRecords.ChatExistsRequest(chatId)
+        );
 
-            if (isRegistered) {
-                sendMsg(chatId, "ℹ️ Вы уже зарегистрированы.");
-            } else {
-                sendMsg(chatId, "🔄 Вы еще не зарегистрированы. Выполняю регистрацию...");
-
-                boolean success = Boolean.TRUE.equals(client.registerChat(chatId)
-                        .block(Duration.ofSeconds(5)));
-
-                String resultMsg = success ? START_TEXT : "⚠️ Не удалось зарегистрировать. Попробуйте позже.";
-                sendMsg(chatId, resultMsg);
-            }
-        } catch (Exception e) {
-            sendMsg(chatId, "❌ Произошла ошибка при попытке регистрации.");
-            log.error("Ошибка регистрации: id " + chatId + "/ msg - " + e.getMessage());
-        }
+        sendMsg(chatId, "🔍 Проверяем вашу регистрацию...");
     }
 
 
@@ -156,24 +151,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
         }
 
         try {
-            Boolean alreadySubscribed = client.isLinkSubscribe(chatId, link)
-                    .timeout(Duration.ofSeconds(3))
-                    .block();
-
-            if (Boolean.TRUE.equals(alreadySubscribed)) {
-                sendMsg(chatId, "ℹ️ Вы уже подписаны на этот вопрос");
-                return;
-            }
-            Boolean subscriptionResult = client.subscribeLink(chatId, link)
-                    .timeout(Duration.ofSeconds(5))
-                    .block();
-
-            if (Boolean.TRUE.equals(subscriptionResult)) {
-                sendMsg(chatId, "✅ Вы подписаны на: " + link);
-                log.info("Пользователь подписался: chatId={}, questionId={}", chatId, questionIdOp.get());
-            } else {
-                sendMsg(chatId, "❌ Не удалось подписаться (проверьте ссылку)");
-            }
+            kafkaProducer.send(KafkaTopics.LINK_SUBSCRIBE_EXIST_REQ, link, new LinkRecords.LinkExistRequest(chatId, link));
 
         } catch (Exception e) {
             log.error("Ошибка подписки chatId={}: {}", chatId, e.getMessage());

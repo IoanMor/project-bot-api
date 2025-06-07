@@ -2,6 +2,7 @@ package me.ivanmorozov.scrapper.controller.old;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.ivanmorozov.common.kafka.KafkaTopics;
 import me.ivanmorozov.common.records.ChatRecords;
 import me.ivanmorozov.common.records.LinkRecords;
 
@@ -13,6 +14,7 @@ import me.ivanmorozov.scrapper.client.StackOverflowClient;
 import me.ivanmorozov.scrapper.services.db.ChatService;
 import me.ivanmorozov.scrapper.services.db.LinkService;
 import me.ivanmorozov.scrapper.services.db.StockService;
+import me.ivanmorozov.scrapper.services.kafka.ScrapperKafkaProducer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -28,7 +30,7 @@ public class TgChatController {
     private final LinkService linkService;
     private final StockService stockService;
 
-    private final StackOverflowClient stackOverflowClient; // удалить
+
 
 
     @PostMapping(ScrapperEndpoints.TG_CHAT_REGISTER)
