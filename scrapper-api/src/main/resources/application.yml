@@ -11,13 +11,15 @@ spring:
   kafka:
     admin:
       auto-create: true
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka:9092,localhost:29092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      retries: 3  # Попытки повтора при ошибках
     consumer:
       group-id: telegram-bot
       auto-offset-reset: earliest
+      enable-auto-commit: false
   flyway:
     enabled: true
   application:

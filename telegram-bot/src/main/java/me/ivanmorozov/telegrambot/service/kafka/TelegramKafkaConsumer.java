@@ -3,8 +3,10 @@ package me.ivanmorozov.telegrambot.service.kafka;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.common.kafka.KafkaTopics;
+import me.ivanmorozov.common.kafka.MessageTypes;
 import me.ivanmorozov.common.records.ChatRecords;
 
+import me.ivanmorozov.common.records.KafkaRecords;
 import me.ivanmorozov.common.records.LinkRecords;
 import me.ivanmorozov.telegrambot.service.TelegramBotService;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -19,33 +21,23 @@ public class TelegramKafkaConsumer {
     private final TelegramBotService botService;
     private final TelegramKafkaProducer kafkaProducer;
 
-    @KafkaListener(topics = KafkaTopics.TG_CHAT_EXIST_RES, groupId = "telegram-bot")
-    public void consumeChatExistsResponse(ChatRecords.ChatExistsResponse response) {
-        if (response.isExist()) {
-            botService.sendMsg(response.chatId(), "ℹ️ Вы уже зарегистрированы.");
-        } else {
-            botService.sendMsg(response.chatId(), "ℹ️ Регистрация начата...");
-            kafkaProducer.send(KafkaTopics.TG_CHAT_CREATE, String.valueOf(response.chatId()), new ChatRecords.ChatRegisterRequest(response.chatId()));
+    @KafkaListener(topics = KafkaTopics.RESPONSE_TOPIC)
+    public void handleResponse(KafkaRecords.KafkaResponse response){
+        switch (response.type()){
+            case MessageTypes.CREATED -> {
+                botService.sendMsg(response.chatId(), "✅ Регистрация завершена! " + START_TEXT);
+            }
+            case MessageTypes.NOT_CREATED -> {
+                botService.sendMsg(response.chatId(), "⚠️ Не удалось зарегистрировать, попробуйте позже");
+            }
+            case MessageTypes.EXIST_CHAT -> {
+                botService.sendMsg(response.chatId(), "ℹ️ Вы уже зарегистрированы.");
+            }
+            default -> {
+                log.warn("Неизвестный тип: {}", response.type());
+                botService.sendMsg(response.chatId(), "⚠️ Произошла непредвиденная ошибка");
+            }
         }
     }
 
-    @KafkaListener(topics = KafkaTopics.TG_CHAT_CREATED)
-    public void handleChatCreated(ChatRecords.ChatRegisterRequest request) {
-        botService.sendMsg(request.chatId(),
-                "✅ Регистрация завершена! " + START_TEXT
-        );
-    }
-
-    @KafkaListener(topics = KafkaTopics.LINK_SUBSCRIBE_EXIST_RES, groupId = "telegram-bot" )
-    public void consumerLinkExistResponse(LinkRecords.LinkExistResponse response){
-        if (response.isExist()){
-            botService.sendMsg(response.chatId(), "ℹ️ Вы уже подписаны на этот вопрос");
-        } else {
-            kafkaProducer.send(KafkaTopics.LINK_SUBSCRIBE, response.link(), new LinkRecords.LinkSubscribeRequest(response.chatId(), response.link()));
-        }
-    }
-    @KafkaListener(topics = KafkaTopics.LINK_SUBSCRIBE)
-    public void handleLinkSubscribe(LinkRecords.LinkSubscribeRequest request) {
-       botService.sendMsg(request.chatId(), "✅ Вы подписаны на: " + request.link());
-    }
 }

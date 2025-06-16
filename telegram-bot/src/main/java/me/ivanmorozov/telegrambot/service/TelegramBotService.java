@@ -124,14 +124,9 @@ public class TelegramBotService extends TelegramLongPollingBot {
     private void startCommand(long chatId, String userName) throws TelegramApiException {
         String safeName = userName != null ? userName : "пользователь";
         sendMsg(chatId, "Приветствую, " + safeName + "...");
-
-        kafkaProducer.send(
-                KafkaTopics.TG_CHAT_EXIST_REQ,
-                String.valueOf(chatId),
-                new ChatRecords.ChatExistsRequest(chatId)
-        );
-
+        kafkaProducer.sendChatRegisterRequest(chatId);
         sendMsg(chatId, "🔍 Проверяем вашу регистрацию...");
+
     }
 
 
@@ -151,7 +146,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
         }
 
         try {
-            kafkaProducer.send(KafkaTopics.LINK_SUBSCRIBE_EXIST_REQ, link, new LinkRecords.LinkExistRequest(chatId, link));
+
 
         } catch (Exception e) {
             log.error("Ошибка подписки chatId={}: {}", chatId, e.getMessage());

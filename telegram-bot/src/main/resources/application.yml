@@ -5,21 +5,18 @@ spring:
   kafka:
     admin:
       auto-create: true
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      retries: 3
     consumer:
-      group-id: scrapper-api
+      group-id: scrapper-api-group
       auto-offset-reset: earliest
+      enable-auto-commit: false
   application:
     name: telegram-bot
 
-
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
 
 telegram:
   bot:
