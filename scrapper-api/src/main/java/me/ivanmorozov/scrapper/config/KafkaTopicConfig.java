@@ -30,10 +30,10 @@ public class KafkaTopicConfig {
     }
 
     private NewTopic buildTopic(String name) {
-        log.info("Creating topic: {}", name);
+        log.info("Создание топика: {}", name);
         return TopicBuilder.name(name)
                 .partitions(3)
-                .replicas(2)
+                .replicas(1)
                 .config(TopicConfig.RETENTION_MS_CONFIG, "604800000") // 7 дней
                 .config(TopicConfig.CLEANUP_POLICY_CONFIG, "compact")
                 .build();

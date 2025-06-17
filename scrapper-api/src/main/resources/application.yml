@@ -11,15 +11,22 @@ spring:
   kafka:
     admin:
       auto-create: true
+      modify-topic-configs: true
+      fail-fast: true
     bootstrap-servers: kafka:9092,localhost:29092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       retries: 3  # Попытки повтора при ошибках
     consumer:
-      group-id: telegram-bot
+      group-id: scrapper-api-group
       auto-offset-reset: earliest
       enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "me.ivanmorozov.common.records,java.util,java.lang"
+
   flyway:
     enabled: true
   application:
