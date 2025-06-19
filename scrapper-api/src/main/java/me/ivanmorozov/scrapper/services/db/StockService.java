@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.scrapper.client.StockApiClient;
 import me.ivanmorozov.scrapper.repositories.StockRepository;
 
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,11 +55,20 @@ public class StockService {
         }
     }
 
+    public boolean validateTickerName(String ticker) {
+        String nameTicker = getTickerStock(ticker);
+        return ticker.equals(nameTicker);
+    }
+
     public Set<String> getSubscriptions(long chatId) {
         return stockRepository.getTickersByChatId(chatId);
     }
 
-    public BigDecimal getStockPrice(String ticker){
-       return stockApiClient.getPrice(ticker).timeout(Duration.ofSeconds(5)).block();
+    public BigDecimal getStockPrice(String ticker) {
+        return stockApiClient.getPrice(ticker).timeout(Duration.ofSeconds(5)).block();
+    }
+
+    public String getTickerStock(String ticker) {
+        return stockApiClient.getTicker(ticker).timeout(Duration.ofSeconds(5)).block();
     }
 }
