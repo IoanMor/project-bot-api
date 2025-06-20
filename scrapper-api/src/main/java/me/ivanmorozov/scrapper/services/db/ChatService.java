@@ -75,7 +75,7 @@ public class ChatService {
                     log.debug("Получено {} чатов для проверки", chats.size());
                     return Flux.fromIterable(chats);
                 })
-                .timeout(Duration.ofSeconds(30)) // Увеличьте таймаут
+                .timeout(Duration.ofSeconds(30))
                 .retryWhen(Retry.backoff(3, Duration.ofSeconds(1))
                         .doBeforeRetry(r -> log.warn("Повторная попытка #{}. Причина: {}",
                                 r.totalRetries(), r.failure().getMessage())))

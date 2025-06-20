@@ -31,7 +31,6 @@ public class ScrapperKafkaConsumer {
     private final ScrapperKafkaProducer kafkaProducer;
 
 
-
     @KafkaListener(topics = KafkaTopics.REQUEST_TOPIC, groupId = "scrapper-api-group")
     public void handleRequest(KafkaRecords.KafkaRequest request) {
         switch (request.type()) {
@@ -84,7 +83,7 @@ public class ScrapperKafkaConsumer {
                     log.info("Пользователь {} отписался от {}", request.chatId(), link);
                     kafkaProducer.sendResponse(
                             request.chatId(),
-                            new KafkaRecords.KafkaResponse(request.chatId(), MessageTypes.OPERATION_RESULT, Map.of(LINK_KEY, isUnsubscribed)
+                            new KafkaRecords.KafkaResponse(request.chatId(), MessageTypes.UNSUBSCRIBE_RESULT_LINK, Map.of(LINK_KEY, isUnsubscribed)
                             )
                     );
                 }
@@ -105,7 +104,7 @@ public class ScrapperKafkaConsumer {
                                 ));
                     } else {
                         boolean validateTickerNameResult = stockService.validateTickerName(ticker);
-                        if (!validateTickerNameResult){
+                        if (!validateTickerNameResult) {
                             kafkaProducer.sendResponse(request.chatId(),
                                     new KafkaRecords.KafkaResponse(request.chatId(), MessageTypes.ACCEPTED, Map.of(STOCK_KEY, false)
                                     ));
@@ -119,13 +118,24 @@ public class ScrapperKafkaConsumer {
                 }
             }
             case MessageTypes.STOCK_GET_ALL_SUBS -> {
-                Set<String> getAllStock = stockService.getSubscriptions(request.chatId());
-                Map<String,BigDecimal> mapStock = new LinkedHashMap<>();
-                for (var stock : getAllStock){
-                    mapStock.put(stock, stockService.getStockPrice(stock));
+                Set<String> subscribedStocks = stockService.getSubscriptions(request.chatId());
+                Map<String, BigDecimal> stockPrices = new LinkedHashMap<>();
+                for (var stock : subscribedStocks) {
+                    stockPrices.put(stock, stockService.getStockPrice(stock));
                 }
                 kafkaProducer.sendResponse(request.chatId(),
-                        new KafkaRecords.KafkaResponse(request.chatId(), MessageTypes.GET_ALL_STOCK, mapStock));
+                        new KafkaRecords.KafkaResponse(request.chatId(), MessageTypes.GET_ALL_STOCK, stockPrices));
+            }
+            case MessageTypes.STOCK_UNSUBSCRIBE -> {
+                if (request.data() instanceof Map<?, ?> dataMap) {
+                    boolean isUnsubscribe = false;
+                    if (stockService.isTickerSubscribed(request.chatId(), (String) dataMap.get(STOCK_KEY))) {
+                       isUnsubscribe = stockService.unsubscribe(request.chatId(), (String) dataMap.get(STOCK_KEY));
+                    }
+                    kafkaProducer.sendResponse(request.chatId(),
+                            new KafkaRecords.KafkaResponse(request.chatId(), MessageTypes.UNSUBSCRIBE_RESULT_STOCK, Map.of(STOCK_KEY, isUnsubscribe)));
+
+                }
             }
         }
     }
