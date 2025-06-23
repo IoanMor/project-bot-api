@@ -33,7 +33,6 @@ public class CheckPriceStockService {
     private final ChatService chatService;
     private final StockService stockService;
     private final StockApiClient stockApiClient;
-
     private final ScrapperKafkaProducer kafkaProducer;
 
     // @Scheduled(cron = "0 30 9 * * ?") // в 9 30 утра
