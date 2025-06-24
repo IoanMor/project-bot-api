@@ -2,7 +2,6 @@ package me.ivanmorozov.scrapper.services.db;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.common.exception.LinkServiceException;
 
 import me.ivanmorozov.scrapper.repositories.LinkRepository;
 
@@ -41,12 +40,7 @@ public class LinkService {
     }
 
     public Set<String> getAllSubscribeLinks(long chatId) {
-        try {
             return linkRepository.getLinks(chatId);
-        } catch (Exception e) {
-            log.error("Ошибка в получении подписок чата:{} \n {}", chatId, e.getMessage());
-            throw new LinkServiceException("Ошибка выдачи подписок чата " + chatId, e);
-        }
     }
 
     public boolean isSubscribed(long chatId, String link) {

@@ -3,11 +3,14 @@ package me.ivanmorozov.scrapper.services.api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import me.ivanmorozov.common.kafka.MessageTypes;
+import me.ivanmorozov.common.records.KafkaRecords;
 import me.ivanmorozov.scrapper.client.StackOverflowClient;
 
-import me.ivanmorozov.scrapper.client.TelegramBotClient;
 import me.ivanmorozov.scrapper.services.db.ChatService;
 import me.ivanmorozov.scrapper.services.db.LinkService;
+import me.ivanmorozov.scrapper.services.kafka.ScrapperKafkaProducer;
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -16,7 +19,9 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import java.time.Duration;
+import java.util.Map;
 
+import static me.ivanmorozov.common.kafka.KafkaDataTypeKey.STOCK_KEY;
 import static me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow.parseQuestionId;
 
 @Service
@@ -25,8 +30,8 @@ import static me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow.parseQuestion
 public class CheckSubscribeService {
     private final LinkService linkService;
     private final ChatService chatService;
-    private final TelegramBotClient botClient;
     private final StackOverflowClient client;
+    private final ScrapperKafkaProducer kafkaProducer;
 
     @Scheduled(fixedDelay = 60000) // 1 мин
     public void checkUpdates() {
@@ -66,8 +71,12 @@ public class CheckSubscribeService {
                                 .flatMap(__ -> {
                                     String msg = "🔔 Новый ответ: " + link;
                                     log.info("Отправка: chatId={}, msg={}", chatId, msg);
-                                    return botClient.sendReactiveMsg(chatId, msg).timeout(Duration.ofSeconds(5));
-                                });
+                                    return Mono.fromRunnable(() ->
+                                            kafkaProducer.sendResponse(chatId,
+                                                    new KafkaRecords.KafkaResponse(chatId, MessageTypes.STOCK_SHEDULED_MSG, Map.of(STOCK_KEY, msg)))
+                                    ).then();
+
+                                    });
                     } catch (Exception e) {
                         log.error("Ошибка обработки ссылки: {}", link, e);
                         return Mono.empty();

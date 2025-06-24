@@ -2,7 +2,7 @@ package me.ivanmorozov.scrapper.services.db;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.common.exception.ChatServiceException;
+
 import me.ivanmorozov.scrapper.repositories.TelegramChatRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +11,7 @@ import reactor.util.retry.Retry;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
+
 import java.util.Optional;
 import java.util.Set;
 
@@ -29,7 +29,7 @@ public class ChatService {
             return true;
         } catch (Exception e) {
             log.error("Ошибка регистрации чата {}: {}", chatId, e.getMessage());
-            throw new ChatServiceException("Произошла ошибка в регистрации чата \n{error : " + e.getMessage() + "}", e);
+            return false;
         }
     }
 
@@ -41,7 +41,7 @@ public class ChatService {
             return chats;
         } catch (Exception e) {
             log.error("Ошибка получения списка чатов: {}", e.getMessage());
-            throw new ChatServiceException("Ошибка получения списка чатов \n{error : " + e.getMessage() + "}", e);
+           return Set.of();
         }
     }
 
@@ -50,7 +50,7 @@ public class ChatService {
             return chatRepository.existsById(chatId);
         } catch (Exception e) {
             log.error("Ошибка проверки существования чата {}: {}", chatId, e.getMessage());
-            throw new ChatServiceException("Ошибка проверки чата \n{error : " + e.getMessage() + "}", e);
+            return false;
         }
     }
 
@@ -59,10 +59,8 @@ public class ChatService {
             return Optional.ofNullable(chatRepository.getRegisterTime(chatId))
                     .orElseThrow(() -> {
                         log.debug("Чат {} не найден", chatId);
-                        return new ChatServiceException("Чат не найден");
+                       return new RuntimeException();
                     });
-        } catch (ChatServiceException e) {
-            throw e;
         } catch (Exception e) {
             log.error("Ошибка получения времени регистрации чата {}: {}", chatId, e.getMessage());
             throw new RuntimeException("Ошибка сервиса при получении времени регистрации", e);
