@@ -1,23 +1,19 @@
-package me.ivanmorozov.telegrambot.config;
+package me.ivanmorozov.scrapper.config;
 
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.common.exception.KafkaErrorHandler;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
-import org.springframework.kafka.support.ProducerListener;
 import org.springframework.util.backoff.FixedBackOff;
 
 @Configuration
+@EnableKafka
 @Slf4j
 public class KafkaDLQConfig {
-
 
     @Bean
     public KafkaErrorHandler kafkaErrorHandler(KafkaTemplate<String, String> kafkaTemplate) {
@@ -31,8 +27,8 @@ public class KafkaDLQConfig {
                 new FixedBackOff(1000L,3));
     }
 
-    @Bean
-    @Primary
+   /* @Bean
+
     public ProducerListener<String, Object> producerListener(KafkaErrorHandler kafkaErrorHandler) {
         return new ProducerListener<>() {
             @Override
@@ -45,5 +41,6 @@ public class KafkaDLQConfig {
                 log.info("✅ Сообщение отправлено: {}", record.value());
             }
         };
-    }
+    }*/
+
 }

@@ -25,10 +25,19 @@ public class KafkaTopicConfig {
         return buildTopic(KafkaTopics.RESPONSE_TOPIC);
     }
 
-    // Дополнительный топик для событий
+
     @Bean
     public NewTopic eventsTopic() {
         return buildTopic(KafkaTopics.EVENTS_TOPIC);
+    }
+    @Bean
+    public NewTopic requestDlqTopic() {
+        return buildTopic(KafkaTopics.DLQ_TOPIC_OUT);
+    }
+
+    @Bean
+    public NewTopic responseDlqTopic() {
+        return buildTopic(KafkaTopics.DLQ_TOPIC_IN);
     }
 
     private NewTopic buildTopic(String name) {
