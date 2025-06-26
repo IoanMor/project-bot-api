@@ -3,8 +3,8 @@ package me.ivanmorozov.telegrambot.service;
 
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.telegrambot.config.TelegramBotConfig;
-import me.ivanmorozov.telegrambot.service.kafka.TelegramKafkaProducer;
-import me.ivanmorozov.telegrambot.util.RegistrationCache;
+import me.ivanmorozov.telegrambot.kafka.TelegramKafkaProducer;
+import me.ivanmorozov.telegrambot.cache.RegistrationCache;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;

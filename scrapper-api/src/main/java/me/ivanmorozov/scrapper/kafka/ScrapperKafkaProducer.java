@@ -1,4 +1,4 @@
-package me.ivanmorozov.scrapper.services.kafka;
+package me.ivanmorozov.scrapper.kafka;
 
 import lombok.RequiredArgsConstructor;
 import me.ivanmorozov.common.kafka.KafkaTopics;

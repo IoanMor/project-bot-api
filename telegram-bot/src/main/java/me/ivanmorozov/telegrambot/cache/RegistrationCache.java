@@ -1,16 +1,14 @@
-package me.ivanmorozov.telegrambot.util;
+package me.ivanmorozov.telegrambot.cache;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-@Service
+@Component
 public class RegistrationCache {
     private final Cache<Long, Boolean> cache;
 

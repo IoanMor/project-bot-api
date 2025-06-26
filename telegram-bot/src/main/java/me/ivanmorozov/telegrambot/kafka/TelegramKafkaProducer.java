@@ -1,4 +1,4 @@
-package me.ivanmorozov.telegrambot.service.kafka;
+package me.ivanmorozov.telegrambot.kafka;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

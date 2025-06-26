@@ -1,4 +1,4 @@
-package me.ivanmorozov.scrapper.services.api;
+package me.ivanmorozov.scrapper.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import me.ivanmorozov.scrapper.client.StockApiClient;
 
 import me.ivanmorozov.scrapper.services.db.ChatService;
 import me.ivanmorozov.scrapper.services.db.StockService;
-import me.ivanmorozov.scrapper.services.kafka.ScrapperKafkaProducer;
+import me.ivanmorozov.scrapper.kafka.ScrapperKafkaProducer;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

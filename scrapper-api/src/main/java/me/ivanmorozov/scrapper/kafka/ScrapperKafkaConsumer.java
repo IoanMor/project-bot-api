@@ -1,20 +1,17 @@
-package me.ivanmorozov.scrapper.services.kafka;
+package me.ivanmorozov.scrapper.kafka;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.common.kafka.KafkaTopics;
 import me.ivanmorozov.common.kafka.MessageTypes;
 import me.ivanmorozov.common.records.KafkaRecords;
-import me.ivanmorozov.scrapper.client.StockApiClient;
 import me.ivanmorozov.scrapper.services.db.ChatService;
 import me.ivanmorozov.scrapper.services.db.LinkService;
 import me.ivanmorozov.scrapper.services.db.StockService;
-import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;

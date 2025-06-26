@@ -35,5 +35,5 @@ telegram:
     username: "LinkHawkBot"
 logging:
   level:
-    me.ivanmorozov.scrapper.services.api.CheckSubscribeService: DEBUG
+    me.ivanmorozov.scrapper.services.CheckSubscribeService: DEBUG
     me.ivanmorozov.scrapper.client.StackOverflowClient: TRACE

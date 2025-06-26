@@ -1,4 +1,4 @@
-package me.ivanmorozov.telegrambot.service.kafka;
+package me.ivanmorozov.telegrambot.kafka;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +8,7 @@ import me.ivanmorozov.common.kafka.MessageTypes;
 import me.ivanmorozov.common.records.KafkaRecords;
 import me.ivanmorozov.common.exception.KafkaErrorHandler;
 import me.ivanmorozov.telegrambot.service.TelegramBotService;
-import me.ivanmorozov.telegrambot.util.RegistrationCache;
+import me.ivanmorozov.telegrambot.cache.RegistrationCache;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 

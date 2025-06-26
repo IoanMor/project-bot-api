@@ -1,4 +1,4 @@
-package me.ivanmorozov.telegrambot.config;
+package me.ivanmorozov.telegrambot.kafka;
 
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.common.exception.KafkaErrorHandler;
