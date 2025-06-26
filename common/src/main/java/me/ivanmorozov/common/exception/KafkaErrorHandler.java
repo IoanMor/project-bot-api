@@ -1,4 +1,4 @@
-package me.ivanmorozov.telegrambot.exception;
+package me.ivanmorozov.common.exception;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

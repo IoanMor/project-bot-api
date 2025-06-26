@@ -1,23 +1,34 @@
 server:
   port: 8080
-
 spring:
   kafka:
     admin:
       auto-create: true
-    bootstrap-servers: kafka:9092
+    bootstrap-servers: localhost:29092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       retries: 3
+
     consumer:
-      group-id: scrapper-api-group
+      group-id: telegram-bot-group
       auto-offset-reset: earliest
       enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+    properties:
+        client.dns.lookup: use_all_dns_ips
+        spring.json.trusted.packages: "*"
+        max.poll.interval.ms: 300000  # 5 минут
+
   application:
     name: telegram-bot
-
-
+  autoconfigure:
+      exclude:
+        - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+        - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+        - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
 telegram:
   bot:
     token: "7674976296:AAHby8eK6974Lpiy2milplojVpB_XbvF0RE"

@@ -2,12 +2,9 @@ package me.ivanmorozov.telegrambot.service;
 
 
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.common.kafka.KafkaTopics;
-import me.ivanmorozov.common.records.ChatRecords;
-import me.ivanmorozov.common.records.LinkRecords;
-import me.ivanmorozov.telegrambot.client.ScrapperApiClient;
 import me.ivanmorozov.telegrambot.config.TelegramBotConfig;
 import me.ivanmorozov.telegrambot.service.kafka.TelegramKafkaProducer;
+import me.ivanmorozov.telegrambot.util.RegistrationCache;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
@@ -22,17 +19,16 @@ import reactor.core.scheduler.Schedulers;
 import static me.ivanmorozov.common.constMsg.Msg.*;
 import static me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow.parseQuestionId;
 
-import java.math.BigDecimal;
-import java.time.Duration;
+
 import java.util.*;
+
 
 
 @Service
 @Slf4j
 public class TelegramBotService extends TelegramLongPollingBot {
     private final TelegramBotConfig botConfig;
-    private final ScrapperApiClient client;
-
+    private final RegistrationCache cache;
     private final TelegramKafkaProducer kafkaProducer;
 
 
@@ -47,9 +43,9 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    public TelegramBotService(TelegramBotConfig botConfig, ScrapperApiClient client, TelegramKafkaProducer kafkaProducer) {
+    public TelegramBotService(TelegramBotConfig botConfig, RegistrationCache cache, TelegramKafkaProducer kafkaProducer) {
         this.botConfig = botConfig;
-        this.client = client;
+        this.cache = cache;
         this.kafkaProducer = kafkaProducer;
 
 
@@ -121,16 +117,21 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    private void startCommand(long chatId, String userName) throws TelegramApiException {
-        String safeName = userName != null ? userName : "пользователь";
-        sendMsg(chatId, "Приветствую, " + safeName + "...");
-        kafkaProducer.sendChatRegisterRequest(chatId);
-        sendMsg(chatId, "🔍 Проверяем вашу регистрацию...");
+    private void startCommand(long chatId, String userName)  {
+        try {
+            String safeName = userName != null ? userName : "пользователь";
+            sendMsg(chatId, "Приветствую, " + safeName + "...");
+            kafkaProducer.sendChatRegisterRequest(chatId);
+            sendMsg(chatId, "🔍 Проверяем вашу регистрацию...");
+        } catch (Exception e) {
+            sendMsg(chatId, "⚠️ Временная ошибка сервера");
+            log.error("Произошла ошибка в классе TelegramBotService метода startcommand, [{}]", e.getMessage());
+        }
 
     }
 
 
-    private void handleTrackCommand(String linkMsg, long chatId) throws TelegramApiException {
+    private void handleTrackCommand(String linkMsg, long chatId)  {
 
         String[] parts = linkMsg.split("\\s+", 2);
         if (parts.length < 2) {
@@ -139,15 +140,12 @@ public class TelegramBotService extends TelegramLongPollingBot {
         }
         String link = parts[1].trim();
         Optional<Long> questionIdOp = parseQuestionId(link);
-
         if (questionIdOp.isEmpty()) {
             sendMsg(chatId, "❌ Неверный формат ссылки. Пример: /track https://stackoverflow.com/questions/12345");
             return;
         }
-
         try {
-
-
+            kafkaProducer.sendSubscribeLinkRequest(chatId, link);
         } catch (Exception e) {
             log.error("Ошибка подписки chatId={}: {}", chatId, e.getMessage());
             sendMsg(chatId, "⚠️ Временная ошибка сервера");
@@ -155,44 +153,28 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    private void unTrackCommand(long chatId, String linkMsg) throws TelegramApiException {
+    private void unTrackCommand(long chatId, String linkMsg)  {
         String[] parts = linkMsg.split("\\s+", 2);
         if (parts.length < 2) {
             sendMsg(chatId, "ℹ️ Использование: /untrack <ссылка_на_вопрос>");
             return;
         }
         String link = parts[1].trim();
-
         try {
-            Boolean isUnTruck = client.unsubscribeLink(chatId, link)
-                    .timeout(Duration.ofSeconds(5))
-                    .block();
-            if (Boolean.TRUE.equals(isUnTruck)) {
-                sendMsg(chatId, "ℹ️ Вы отписались от получение новостей по ссылке: " + link);
-                log.info("Пользователь отписался: chatId={}, link={}", chatId, link);
-            } else {
-                sendMsg(chatId, "❌ Не удалось отписаться (проверьте ссылку)");
-            }
+            kafkaProducer.sendUnSubscribeLinkRequest(chatId, link);
+            sendMsg(chatId, "⌛ Идёт отписка...");
         } catch (Exception e) {
             log.error("Ошибка отписки chatId={}: {}", chatId, e.getMessage());
             sendMsg(chatId, "⚠️ Временная ошибка сервера");
         }
-
     }
 
     private void getAllLinksSubscribes(long chatId) {
-        Set<String> links = client.getAllLinks(chatId)
-                .timeout(Duration.ofSeconds(5))
-                .block();
-        if (links == null || links.isEmpty()) {
-            sendMsg(chatId, "ℹ️ Вы еще не подписались ни на одну ссылку");
-        } else {
-            StringBuilder message = new StringBuilder("📋 Ваши подписки:\n");
-            int i = 1;
-            for (String link : links) {
-                message.append(i++).append(" - ").append(link).append("\n");
-            }
-            sendMsg(chatId, message.toString());
+        try {
+            kafkaProducer.sendAllSubscribeLinksRequest(chatId);
+        } catch (Exception e) {
+            log.error("Произошла ошибка в классе TelegramBotService метода getAllLinksSubscribes, [{}]", e.getMessage());
+            sendMsg(chatId, "⚠️ Временная ошибка сервера");
         }
     }
 
@@ -205,30 +187,11 @@ public class TelegramBotService extends TelegramLongPollingBot {
         String ticker = parts[1].trim();
 
         if (ticker.isBlank() || ticker == null) {
-            sendMsg(chatId, "❌ Неверный формат. Пример: /tStock AAPL (пример акции Apple)");
+            sendMsg(chatId, "❌ Неверный формат. Пример: /tStock SBER (пример акции Сбербанк)");
             return;
         }
-
         try {
-            boolean isStock = Boolean.TRUE.equals(client.isExistStock(chatId, ticker)
-                    .timeout(Duration.ofSeconds(5))
-                    .block());
-
-            System.out.println(isStock); // потом удалить
-
-            if (isStock) {
-                sendMsg(chatId, "ℹ️ Вы уже подписаны на этот тикер(Акцию)");
-                return;
-            }
-            boolean subscribe = Boolean.TRUE.equals(client.subscribeStock(chatId, ticker)
-                    .timeout(Duration.ofSeconds(5))
-                    .block());
-            if (subscribe) {
-                sendMsg(chatId, "✅ Вы подписаны на: " + ticker);
-                log.info("Пописка на акцию прошла успешно,{}|{}", chatId, ticker);
-            } else {
-                sendMsg(chatId, "❌ Не удалось подписаться (проверьте тикер)");
-            }
+           kafkaProducer.sendSubscribeStockRequest(chatId,ticker);
         } catch (Exception e) {
             log.error("Ошибка при подписке на акцию {}|{}", ticker, e.getMessage());
             sendMsg(chatId, "⚠️ При подписке что-то пошло не так");
@@ -238,19 +201,13 @@ public class TelegramBotService extends TelegramLongPollingBot {
     public void untrackStock(long chatId, String userMsg) {
         String[] parts = userMsg.split("\\s+", 2);
         if (parts.length < 2) {
-            sendMsg(chatId, "ℹ️ Использование: /utSock <тикер_акции>");
+            sendMsg(chatId, "ℹ️ Использование: /utstock <тикер_акции>");
             return;
         }
         String ticker = parts[1].trim();
 
         try {
-            boolean isDelete = Boolean.TRUE.equals(client.unSubscribeStock(chatId, ticker).timeout(Duration.ofSeconds(5)).block());
-            if (isDelete) {
-                sendMsg(chatId, "ℹ️ Вы отписались от получение цены Акции, тикер : " + ticker);
-                log.info("Пользователь отписался: chatId={}, ticker={}", chatId, ticker);
-            } else {
-                sendMsg(chatId, "❌ Не удалось отписаться (проверьте тикер)");
-            }
+          kafkaProducer.sendUnSubscribeStockRequest(chatId,ticker);
         } catch (Exception e) {
             log.error("Ошибка отписки от акции chatId={}: {}", chatId, e.getMessage());
             sendMsg(chatId, "⚠️ Временная ошибка сервера");
@@ -260,28 +217,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
 
     public void getAllStockSubscribes(long chatId) {
         try {
-            Set<String> stock = client.getSubscribeStock(chatId).timeout(Duration.ofSeconds(5)).block();
-            if (stock == null || stock.isEmpty()) {
-                sendMsg(chatId, "ℹ️ Вы еще не подписались ни на одну акцию");
-                return;
-            } else {
-
-                StringBuilder message = new StringBuilder("📋 Стоимость интерисующих вас акций:\n");
-                int counter = 1;
-                for (String oneStock : stock) {
-
-
-                    BigDecimal price = client.getPriceStock(oneStock).timeout(Duration.ofSeconds(5)).block();
-                    message.append(counter++)
-                            .append(" - ")
-                            .append(stock)
-                            .append(" - rub.")
-                            .append(price != null ? String.format("%.2f", price) : "N/A")
-                            .append("\n");
-
-                }
-                sendMsg(chatId, message.toString());
-            }
+           kafkaProducer.sendGetStockSubscribeRequest(chatId);
         } catch (Exception e) {
             log.error("Ошибка получения подписок для chatId {}: {}", chatId, e.getMessage());
             sendMsg(chatId, "⚠️ Произошла ошибка при получении данных. Попробуйте позже.");
@@ -306,9 +242,34 @@ public class TelegramBotService extends TelegramLongPollingBot {
                 .subscribeOn(Schedulers.boundedElastic()).then();
     }
 
+    public boolean isChatRegister(long chatId) throws TelegramApiException {
 
-    private boolean isChatRegister(long chatId) {
-        return Boolean.TRUE.equals(client.isChatRegister(chatId).timeout(Duration.ofSeconds(5)).block());
+        Boolean cachedStatus = cache.isRegistered(chatId);
+        if (cachedStatus != null) {
+            return cachedStatus;
+        }
+
+
+        kafkaProducer.sendIsChatRegisterRequest(chatId);
+
+
+        long startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTime < 5000) {
+            try {
+                Thread.sleep(200);
+                Boolean status = cache.isRegistered(chatId);
+                if (status != null) {
+                    return status;
+                }
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new TelegramApiException("Ожидание прервано");
+            }
+        }
+        sendMsg(chatId, "⌛ Сервис временно недоступен, попробуйте позже");
+        return false;
     }
+
 
 }

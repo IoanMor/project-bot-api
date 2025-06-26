@@ -25,6 +25,8 @@ services:
     networks:
       - kafka-net
 
+
+
   kafka:
     image: confluentinc/cp-kafka:7.5.0
     hostname: kafka
@@ -56,7 +58,7 @@ services:
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
-    container_name: kafka-ui
+    container_name: kafka-ui-new
     ports:
       - "8090:8080"
     environment:
