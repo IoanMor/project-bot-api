@@ -7,8 +7,9 @@ import me.ivanmorozov.common.kafka.MessageTypes;
 import me.ivanmorozov.common.records.KafkaRecords;
 import me.ivanmorozov.scrapper.client.StackOverflowClient;
 
-import me.ivanmorozov.scrapper.services.db.ChatService;
-import me.ivanmorozov.scrapper.services.db.LinkService;
+import me.ivanmorozov.scrapper.repositories.LinkRepository;
+import me.ivanmorozov.scrapper.repositories.TelegramChatRepository;
+
 import me.ivanmorozov.scrapper.kafka.ScrapperKafkaProducer;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -27,15 +28,16 @@ import static me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow.parseQuestion
 @RequiredArgsConstructor
 @Slf4j
 public class CheckSubscribeService {
-    private final LinkService linkService;
-    private final ChatService chatService;
+    private final LinkRepository linkRepository;
+    private final TelegramChatRepository chatRepository;
     private final StackOverflowClient client;
     private final ScrapperKafkaProducer kafkaProducer;
+    private final ReactiveMethodsDB reactiveMethod;
 
     @Scheduled(fixedDelay = 60000) // 1 мин
     public void checkUpdates() {
         log.info("=== Запуск проверки обновлений ===");
-        chatService.getAllChatsWithRetry()
+        reactiveMethod.getAllChatsWithRetry()
                 .parallel()
                 .runOn(Schedulers.boundedElastic())
                 .flatMap(chatId -> checkUserSubscriptions(chatId)
@@ -46,7 +48,8 @@ public class CheckSubscribeService {
                         }))
                 .sequential()
                 .subscribe(
-                        result -> {},
+                        result -> {
+                        },
                         error -> log.error("Фатальная ошибка в потоке проверки: {}", error.getMessage()),
                         () -> log.info("Цикл проверки завершен успешно")
                 );
@@ -54,32 +57,34 @@ public class CheckSubscribeService {
     }
 
     public Mono<Void> checkUserSubscriptions(Long chatId) {
-        return Flux.fromIterable(linkService.getAllSubscribeLinks(chatId))
+        return Mono.fromCallable(() -> linkRepository.getLinks(chatId))
+                .subscribeOn(Schedulers.boundedElastic())
+                .flatMapMany(Flux::fromIterable)
                 .flatMap(link -> {
-                    try {
-                        Long questionId = parseQuestionId(link)
-                                .orElseThrow(() -> new IllegalArgumentException("Invalid link"));
 
-                        return client.trackLink(questionId, chatId, link)
-                                .timeout(Duration.ofSeconds(5))
-                                .onErrorResume(e -> {
-                                    log.error("Ошибка при проверке кол-ва ответов {}: {}", link, e.getMessage());
-                                    return Mono.empty();
-                                })
-                                .filter(Boolean.TRUE::equals)
-                                .flatMap(__ -> {
-                                    String msg = "🔔 Новый ответ: " + link;
-                                    log.info("Отправка: chatId={}, msg={}", chatId, msg);
-                                    return Mono.fromRunnable(() ->
-                                            kafkaProducer.sendResponse(chatId,
-                                                    new KafkaRecords.KafkaResponse(chatId, MessageTypes.STOCK_SHEDULED_MSG, Map.of(STOCK_KEY, msg)))
-                                    ).then();
+                    Long questionId = parseQuestionId(link)
+                            .orElseThrow(() -> new IllegalArgumentException("Invalid link"));
 
-                                    });
-                    } catch (Exception e) {
-                        log.error("Ошибка обработки ссылки: {}", link, e);
-                        return Mono.empty();
-                    }
+                    return client.trackLink(questionId, chatId, link)
+                            .timeout(Duration.ofSeconds(5))
+                            .onErrorResume(e -> {
+                                log.error("Ошибка при проверке кол-ва ответов {}: {}", link, e.getMessage());
+                                return Mono.empty();
+                            })
+                            .filter(Boolean.TRUE::equals)
+                            .flatMap(__ -> {
+                                String msg = "🔔 Новый ответ: " + link;
+                                log.info("Отправка: chatId={}, msg={}", chatId, msg);
+                                return Mono.fromRunnable(() ->
+                                        kafkaProducer.sendResponse(chatId,
+                                                new KafkaRecords.KafkaResponse(chatId, MessageTypes.STOCK_SHEDULED_MSG, Map.of(STOCK_KEY, msg)))
+                                ).then();
+
+                            }).onErrorResume(e -> {
+                                log.error("Ошибка обработки ссылки: {}", link, e);
+                                return Mono.empty();
+                            });
+
                 })
                 .then();
     }

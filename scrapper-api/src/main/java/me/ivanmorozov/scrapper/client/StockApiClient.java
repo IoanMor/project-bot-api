@@ -4,11 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.domain.Range;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import static me.ivanmorozov.common.apiUrl.APIUrl.STOCK_API_URL;
 
@@ -80,4 +82,10 @@ public class StockApiClient {
         }
     }
 
+    public Mono<Boolean> validateTickerName(String ticker) {
+       return getTicker(ticker)
+               .map(nameTicker -> Objects.equals(nameTicker,ticker))
+               .defaultIfEmpty(false)
+               .onErrorReturn(false);
+    }
 }

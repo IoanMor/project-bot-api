@@ -16,19 +16,19 @@ public interface LinkRepository extends JpaRepository<Link, Long> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO links(chat_id,link) VALUES (:chatId,:link)", nativeQuery = true)
-    void insertLink(@Param("chatId") long chatId, @Param("link") String link);
+    boolean subscribeLink(@Param("chatId") long chatId, @Param("link") String link);
 
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM links WHERE chat_id = :chatId AND link = :link", nativeQuery = true)
-    void removeLink(@Param("chatId") long chatId, @Param("link") String link);
+    boolean removeLink(@Param("chatId") long chatId, @Param("link") String link);
 
     @Transactional
     @Query(value = "SELECT link FROM links WHERE chat_id = :chatId", nativeQuery = true)
     Set<String> getLinks(@Param("chatId") long chatId);
 
     @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM Link l WHERE l.chat.chatId = :chatId AND l.link = :link")
-    boolean existsByLink(@Param("chatId") long chatId, @Param("link") String link);
+    boolean existsLink(@Param("chatId") long chatId, @Param("link") String link);
 
     @Query(value = "SELECT count_answer FROM links WHERE chat_id =:chatId AND link=:link", nativeQuery = true)
     int getCountAnswer(@Param("chatId") long chatId, @Param("link") String link);

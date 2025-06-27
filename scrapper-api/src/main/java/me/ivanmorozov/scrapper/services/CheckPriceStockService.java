@@ -7,19 +7,23 @@ import me.ivanmorozov.common.kafka.MessageTypes;
 import me.ivanmorozov.common.records.KafkaRecords;
 import me.ivanmorozov.scrapper.client.StockApiClient;
 
-import me.ivanmorozov.scrapper.services.db.ChatService;
-import me.ivanmorozov.scrapper.services.db.StockService;
+
 import me.ivanmorozov.scrapper.kafka.ScrapperKafkaProducer;
 
+import me.ivanmorozov.scrapper.repositories.StockRepository;
+import me.ivanmorozov.scrapper.repositories.TelegramChatRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
+import reactor.util.retry.Retry;
 
 import java.math.BigDecimal;
 
+import java.time.Duration;
 import java.util.Map;
+import java.util.Set;
 
 
 import static me.ivanmorozov.common.kafka.KafkaDataTypeKey.STOCK_KEY;
@@ -28,16 +32,17 @@ import static me.ivanmorozov.common.kafka.KafkaDataTypeKey.STOCK_KEY;
 @RequiredArgsConstructor
 @Slf4j
 public class CheckPriceStockService {
-    private final ChatService chatService;
-    private final StockService stockService;
+    private final TelegramChatRepository chatRepository;
+    private final StockRepository stockRepository;
     private final StockApiClient stockApiClient;
     private final ScrapperKafkaProducer kafkaProducer;
+    private final ReactiveMethodsDB reactiveMethod;
 
     @Scheduled(cron = "0 30 9 * * ?") // в 9 30 утра
-   // @Scheduled(cron = "*/30 * * * * ?") // 30 сек
+    //@Scheduled(cron = "*/30 * * * * ?") // 30 сек
     public void sendTimeStock() {
-        chatService.getAllChatsWithRetry()
-                .flatMap(this::checkSubscribeStock).subscribeOn(Schedulers.boundedElastic())
+        reactiveMethod.getAllChatsWithRetry()
+                .flatMap(this::checkSubscribeStock)
                 .doOnComplete(() -> log.info("=Проверка чатов завершена="))
                 .subscribe(
                         null,
@@ -45,16 +50,19 @@ public class CheckPriceStockService {
                 );
     }
 
+
     public Mono<Void> checkSubscribeStock(long chatId) {
-        return Flux.fromIterable(stockService.getSubscriptions(chatId))
+        return Mono.fromCallable(() -> stockRepository.getTickers(chatId))
+                .subscribeOn(Schedulers.boundedElastic())
+                .flatMapMany(Flux::fromIterable)
                 .flatMap(ticker ->
-                    stockApiClient.getPrice(ticker)
-                            .filter(price -> price.compareTo(BigDecimal.ZERO) >= 0)
-                            .map(price -> Map.entry(ticker,price))
+                        stockApiClient.getPrice(ticker)
+                                .filter(price -> price.compareTo(BigDecimal.ZERO) >= 0)
+                                .map(price -> Map.entry(ticker, price))
                 )
-                .collectMap(Map.Entry::getKey,Map.Entry::getValue)
-                .flatMap(stockPrices->{
-                    if (stockPrices.isEmpty()){
+                .collectMap(Map.Entry::getKey, Map.Entry::getValue)
+                .flatMap(stockPrices -> {
+                    if (stockPrices.isEmpty()) {
                         log.info("Нет данных по акциям для chatId: {}", chatId);
                         return Mono.empty();
                     }
@@ -78,3 +86,5 @@ public class CheckPriceStockService {
 
 
 }
+
+

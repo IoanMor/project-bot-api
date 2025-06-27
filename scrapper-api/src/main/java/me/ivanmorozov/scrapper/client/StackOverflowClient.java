@@ -2,12 +2,14 @@ package me.ivanmorozov.scrapper.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.scrapper.services.db.LinkService;
+
+import me.ivanmorozov.scrapper.repositories.LinkRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 
 import java.time.Duration;
@@ -19,11 +21,11 @@ import static me.ivanmorozov.common.apiUrl.APIUrl.STACK_API_URL;
 
 public class StackOverflowClient {
     private final WebClient webClient;
-    private final LinkService linkService;
+    private final LinkRepository linkRepository;
 
 
-    public StackOverflowClient(LinkService linkService) {
-        this.linkService = linkService;
+    public StackOverflowClient(LinkRepository linkRepository) {
+        this.linkRepository = linkRepository;
 
         this.webClient = WebClient.builder()
                 .baseUrl(STACK_API_URL)
@@ -38,15 +40,23 @@ public class StackOverflowClient {
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .doOnNext(response -> log.info("Ответ API: {}", response))
-                .map(response -> {
+                .flatMap(response -> {
                     int currentCount = response.path("total").asInt();
-                    int storedCount = linkService.getCountAnswer(chatId, link);
-                    if (currentCount > storedCount) {
-                        log.info("Новое сообщение по ссылке {} ",link);
-                        linkService.updateCountAnswer(chatId, link, currentCount);
-                        return true;
-                    }
-                    return false;
+                    return Mono.fromCallable(() -> linkRepository.getCountAnswer(chatId, link))
+                            .subscribeOn(Schedulers.boundedElastic())
+                            .flatMap(storedCount -> {
+                                if (currentCount > storedCount) {
+                                    log.info("Новое сообщение по ссылке {} ", link);
+                                    return Mono.fromRunnable(() ->
+                                                    linkRepository.updateCountAnswer(chatId, link, currentCount))
+                                            .subscribeOn(Schedulers.boundedElastic())
+                                            .thenReturn(true);
+                                } else {
+                                    return Mono.just(false);
+                                }
+                            });
+
+
                 })
                 .timeout(Duration.ofSeconds(5))
                 .onErrorResume(e -> {
@@ -54,7 +64,6 @@ public class StackOverflowClient {
                     return Mono.just(false);
                 });
     }
-
 
 
 }
