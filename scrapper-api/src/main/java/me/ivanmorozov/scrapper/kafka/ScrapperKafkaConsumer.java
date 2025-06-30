@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import static me.ivanmorozov.common.kafka.KafkaDataTypeKey.*;
@@ -33,9 +34,10 @@ public class ScrapperKafkaConsumer {
 
     @KafkaListener(topics = KafkaTopics.REQUEST_TOPIC, groupId = "scrapper-api-group")
     public void handleRequest(KafkaRecords.KafkaRequest request) {
+        log.info("[->] Получен запрос: {}", request);
         switch (request.type()) {
             case MessageTypes.CHAT_REGISTER -> {
-                if (chatRepository.existChat(request.chatId())) {
+                if (Objects.equals(chatRepository.existChat(request.chatId()),request.chatId())) {
                     kafkaProducer.sendResponse(request.chatId(),
                             new KafkaRecords.KafkaResponse(request.chatId(), MessageTypes.EXIST_CHAT_REGISTER, Map.of()));
                 } else {
@@ -49,9 +51,13 @@ public class ScrapperKafkaConsumer {
             }
 
             case MessageTypes.CHAT_CHECK -> {
-                boolean exists = chatRepository.existChat(request.chatId());
-                kafkaProducer.sendResponse(request.chatId(),
-                        new KafkaRecords.KafkaResponse(request.chatId(), MessageTypes.EXIST_CHAT_CHECK, Map.of(EXIST_KEY, exists)));
+                if (Objects.equals(chatRepository.existChat(request.chatId()),request.chatId())) {
+                    kafkaProducer.sendResponse(request.chatId(),
+                            new KafkaRecords.KafkaResponse(request.chatId(), MessageTypes.EXIST_CHAT_CHECK, Map.of(EXIST_KEY,true)));
+                } else {
+                    kafkaProducer.sendResponse(request.chatId(),
+                            new KafkaRecords.KafkaResponse(request.chatId(), MessageTypes.EXIST_CHAT_CHECK, Map.of(EXIST_KEY,false)));
+                }
             }
 
             case MessageTypes.LINK_SUBSCRIBE -> {

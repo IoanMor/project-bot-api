@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.common.kafka.KafkaTopics;
 import me.ivanmorozov.common.kafka.MessageTypes;
 import me.ivanmorozov.common.records.KafkaRecords;
-import me.ivanmorozov.common.exception.KafkaErrorHandler;
+
 import org.springframework.kafka.core.KafkaTemplate;
 
 import org.springframework.stereotype.Service;
@@ -20,15 +20,15 @@ import static me.ivanmorozov.common.kafka.KafkaDataTypeKey.STOCK_KEY;
 @Slf4j
 public class TelegramKafkaProducer {
     private final KafkaTemplate<String, KafkaRecords.KafkaRequest> kafkaTemplate;
-    private final KafkaErrorHandler errorHandler;
+
 
     private void sendRequestToKafka(long chatId, KafkaRecords.KafkaRequest request) {
         kafkaTemplate.send(KafkaTopics.REQUEST_TOPIC, String.valueOf(chatId), request)
                 .handle((result, ex2) -> {
                     if (ex2 != null) {
-                        errorHandler.handleProducerError(ex2, request.toString());
+                        log.error("[.] Ошибка при отвпраке запроса exception-{}" + "\n" + "request-{}", ex2, request.toString());
                     } else {
-                        log.info("✅ Отправлено в Kafka: {}", request);
+                        log.info("[->] Отправлено в Kafka: {}", request);
                     }
                     return null;
                 });

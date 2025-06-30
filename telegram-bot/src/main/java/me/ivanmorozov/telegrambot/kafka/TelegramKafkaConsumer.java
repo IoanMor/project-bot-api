@@ -6,12 +6,13 @@ import me.ivanmorozov.common.kafka.KafkaTopics;
 import me.ivanmorozov.common.kafka.MessageTypes;
 
 import me.ivanmorozov.common.records.KafkaRecords;
-import me.ivanmorozov.common.exception.KafkaErrorHandler;
+
 import me.ivanmorozov.telegrambot.service.TelegramBotService;
 import me.ivanmorozov.telegrambot.cache.RegistrationCache;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -25,10 +26,12 @@ import static me.ivanmorozov.common.kafka.KafkaDataTypeKey.*;
 public class TelegramKafkaConsumer {
     private final RegistrationCache cache;
     private final TelegramBotService botService;
-    private final KafkaErrorHandler errorHandler;
 
     @KafkaListener(topics = KafkaTopics.RESPONSE_TOPIC, groupId = "telegram-bot-group")
     public void handleResponse(KafkaRecords.KafkaResponse response) {
+        Map<String,Object> dataMap = response.data()!=null? (Map<String, Object>) response.data() : Collections.emptyMap();
+
+        log.info("[-.] Получен ответ: {}", response);
         try {
             switch (response.type()) {
                 case MessageTypes.CREATED -> {
@@ -41,28 +44,19 @@ public class TelegramKafkaConsumer {
                     botService.sendMsg(response.chatId(), "ℹ️ Вы уже зарегистрированы.");
                 }
                 case MessageTypes.EXIST_CHAT_CHECK -> {
-                    if (response.data() instanceof Map<?, ?> dateMap) {
-                        if (dateMap.get(EXIST_KEY) instanceof Boolean) {
-                            cache.setRegistered(response.chatId(), (boolean) dateMap.get(EXIST_KEY));
-                        } else {
-                            log.error("{} ERROR - В EXIST_CHAT_CHECK пришло другое значение, ожидалось boolean", TelegramKafkaConsumer.class.toString());
-                            botService.sendMsg(response.chatId(), "⚠️Что то пошло не так, попробуйте позже :(");
-                        }
-                    }
+                    cache.setRegistered(response.chatId(), (boolean)dataMap.get(EXIST_KEY));
                 }
                 case MessageTypes.EXIST_SUBSCRIBE_LINK -> {
                     botService.sendMsg(response.chatId(), "ℹ️ Вы уже подписсаны на эту ссылку");
                 }
                 case MessageTypes.SUCCESS -> {
-                    if (response.data() instanceof Map<?, ?> dataMap) {
                         String key = dataMap.keySet().iterator().next().toString();
                         String value = dataMap.get(key).toString();
                         botService.sendMsg(response.chatId(), "ℹ️ Вы подписались на " + key + "[" + value + "]");
-                    }
+
                 }
 
                 case MessageTypes.UNSUBSCRIBE_RESULT_LINK -> {
-                    if (response.data() instanceof Map<?, ?> dataMap) {
                         if (dataMap.containsKey(LINK_KEY)) {
                             boolean isSuccess = (boolean) dataMap.get(LINK_KEY);
                             if (isSuccess) {
@@ -71,11 +65,9 @@ public class TelegramKafkaConsumer {
                                 botService.sendMsg(response.chatId(), "❌ Не удалось отписаться. Возможно, вы не были подписаны");
                             }
                         }
-                    }
                 }
 
                 case MessageTypes.GET_ALL_LINKS -> {
-                    if (response.data() instanceof Map<?, ?> dataMap) {
                         Set<String> links = new HashSet<>();
                         if (dataMap.containsKey(LINK_KEY)) {
                             for (var element : dataMap.values()) {
@@ -92,11 +84,9 @@ public class TelegramKafkaConsumer {
                         } else {
                             botService.sendMsg(response.chatId(), "ℹ️ У вас нет активных подписок");
                         }
-                    }
                 }
 
                 case MessageTypes.ACCEPTED -> {
-                    if (response.data() instanceof Map<?, ?> dataMap) {
                         try {
                             if (dataMap.get(STOCK_KEY).equals(false)) {
                                 botService.sendMsg(response.chatId(), "❌ Ошибка в наименовании тикета(Акции), проверьте правильность");
@@ -108,13 +98,11 @@ public class TelegramKafkaConsumer {
                         } catch (Exception e) {
                             botService.sendMsg(response.chatId(), "⚠️ Произошла непредвиденная ошибка");
                         }
-                    }
                 }
                 case MessageTypes.EXIST_SUBSCRIBE_STOCK -> {
                     botService.sendMsg(response.chatId(), "ℹ️ Вы уже подписаны на этот тикер(Акцию)");
                 }
                 case MessageTypes.GET_ALL_STOCK -> {
-                    if (response.data() instanceof Map<?, ?> dataMap) {
                         StringBuilder message = new StringBuilder("📋 Стоимость интерисующих вас акций:\n");
                         int counter = 1;
                         for (var entry : dataMap.entrySet()) {
@@ -128,10 +116,8 @@ public class TelegramKafkaConsumer {
                                     .append("\n");
                         }
                         botService.sendMsg(response.chatId(), message.toString());
-                    }
                 }
                 case MessageTypes.UNSUBSCRIBE_RESULT_STOCK -> {
-                    if (response.data() instanceof Map<?, ?> dataMap) {
                         if (dataMap.containsKey(STOCK_KEY)) {
                             boolean isSuccess = (boolean) dataMap.get(STOCK_KEY);
                             if (isSuccess) {
@@ -140,10 +126,8 @@ public class TelegramKafkaConsumer {
                                 botService.sendMsg(response.chatId(), "❌ Не удалось отписаться. Возможно, вы не были подписаны на данный тикер(Акцию)");
                             }
                         }
-                    }
                 }
                 case MessageTypes.STOCK_SHEDULED_MSG -> {
-                    if (response.data() instanceof Map<?, ?> dataMap)
                         botService.sendMsg(response.chatId(), dataMap.get(STOCK_KEY).toString());
                 }
                 default -> {
@@ -152,9 +136,9 @@ public class TelegramKafkaConsumer {
                 }
             }
         } catch (Exception e) {
-                log.error("Ошибка KafkaListener. Тип сообщения: {}, chatId: {}, данные: {}, ошибка: {}",
-                        response.type(), response.chatId(), response.data(), e.getMessage(), e);
-                botService.sendMsg(response.chatId(), "⚠️ Произошла ошибка. Попробуйте позже.");
+            log.error("[.] Ошибка KafkaListener. Тип сообщения: {}, chatId: {}, данные: {}, ошибка: {}",
+                    response.type(), response.chatId(), response.data(), e.getMessage(), e);
+            botService.sendMsg(response.chatId(), "⚠️ Произошла ошибка. Попробуйте позже.");
             throw new IllegalArgumentException("Неизвестный тип: " + response.type());
         }
     }

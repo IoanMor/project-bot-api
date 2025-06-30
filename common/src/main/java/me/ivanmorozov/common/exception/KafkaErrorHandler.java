@@ -13,13 +13,13 @@ public class KafkaErrorHandler {
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     public void handleProducerError(Throwable ex, String failedRequest) {
-        log.error("❌ ERROR - ошибка ОТПРАВКИ запроса через Kafka", ex);
+        log.error("ERROR - ошибка ОТПРАВКИ запроса через Kafka", ex);
         kafkaTemplate.send("bot.dlq.out", failedRequest)
                 .handle((result, ex2) -> {
                     if (ex2 != null) {
-                        log.error("❌ Не удалось отправить сообщение в DLQ bot.dlq.out", ex2);
+                        log.error(" Не удалось отправить сообщение в DLQ bot.dlq.out", ex2);
                     } else {
-                        log.info("✅ Сообщение отправлено в DLQ bot.dlq.out");
+                        log.info(" Сообщение отправлено в DLQ bot.dlq.out");
                     }
                     return null;
                 });
