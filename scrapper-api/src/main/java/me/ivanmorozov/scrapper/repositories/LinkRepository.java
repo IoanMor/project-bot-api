@@ -16,12 +16,12 @@ public interface LinkRepository extends JpaRepository<Link, Long> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO links(chat_id,link) VALUES (:chatId,:link)", nativeQuery = true)
-    boolean subscribeLink(@Param("chatId") long chatId, @Param("link") String link);
+    void subscribeLink(@Param("chatId") long chatId, @Param("link") String link);
 
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM links WHERE chat_id = :chatId AND link = :link", nativeQuery = true)
-    boolean removeLink(@Param("chatId") long chatId, @Param("link") String link);
+    void removeLink(@Param("chatId") long chatId, @Param("link") String link);
 
     @Transactional
     @Query(value = "SELECT link FROM links WHERE chat_id = :chatId", nativeQuery = true)

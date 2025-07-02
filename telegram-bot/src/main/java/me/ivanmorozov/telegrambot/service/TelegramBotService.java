@@ -3,6 +3,7 @@ package me.ivanmorozov.telegrambot.service;
 
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.telegrambot.config.TelegramBotConfig;
+import me.ivanmorozov.telegrambot.core.CommandDispatcher;
 import me.ivanmorozov.telegrambot.kafka.TelegramKafkaProducer;
 import me.ivanmorozov.telegrambot.cache.RegistrationCache;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-import static me.ivanmorozov.common.constMsg.Msg.*;
 import static me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow.parseQuestionId;
 
 
 import java.util.*;
-
 
 
 @Service
@@ -30,7 +29,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
     private final TelegramBotConfig botConfig;
     private final RegistrationCache cache;
     private final TelegramKafkaProducer kafkaProducer;
-
+    private final CommandDispatcher commandDispatcher;
 
     @Override
     public String getBotUsername() {
@@ -43,10 +42,11 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    public TelegramBotService(TelegramBotConfig botConfig, RegistrationCache cache, TelegramKafkaProducer kafkaProducer) {
+    public TelegramBotService(TelegramBotConfig botConfig, RegistrationCache cache, TelegramKafkaProducer kafkaProducer, CommandDispatcher commandDispatcher) {
         this.botConfig = botConfig;
         this.cache = cache;
         this.kafkaProducer = kafkaProducer;
+        this.commandDispatcher = commandDispatcher;
 
 
         List<BotCommand> listCommand = new ArrayList<>();
@@ -77,155 +77,26 @@ public class TelegramBotService extends TelegramLongPollingBot {
             String userName = update.getMessage().getChat().getFirstName();
 
             if (msg.startsWith("/start")) {
-                startCommand(chatId, userName);
+                commandDispatcher.dispatch(msg, chatId, userName);
                 return;
             }
 
             if (!isChatRegister(chatId)) {
-                sendMsg(chatId, "⛔ Для использования бота необходимо зарегистрироваться!\nВведите команду /start");
+                sendMessage(chatId, "⛔ Для использования бота необходимо зарегистрироваться!\nВведите команду /start");
                 return;
             }
-
-            if (msg.startsWith("/track")) {
-                handleTrackCommand(msg, chatId);
-            } else if (msg.startsWith("/untrack")) {
-                unTrackCommand(chatId, msg);
-            } else if (msg.startsWith("/tstock")) {
-                trackStock(chatId, msg);
-            } else if (msg.startsWith("/utstock")) {
-                untrackStock(chatId, msg);
-            } else if (msg.startsWith("/stock")) {
-                getAllStockSubscribes(chatId);
-            } else if (msg.startsWith("/links")) {
-                getAllLinksSubscribes(chatId);
-            } else if ("/help".equalsIgnoreCase(msg)) {
-                sendMsg(chatId, HELP_TEXT);
-            } else {
-                sendMsg(chatId, "❌ Неизвестная команда. Введите /help для списка команд");
-            }
+            commandDispatcher.dispatch(msg, chatId, userName);
 
         } catch (Exception e) {
             log.error("Ошибка обработки команды: {}", e.getMessage());
             if (update.hasMessage()) {
-                try {
-                    sendMsg(update.getMessage().getChatId(), "⚠️ Произошла ошибка при обработке команды");
-                } catch (Exception ex) {
-                    log.error("Не удалось отправить сообщение об ошибке: {}", ex.getMessage());
-                }
+                sendMessage(update.getMessage().getChatId(), "⚠️ Произошла ошибка при обработке команды");
             }
         }
     }
 
 
-    private void startCommand(long chatId, String userName)  {
-        try {
-            String safeName = userName != null ? userName : "пользователь";
-            sendMsg(chatId, "Приветствую, " + safeName + "...");
-            kafkaProducer.sendChatRegisterRequest(chatId);
-            sendMsg(chatId, "🔍 Проверяем вашу регистрацию...");
-        } catch (Exception e) {
-            sendMsg(chatId, "⚠️ Временная ошибка сервера");
-            log.error("Произошла ошибка в классе TelegramBotService метода startcommand, [{}]", e.getMessage());
-        }
-
-    }
-
-
-    private void handleTrackCommand(String linkMsg, long chatId)  {
-
-        String[] parts = linkMsg.split("\\s+", 2);
-        if (parts.length < 2) {
-            sendMsg(chatId, "ℹ️ Использование: /track <ссылка_на_вопрос>");
-            return;
-        }
-        String link = parts[1].trim();
-        Optional<Long> questionIdOp = parseQuestionId(link);
-        if (questionIdOp.isEmpty()) {
-            sendMsg(chatId, "❌ Неверный формат ссылки. Пример: /track https://stackoverflow.com/questions/12345");
-            return;
-        }
-        try {
-            kafkaProducer.sendSubscribeLinkRequest(chatId, link);
-        } catch (Exception e) {
-            log.error("Ошибка подписки chatId={}: {}", chatId, e.getMessage());
-            sendMsg(chatId, "⚠️ Временная ошибка сервера");
-        }
-    }
-
-
-    private void unTrackCommand(long chatId, String linkMsg)  {
-        String[] parts = linkMsg.split("\\s+", 2);
-        if (parts.length < 2) {
-            sendMsg(chatId, "ℹ️ Использование: /untrack <ссылка_на_вопрос>");
-            return;
-        }
-        String link = parts[1].trim();
-        try {
-            kafkaProducer.sendUnSubscribeLinkRequest(chatId, link);
-            sendMsg(chatId, "⌛ Идёт отписка...");
-        } catch (Exception e) {
-            log.error("Ошибка отписки chatId={}: {}", chatId, e.getMessage());
-            sendMsg(chatId, "⚠️ Временная ошибка сервера");
-        }
-    }
-
-    private void getAllLinksSubscribes(long chatId) {
-        try {
-            kafkaProducer.sendAllSubscribeLinksRequest(chatId);
-        } catch (Exception e) {
-            log.error("Произошла ошибка в классе TelegramBotService метода getAllLinksSubscribes, [{}]", e.getMessage());
-            sendMsg(chatId, "⚠️ Временная ошибка сервера");
-        }
-    }
-
-    public void trackStock(long chatId, String userMsg) {
-        String[] parts = userMsg.split("\\s+", 2);
-        if (parts.length < 2) {
-            sendMsg(chatId, "ℹ️ Использование: /tSock <тикер_акции>");
-            return;
-        }
-        String ticker = parts[1].trim();
-
-        if (ticker.isBlank() || ticker == null) {
-            sendMsg(chatId, "❌ Неверный формат. Пример: /tStock SBER (пример акции Сбербанк)");
-            return;
-        }
-        try {
-           kafkaProducer.sendSubscribeStockRequest(chatId,ticker);
-        } catch (Exception e) {
-            log.error("Ошибка при подписке на акцию {}|{}", ticker, e.getMessage());
-            sendMsg(chatId, "⚠️ При подписке что-то пошло не так");
-        }
-    }
-
-    public void untrackStock(long chatId, String userMsg) {
-        String[] parts = userMsg.split("\\s+", 2);
-        if (parts.length < 2) {
-            sendMsg(chatId, "ℹ️ Использование: /utstock <тикер_акции>");
-            return;
-        }
-        String ticker = parts[1].trim();
-
-        try {
-          kafkaProducer.sendUnSubscribeStockRequest(chatId,ticker);
-        } catch (Exception e) {
-            log.error("Ошибка отписки от акции chatId={}: {}", chatId, e.getMessage());
-            sendMsg(chatId, "⚠️ Временная ошибка сервера");
-        }
-
-    }
-
-    public void getAllStockSubscribes(long chatId) {
-        try {
-           kafkaProducer.sendGetStockSubscribeRequest(chatId);
-        } catch (Exception e) {
-            log.error("Ошибка получения подписок для chatId {}: {}", chatId, e.getMessage());
-            sendMsg(chatId, "⚠️ Произошла ошибка при получении данных. Попробуйте позже.");
-        }
-    }
-
-
-    public void sendMsg(long chatId, String textSend) {
+    public void sendMessage(long chatId, String textSend) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText(textSend);
@@ -237,10 +108,6 @@ public class TelegramBotService extends TelegramLongPollingBot {
         }
     }
 
-    public Mono<Void> sendReactiveMsg(long chatId, String textSend) {
-        return Mono.fromRunnable(() -> sendMsg(chatId, textSend))
-                .subscribeOn(Schedulers.boundedElastic()).then();
-    }
 
     public boolean isChatRegister(long chatId) throws TelegramApiException {
 
@@ -267,7 +134,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
                 throw new TelegramApiException("Ожидание прервано");
             }
         }
-        sendMsg(chatId, "⌛ Сервис временно недоступен, попробуйте позже");
+        sendMessage(chatId, "⌛ Сервис временно недоступен, попробуйте позже");
         return false;
     }
 

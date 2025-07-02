@@ -79,7 +79,8 @@ public class ScrapperKafkaConsumer {
                 String link = (String) data.get(LINK_KEY);
                 boolean isUnsubscribed = false;
                 if (linkRepository.existsLink(request.chatId(), link)) {
-                    isUnsubscribed = linkRepository.removeLink(request.chatId(), link);
+                    linkRepository.removeLink(request.chatId(), link);
+                    isUnsubscribed=true;
                 }
                 log.info("Пользователь {} отписался от {}", request.chatId(), link);
                 kafkaProducer.sendResponse(
@@ -129,7 +130,8 @@ public class ScrapperKafkaConsumer {
                 String ticker = (String) data.get(STOCK_KEY);
                 boolean isUnsubscribe = false;
                 if (stockRepository.existsByTicker(request.chatId(), ticker)) {
-                    isUnsubscribe = stockRepository.removeStock(request.chatId(), ticker);
+                     stockRepository.removeStock(request.chatId(), ticker);
+                     isUnsubscribe = true;
                 }
                 kafkaProducer.sendResponse(request.chatId(),
                         new KafkaRecords.KafkaResponse(request.chatId(), MessageTypes.UNSUBSCRIBE_RESULT_STOCK, Map.of(STOCK_KEY, isUnsubscribe)));

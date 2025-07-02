@@ -16,12 +16,12 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO stock (chat_id, ticker) VALUES (:chatId, :ticker) ", nativeQuery = true)
-     boolean subscribeStock(@Param("chatId") long chatId, @Param("ticker") String ticker);
+     void subscribeStock(@Param("chatId") long chatId, @Param("ticker") String ticker);
 
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM stock WHERE chat_id = :chatId AND ticker = :ticker", nativeQuery = true)
-    boolean removeStock(@Param("chatId") long chatId, @Param("ticker") String ticker);
+    void removeStock(@Param("chatId") long chatId, @Param("ticker") String ticker);
 
     @Transactional
     @Query(value = "SELECT ticker FROM stock WHERE chat_id = :chatId", nativeQuery = true)
