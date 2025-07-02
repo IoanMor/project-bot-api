@@ -2,7 +2,7 @@ package me.ivanmorozov.telegrambot.core.command;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.telegrambot.client.MessageTelegramClient;
+import me.ivanmorozov.telegrambot.client.MessageWrapper;
 import me.ivanmorozov.telegrambot.core.BotCommandHandler;
 import me.ivanmorozov.telegrambot.kafka.TelegramKafkaProducer;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class GetAllLinksSubscribeCommand implements BotCommandHandler {
     private final TelegramKafkaProducer kafkaProducer;
-    private final MessageTelegramClient sendMessage;
+    private final MessageWrapper messageWrapper;
 
 
     @Override
@@ -26,7 +26,7 @@ public class GetAllLinksSubscribeCommand implements BotCommandHandler {
             kafkaProducer.sendAllSubscribeLinksRequest(chatId);
         } catch (Exception e) {
             log.error("Произошла ошибка в классе GetAllLinksSubscribeCommand, [{}]", e.getMessage());
-            sendMessage.sendMessageClient(chatId, "⚠️ Временная ошибка сервера").subscribe();
+            messageWrapper.sendMessage(chatId, "⚠️ Временная ошибка сервера").subscribe();
         }
     }
 }

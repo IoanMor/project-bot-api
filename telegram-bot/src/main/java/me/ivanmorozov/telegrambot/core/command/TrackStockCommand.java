@@ -2,7 +2,7 @@ package me.ivanmorozov.telegrambot.core.command;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.telegrambot.client.MessageTelegramClient;
+import me.ivanmorozov.telegrambot.client.MessageWrapper;
 import me.ivanmorozov.telegrambot.core.BotCommandHandler;
 import me.ivanmorozov.telegrambot.kafka.TelegramKafkaProducer;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class TrackStockCommand implements BotCommandHandler {
     private final TelegramKafkaProducer kafkaProducer;
-    private final MessageTelegramClient sendMessage;
+    private final MessageWrapper messageWrapper;
 
 
     @Override
@@ -24,20 +24,20 @@ public class TrackStockCommand implements BotCommandHandler {
     public void execute(long chatId, String userName, String[] args) {
 
         if (args.length < 1) {
-            sendMessage.sendMessageClient(chatId, "ℹ️ Использование: /tstock <тикер_акции>").subscribe();
+            messageWrapper.sendMessage(chatId, "ℹ️ Использование: /tstock <тикер_акции>").subscribe();
             return;
         }
         String ticker = args[0];
 
         if (ticker.isBlank() || ticker == null) {
-            sendMessage.sendMessageClient(chatId, "❌ Неверный формат. Пример: /tStock SBER (пример акции Сбербанк)").subscribe();
+            messageWrapper.sendMessage(chatId, "❌ Неверный формат. Пример: /tStock SBER (пример акции Сбербанк)").subscribe();
             return;
         }
         try {
             kafkaProducer.sendSubscribeStockRequest(chatId, ticker);
         } catch (Exception e) {
             log.error("Ошибка при подписке на акцию {}|{}", ticker, e.getMessage());
-            sendMessage.sendMessageClient(chatId, "⚠️ При подписке что-то пошло не так").subscribe();
+            messageWrapper.sendMessage(chatId, "⚠️ При подписке что-то пошло не так").subscribe();
         }
     }
 }

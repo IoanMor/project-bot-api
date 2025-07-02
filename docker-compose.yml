@@ -1,4 +1,15 @@
 services:
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+        - "3000:3000"
   zookeeper:
     image: zookeeper:3.8.2
     hostname: zookeeper
@@ -79,3 +90,4 @@ volumes:
   zookeeper-data:
   zookeeper-log:
   kafka-data:
+

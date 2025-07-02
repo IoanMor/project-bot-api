@@ -2,7 +2,7 @@ package me.ivanmorozov.telegrambot.core.command;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.telegrambot.client.MessageTelegramClient;
+import me.ivanmorozov.telegrambot.client.MessageWrapper;
 import me.ivanmorozov.telegrambot.core.BotCommandHandler;
 import me.ivanmorozov.telegrambot.kafka.TelegramKafkaProducer;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UnTrackLinkCommand implements BotCommandHandler {
     private final TelegramKafkaProducer kafkaProducer;
-    private final MessageTelegramClient sendMessage;
+    private final MessageWrapper messageWrapper;
     @Override
     public String getCommand() {
         return "/untrack";
@@ -21,16 +21,16 @@ public class UnTrackLinkCommand implements BotCommandHandler {
     @Override
     public void execute(long chatId, String userName, String[] args) {
         if (args.length < 1) {
-            sendMessage.sendMessageClient(chatId, "ℹ️ Использование: /untrack <ссылка_на_вопрос>").subscribe();
+            messageWrapper.sendMessage(chatId, "ℹ️ Использование: /untrack <ссылка_на_вопрос>").subscribe();
             return;
         }
         String link = args[0];
         try {
             kafkaProducer.sendUnSubscribeLinkRequest(chatId, link);
-            sendMessage.sendMessageClient(chatId, "⌛ Идёт отписка...").subscribe();
+            messageWrapper.sendMessage(chatId, "⌛ Идёт отписка...").subscribe();
         } catch (Exception e) {
             log.error("Ошибка отписки chatId={}: {}", chatId, e.getMessage());
-            sendMessage.sendMessageClient(chatId, "⚠️ Временная ошибка сервера").subscribe();
+            messageWrapper.sendMessage(chatId, "⚠️ Временная ошибка сервера").subscribe();
         }
     }
 }

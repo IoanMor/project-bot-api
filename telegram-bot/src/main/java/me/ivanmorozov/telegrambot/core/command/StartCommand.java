@@ -1,8 +1,12 @@
 package me.ivanmorozov.telegrambot.core.command;
 
+
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.ivanmorozov.telegrambot.client.MessageTelegramClient;
+import me.ivanmorozov.telegrambot.client.MessageWrapper;
 import me.ivanmorozov.telegrambot.core.BotCommandHandler;
 import me.ivanmorozov.telegrambot.kafka.TelegramKafkaProducer;
 
@@ -13,7 +17,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class StartCommand implements BotCommandHandler {
     private final TelegramKafkaProducer kafkaProducer;
-    private final MessageTelegramClient sendMessage;
+    private final MessageWrapper messageWrapper;
+    private final MeterRegistry meterRegistry;
+    private Counter startCommandCounter;
+
+    @PostConstruct
+    public void initCounter() {
+        startCommandCounter = meterRegistry.counter("telegram.bot.command.start");
+    }
     @Override
     public String getCommand() {
         return "/start";
@@ -23,11 +34,11 @@ public class StartCommand implements BotCommandHandler {
     public void execute(long chatId, String userName,String[] args) {
         try {
             String safeName = userName != null ? userName : "пользователь";
-            sendMessage.sendMessageClient(chatId, "Приветствую, " + safeName + "...").subscribe();
+            messageWrapper.sendMessage(chatId, "Приветствую, %s .",safeName).subscribe();
             kafkaProducer.sendChatRegisterRequest(chatId);
-            sendMessage.sendMessageClient(chatId, "🔍 Проверяем вашу регистрацию...").subscribe();
+            messageWrapper.sendMessage(chatId, "🔍 Проверяем вашу регистрацию...").subscribe();
         } catch (Exception e) {
-            sendMessage.sendMessageClient(chatId, "⚠️ Временная ошибка сервера").subscribe();
+            messageWrapper.sendMessage(chatId, "⚠️ Временная ошибка сервера").subscribe();
             throw new RuntimeException("Ошибка при выполнении /start", e);
         }
     }

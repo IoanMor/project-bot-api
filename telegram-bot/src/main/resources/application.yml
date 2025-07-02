@@ -37,3 +37,19 @@ logging:
   level:
     me.ivanmorozov.scrapper.services.CheckSubscribeService: DEBUG
     me.ivanmorozov.scrapper.client.StackOverflowClient: TRACE
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - health
+        - info
+        - prometheus
+  metrics:
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
