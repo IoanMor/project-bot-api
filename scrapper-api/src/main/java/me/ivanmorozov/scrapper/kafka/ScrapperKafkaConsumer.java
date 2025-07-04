@@ -6,6 +6,7 @@ import me.ivanmorozov.common.kafka.KafkaTopics;
 import me.ivanmorozov.common.kafka.MessageTypes;
 import me.ivanmorozov.common.records.KafkaRecords;
 import me.ivanmorozov.scrapper.client.StockApiClient;
+import me.ivanmorozov.scrapper.metrics.ScrapperMetrics;
 import me.ivanmorozov.scrapper.repositories.LinkRepository;
 import me.ivanmorozov.scrapper.repositories.StockRepository;
 import me.ivanmorozov.scrapper.repositories.TelegramChatRepository;
@@ -30,11 +31,13 @@ public class ScrapperKafkaConsumer {
     private final StockRepository stockRepository;
     private final ScrapperKafkaProducer kafkaProducer;
     private final StockApiClient stockApiClient;
+    private final ScrapperMetrics metrics;
 
 
     @KafkaListener(topics = KafkaTopics.REQUEST_TOPIC, groupId = "scrapper-api-group")
     public void handleRequest(KafkaRecords.KafkaRequest request) {
         log.info("[->] Получен запрос: {}", request);
+
         switch (request.type()) {
             case MessageTypes.CHAT_REGISTER -> {
                 if (Objects.equals(chatRepository.existChat(request.chatId()),request.chatId())) {

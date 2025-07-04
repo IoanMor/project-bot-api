@@ -10,6 +10,7 @@ import me.ivanmorozov.common.records.KafkaRecords;
 
 import me.ivanmorozov.telegrambot.cache.RegistrationCache;
 import me.ivanmorozov.telegrambot.client.MessageWrapper;
+import me.ivanmorozov.telegrambot.metric.BotMetrics;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +25,14 @@ import static me.ivanmorozov.common.kafka.KafkaDataTypeKey.*;
 public class TelegramKafkaConsumer {
     private final RegistrationCache cache;
     private final MessageWrapper messageWrapper;
+    private final BotMetrics metrics;
 
     @KafkaListener(topics = KafkaTopics.RESPONSE_TOPIC, groupId = "telegram-bot-group")
     public void handleResponse(KafkaRecords.KafkaResponse response) {
         Map<String, Object> dataMap = response.data() != null ? (Map<String, Object>) response.data() : Collections.emptyMap();
 
         log.info("[-.] Получен ответ: {}", response);
+        metrics.recordTelegramMessageCountResponse(response.type());
         try {
             switch (response.type()) {
                 case MessageTypes.CREATED -> {

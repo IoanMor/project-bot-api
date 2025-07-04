@@ -57,6 +57,10 @@
             <artifactId>spring-kafka</artifactId>
             <version>3.3.6</version>
         </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
