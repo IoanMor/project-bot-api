@@ -12,7 +12,9 @@ public class MetricsRecorder {
     public void incrementCounter(String nameMetric){
         meterRegistry.counter(nameMetric).increment();
     }
-    public void incrementCounter(String nameMetric, String type){
-        meterRegistry.counter(nameMetric,type).increment();
+    public void incrementCounter(String nameMetric, String... types){
+        meterRegistry.counter(nameMetric,types).increment();
     }
+
+
 }

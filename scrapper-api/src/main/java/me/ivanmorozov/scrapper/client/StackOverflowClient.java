@@ -3,6 +3,7 @@ package me.ivanmorozov.scrapper.client;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 
+import me.ivanmorozov.scrapper.metrics.ScrapperMetrics;
 import me.ivanmorozov.scrapper.repositories.LinkRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import reactor.core.scheduler.Schedulers;
 import java.time.Duration;
 
 import static me.ivanmorozov.common.apiUrl.APIUrl.STACK_API_URL;
+import static me.ivanmorozov.common.apiUrl.APIUrl.STOCK_API_URL;
 
 @Component
 @Slf4j
@@ -22,10 +24,11 @@ import static me.ivanmorozov.common.apiUrl.APIUrl.STACK_API_URL;
 public class StackOverflowClient {
     private final WebClient webClient;
     private final LinkRepository linkRepository;
+private final ScrapperMetrics scrapperMetrics;
 
-
-    public StackOverflowClient(LinkRepository linkRepository) {
+    public StackOverflowClient(LinkRepository linkRepository, ScrapperMetrics scrapperMetrics) {
         this.linkRepository = linkRepository;
+        this.scrapperMetrics = scrapperMetrics;
 
         this.webClient = WebClient.builder()
                 .baseUrl(STACK_API_URL)
@@ -40,6 +43,7 @@ public class StackOverflowClient {
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .doOnNext(response -> log.info("Ответ API: {}", response))
+                .doOnSuccess(ignore -> scrapperMetrics.recordApiCallSuccess("stackoverflow-API"))
                 .flatMap(response -> {
                     int currentCount = response.path("total").asInt();
                     return Mono.fromCallable(() -> linkRepository.getCountAnswer(chatId, link))
@@ -61,6 +65,7 @@ public class StackOverflowClient {
                 .timeout(Duration.ofSeconds(5))
                 .onErrorResume(e -> {
                     log.error("Ошибка API: {}", e.getMessage());
+                    scrapperMetrics.recordApiCallFailure(String.valueOf(e));
                     return Mono.just(false);
                 });
     }

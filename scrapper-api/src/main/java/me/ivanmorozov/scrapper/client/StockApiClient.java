@@ -1,10 +1,8 @@
 package me.ivanmorozov.scrapper.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.data.domain.Range;
+import me.ivanmorozov.scrapper.metrics.ScrapperMetrics;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -17,8 +15,10 @@ import static me.ivanmorozov.common.apiUrl.APIUrl.STOCK_API_URL;
 @Component
 public class StockApiClient {
     private final WebClient webClient;
+    private final ScrapperMetrics scrapperMetrics;
 
-    public StockApiClient() {
+    public StockApiClient(ScrapperMetrics scrapperMetrics) {
+        this.scrapperMetrics = scrapperMetrics;
         this.webClient = WebClient.builder()
                 .baseUrl(STOCK_API_URL)
                 .build();
@@ -31,6 +31,7 @@ public class StockApiClient {
                 .retrieve()
                 .bodyToMono(String.class)
                 .flatMap(response -> parsingPrice(response, ticker))
+                .doOnSuccess(__->scrapperMetrics.recordApiCallSuccess("moex-getPrice-API"))
                 .onErrorResume(e -> Mono.error(new RuntimeException("Ошибка при получении цены акции  " + ticker + "\n" + e.getMessage())));
     }
 
@@ -41,6 +42,7 @@ public class StockApiClient {
                 .retrieve()
                 .bodyToMono(String.class)
                 .flatMap(response -> parsingNameTicket(response, ticker))
+                .doOnSuccess(__->scrapperMetrics.recordApiCallSuccess("moex-getTicker-API"))
                 .onErrorResume(e -> Mono.error(new RuntimeException("Ошибка при получении тикера акции  " + ticker + "\n" + e.getMessage())));
     }
 

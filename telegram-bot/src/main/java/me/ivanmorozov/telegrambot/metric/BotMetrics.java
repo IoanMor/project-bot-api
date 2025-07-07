@@ -9,19 +9,13 @@ import org.springframework.stereotype.Component;
 public class BotMetrics {
     private final MetricsRecorder metricsRecorder;
 
-    public void recordTelegramMessageCountResponse() {
-        metricsRecorder.incrementCounter("telegram.messages.response");
-    }
 
     public void recordTelegramMessageCountResponse(String type) {
-        metricsRecorder.incrementCounter("telegram.messages.response",type);
+        metricsRecorder.incrementCounter("telegram.messages.response","name",type);
     }
 
-    public void recordKafkaMessageCountRequest() {
-        metricsRecorder.incrementCounter("kafka.messages.request");
-    }
     public void recordKafkaMessageCountRequest(String type) {
-        metricsRecorder.incrementCounter("kafka.messages.request", type);
+        metricsRecorder.incrementCounter("telegram.messages.request","name",type);
     }
 
 }

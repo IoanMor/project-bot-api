@@ -4,23 +4,23 @@ import lombok.RequiredArgsConstructor;
 import me.ivanmorozov.common.metric.MetricsRecorder;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Component
 @RequiredArgsConstructor
 public class ScrapperMetrics {
     private final MetricsRecorder metricsRecorder;
 
-    public void recordKafkaMessageCountResponse() {
-        metricsRecorder.incrementCounter("kafka.messages.received");
-    }
+
     public void recordKafkaMessageCountResponse(String type) {
-        metricsRecorder.incrementCounter("kafka.messages.received", type);
+        metricsRecorder.incrementCounter("scrapper.messages.response","success", type);
     }
 
-    public void recordApiCallSuccess() {
-        metricsRecorder.incrementCounter("scrapper.api.calls.success");
+    public void recordApiCallSuccess(String nameApi) {
+        metricsRecorder.incrementCounter("scrapper.api.calls.success","success",nameApi);
     }
 
-    public void recordApiCallFailure() {
-        metricsRecorder.incrementCounter("scrapper.api.calls.failure");
+    public void recordApiCallFailure(String errorType) {
+        metricsRecorder.incrementCounter("scrapper.api.calls.failure","error", errorType);
     }
 }
