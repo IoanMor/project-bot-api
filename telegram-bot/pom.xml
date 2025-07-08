@@ -27,14 +27,6 @@
             </exclusions>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/mockwebserver -->
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>mockwebserver</artifactId>
-            <version>4.12.0</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Telegram -->
         <dependency>
             <groupId>org.telegram</groupId>
@@ -57,13 +49,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.projectreactor/reactor-test -->
-        <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-test</artifactId>
-            <version>3.1.0.RELEASE</version>
-            <scope>test</scope>
-        </dependency>
+
 
         <!-- WebClient -->
         <dependency>
@@ -125,6 +111,12 @@
             <artifactId>scrapper-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

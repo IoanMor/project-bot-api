@@ -3,10 +3,10 @@ package me.ivanmorozov.scrapper.client;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 
+import me.ivanmorozov.scrapper.config.WebClientConfig;
 import me.ivanmorozov.scrapper.metrics.ScrapperMetrics;
 import me.ivanmorozov.scrapper.repositories.LinkRepository;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -15,24 +15,18 @@ import reactor.core.scheduler.Schedulers;
 
 import java.time.Duration;
 
-import static me.ivanmorozov.common.apiUrl.APIUrl.STACK_API_URL;
-import static me.ivanmorozov.common.apiUrl.APIUrl.STOCK_API_URL;
-
 @Component
 @Slf4j
 
 public class StackOverflowClient {
     private final WebClient webClient;
     private final LinkRepository linkRepository;
-private final ScrapperMetrics scrapperMetrics;
+    private final ScrapperMetrics scrapperMetrics;
 
-    public StackOverflowClient(LinkRepository linkRepository, ScrapperMetrics scrapperMetrics) {
+    public StackOverflowClient(@Qualifier("stackOverFlowWebClient")WebClient webClient, LinkRepository linkRepository, ScrapperMetrics scrapperMetrics, WebClientConfig webClientConfig) {
+        this.webClient = webClient;
         this.linkRepository = linkRepository;
         this.scrapperMetrics = scrapperMetrics;
-
-        this.webClient = WebClient.builder()
-                .baseUrl(STACK_API_URL)
-                .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE).build();
     }
 
     public Mono<Boolean> trackLink(Long questionId, long chatId, String link) {

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 public class BotMetrics {
     private final MetricsRecorder metricsRecorder;
 
-
     public void recordTelegramMessageCountResponse(String type) {
         metricsRecorder.incrementCounter("telegram.messages.response","name",type);
     }

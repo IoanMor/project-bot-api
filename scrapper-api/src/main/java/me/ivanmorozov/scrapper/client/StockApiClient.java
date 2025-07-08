@@ -3,6 +3,7 @@ package me.ivanmorozov.scrapper.client;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.ivanmorozov.scrapper.metrics.ScrapperMetrics;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -10,18 +11,15 @@ import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import static me.ivanmorozov.common.apiUrl.APIUrl.STOCK_API_URL;
-
 @Component
 public class StockApiClient {
     private final WebClient webClient;
     private final ScrapperMetrics scrapperMetrics;
 
-    public StockApiClient(ScrapperMetrics scrapperMetrics) {
+    public StockApiClient(@Qualifier("stockApiClient") WebClient webClient, ScrapperMetrics scrapperMetrics) {
+        this.webClient = webClient;
         this.scrapperMetrics = scrapperMetrics;
-        this.webClient = WebClient.builder()
-                .baseUrl(STOCK_API_URL)
-                .build();
+
     }
 
     public Mono<BigDecimal> getPrice(String ticker) {
