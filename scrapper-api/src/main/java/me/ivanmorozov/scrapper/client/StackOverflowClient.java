@@ -17,7 +17,6 @@ import java.time.Duration;
 
 @Component
 @Slf4j
-
 public class StackOverflowClient {
     private final WebClient webClient;
     private final LinkRepository linkRepository;

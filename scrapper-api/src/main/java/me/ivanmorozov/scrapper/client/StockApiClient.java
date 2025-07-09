@@ -16,10 +16,9 @@ public class StockApiClient {
     private final WebClient webClient;
     private final ScrapperMetrics scrapperMetrics;
 
-    public StockApiClient(@Qualifier("stockApiClient") WebClient webClient, ScrapperMetrics scrapperMetrics) {
+    public StockApiClient(@Qualifier("stockApiWebClient") WebClient webClient, ScrapperMetrics scrapperMetrics) {
         this.webClient = webClient;
         this.scrapperMetrics = scrapperMetrics;
-
     }
 
     public Mono<BigDecimal> getPrice(String ticker) {

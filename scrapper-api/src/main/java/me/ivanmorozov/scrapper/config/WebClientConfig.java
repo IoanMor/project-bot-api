@@ -18,9 +18,8 @@ public class WebClientConfig {
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
-
     @Bean
-    public WebClient stockApiClient(){
+    public WebClient stockApiWebClient(){
         return WebClient.builder()
                 .baseUrl(STOCK_API_URL)
                 .build();
