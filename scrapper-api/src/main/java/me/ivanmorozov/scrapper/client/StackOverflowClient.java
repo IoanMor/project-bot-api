@@ -36,7 +36,7 @@ public class StackOverflowClient {
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .doOnNext(response -> log.info("Ответ API: {}", response))
-                .doOnSuccess(ignore -> scrapperMetrics.recordApiCallSuccess("stackoverflow-API"))
+                .doOnSuccess(response -> scrapperMetrics.recordApiCallSuccess("stackoverflow-API"))
                 .flatMap(response -> {
                     int currentCount = response.path("total").asInt();
                     return Mono.fromCallable(() -> linkRepository.getCountAnswer(chatId, link))
