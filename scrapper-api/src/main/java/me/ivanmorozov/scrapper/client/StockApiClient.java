@@ -26,7 +26,7 @@ public class StockApiClient {
         return webClient.get()
                 .uri(URI)
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(JsonNode.class)
                 .flatMap(response -> parsingPrice(response, ticker))
                 .doOnSuccess(__->scrapperMetrics.recordApiCallSuccess("moex-getPrice-API"))
                 .onErrorResume(e -> Mono.error(new RuntimeException("Ошибка при получении цены акции  " + ticker + "\n" + e.getMessage())));
@@ -43,11 +43,11 @@ public class StockApiClient {
                 .onErrorResume(e -> Mono.error(new RuntimeException("Ошибка при получении тикера акции  " + ticker + "\n" + e.getMessage())));
     }
 
-    private Mono<BigDecimal> parsingPrice(String jsonResponse, String ticker) {
+    private Mono<BigDecimal> parsingPrice(JsonNode jsonResponse, String ticker) {
         try {
-            JsonNode root = new ObjectMapper().readTree(jsonResponse);
+
             BigDecimal price = new BigDecimal(
-                    root.path("securities")
+                    jsonResponse.path("securities")
                             .path("data")
                             .get(0)
                             .get(3)
@@ -87,4 +87,5 @@ public class StockApiClient {
                .defaultIfEmpty(false)
                .onErrorReturn(false);
     }
+
 }

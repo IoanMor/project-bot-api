@@ -2,6 +2,8 @@ package me.ivanmorozov.scrapper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.NullNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import me.ivanmorozov.scrapper.client.StackOverflowClient;
 import me.ivanmorozov.scrapper.config.WebClientConfig;
 import me.ivanmorozov.scrapper.metrics.ScrapperMetrics;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.internal.matchers.Null;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.verification.VerificationMode;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,16 +52,15 @@ public class StackOverflowClientTest {
     @BeforeEach
     void setUp() {
         stackOverflowClient = new StackOverflowClient(webClient, linkRepository, scrapperMetrics, webClientConfig);
+        when(webClient.get()).thenReturn(requestHeadersUriSpec);
+        when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
+        when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
     }
 
 
     @Test
     public void trackLink_shouldCheckCountAnswerAndCompareWithDB() {
         JsonNode fakeResponse = new ObjectMapper().createObjectNode().put("total", 5);
-
-        when(webClient.get()).thenReturn(requestHeadersUriSpec);
-        when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
-        when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(JsonNode.class)).thenReturn(Mono.just(fakeResponse));
         when(linkRepository.getCountAnswer(1L, "https://stackoverflow.com/q/123")).thenReturn(5);
 
@@ -73,30 +75,25 @@ public class StackOverflowClientTest {
     }
 
     @Test
-    public void trackLink_updatesAnswerCount_ifNewCountIsGreater(){
-        JsonNode fakeResponse = new ObjectMapper().createObjectNode().put("total", 1);
+    public void trackLink_updatesAnswerCount_ifNewCountIsGreater() {
+        JsonNode fakeResponse = new ObjectMapper().createObjectNode().put("total", 3);
 
-        when(webClient.get()).thenReturn(requestHeadersUriSpec);
-        when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
-        when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(JsonNode.class)).thenReturn(Mono.just(fakeResponse));
         when(linkRepository.getCountAnswer(1L, "https://stackoverflow.com/q/123")).thenReturn(2);
 
         Mono<Boolean> result = stackOverflowClient.trackLink(123L, 1L, "https://stackoverflow.com/q/123");
 
         StepVerifier.create(result)
-                .expectNext(false)
+                .expectNext(true)
                 .verifyComplete();
         verify(linkRepository, atLeast(1)).updateCountAnswer(anyLong(), anyString(), anyInt());
         verify(scrapperMetrics).recordApiCallSuccess("stackoverflow-API");
     }
+
     @Test
-    public void trackLink_updatesAnswerCount_ifCountIsLess(){
+    public void trackLink_updatesAnswerCount_ifCountIsLess() {
         JsonNode fakeResponse = new ObjectMapper().createObjectNode().put("total", 1);
 
-        when(webClient.get()).thenReturn(requestHeadersUriSpec);
-        when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
-        when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(JsonNode.class)).thenReturn(Mono.just(fakeResponse));
         when(linkRepository.getCountAnswer(1L, "https://stackoverflow.com/q/123")).thenReturn(2);
 
@@ -110,14 +107,42 @@ public class StackOverflowClientTest {
     }
 
     @Test
-    public void trackLink_shouldReturnFalse_ifApiGetError(){
+    public void trackLink_shouldHandleMissingTotalField() {
+        JsonNode fakeResponse = new ObjectMapper().createObjectNode().put("", "");
+        when(responseSpec.bodyToMono(JsonNode.class)).thenReturn(Mono.just(fakeResponse));
+        Mono<Boolean> result = stackOverflowClient.trackLink(123L, 1L, "https://stackoverflow.com/q/123");
 
-        when(webClient.get()).thenReturn(requestHeadersUriSpec);
-        when(requestHeadersUriSpec.uri(anyString())).thenReturn(requestHeadersSpec);
-        when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
+        StepVerifier.create(result)
+                .expectNext(false)
+                .verifyComplete();
+
+        verify(linkRepository, never()).updateCountAnswer(anyLong(), anyString(), anyInt());
+        verify(scrapperMetrics).recordApiCallFailure(argThat(s -> s.contains("Ошибка API-Not Found Node") || s.contains("null")));
+    }
+
+    @Test
+    public void trackLink_shouldHandleNullTotalField() {
+        ObjectNode fakeResponse = new ObjectMapper().createObjectNode();
+
+        fakeResponse.set("total", NullNode.getInstance());
+
+        when(responseSpec.bodyToMono(JsonNode.class)).thenReturn(Mono.just(fakeResponse));
+        Mono<Boolean> result = stackOverflowClient.trackLink(123L, 1L, "https://stackoverflow.com/q/123");
+
+        StepVerifier.create(result)
+                .expectNext(false)
+                .verifyComplete();
+
+        verify(linkRepository, never()).updateCountAnswer(anyLong(), anyString(), anyInt());
+        verify(scrapperMetrics).recordApiCallFailure(argThat(s -> s.contains("Ошибка API-Not Found Node") || s.contains("null")));
+    }
+
+    @Test
+    public void trackLink_shouldReturnFalse_ifApiGetError() {
         when(responseSpec.bodyToMono(JsonNode.class))
                 .thenReturn(Mono.error(
-                        WebClientResponseException.create(404, "Ошибка API-NOT FOUND", HttpHeaders.EMPTY, null, null)));
+                        WebClientResponseException.create(404, "Ошибка API-NOT FOUND", HttpHeaders.EMPTY, null, null))
+                );
 
         Mono<Boolean> result = stackOverflowClient.trackLink(123L, 1L, "https://stackoverflow.com/q/123");
 
@@ -126,7 +151,7 @@ public class StackOverflowClientTest {
                 .verifyComplete();
 
         verify(linkRepository, never()).updateCountAnswer(anyLong(), anyString(), anyInt());
-        verify(scrapperMetrics).recordApiCallFailure(argThat(s->s.contains("Ошибка API-NOT FOUND")));
+        verify(scrapperMetrics).recordApiCallFailure(argThat(s -> s.contains("Ошибка API-NOT FOUND")));
     }
 
 }

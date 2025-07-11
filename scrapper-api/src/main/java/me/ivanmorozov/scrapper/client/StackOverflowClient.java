@@ -7,13 +7,17 @@ import me.ivanmorozov.scrapper.config.WebClientConfig;
 import me.ivanmorozov.scrapper.metrics.ScrapperMetrics;
 import me.ivanmorozov.scrapper.repositories.LinkRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 
 import java.time.Duration;
+import java.util.Objects;
 
 @Component
 @Slf4j
@@ -36,8 +40,10 @@ public class StackOverflowClient {
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .doOnNext(response -> log.info("Ответ API: {}", response))
-                .doOnSuccess(response -> scrapperMetrics.recordApiCallSuccess("stackoverflow-API"))
                 .flatMap(response -> {
+                    if (response.path("total").isMissingNode() || response.path("total").isNull()){
+                        return Mono.error(WebClientResponseException.create(404, "Ошибка API-Not Found Node", HttpHeaders.EMPTY, null, null));
+                    }
                     int currentCount = response.path("total").asInt();
                     return Mono.fromCallable(() -> linkRepository.getCountAnswer(chatId, link))
                             .subscribeOn(Schedulers.boundedElastic())
@@ -55,6 +61,7 @@ public class StackOverflowClient {
 
 
                 })
+                .doOnSuccess(response -> scrapperMetrics.recordApiCallSuccess("stackoverflow-API"))
                 .timeout(Duration.ofSeconds(5))
                 .onErrorResume(e -> {
                     log.error("Ошибка API: {}", e.getMessage());
