@@ -1,4 +1,4 @@
-package me.ivanmorozov.scrapper;
+package me.ivanmorozov.scrapper.clientTest;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

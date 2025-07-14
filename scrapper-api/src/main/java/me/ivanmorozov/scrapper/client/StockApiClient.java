@@ -4,12 +4,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.ivanmorozov.scrapper.metrics.ScrapperMetrics;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 @Component
 public class StockApiClient {
@@ -26,10 +31,14 @@ public class StockApiClient {
         return webClient.get()
                 .uri(URI)
                 .retrieve()
+                .onStatus(HttpStatusCode::isError,
+                        err -> Mono.error(new WebClientResponseException(err.statusCode().value(),"Ошибка при подключении к API", HttpHeaders.EMPTY,null,null)))
                 .bodyToMono(JsonNode.class)
                 .flatMap(response -> parsingPrice(response, ticker))
                 .doOnSuccess(__->scrapperMetrics.recordApiCallSuccess("moex-getPrice-API"))
-                .onErrorResume(e -> Mono.error(new RuntimeException("Ошибка при получении цены акции  " + ticker + "\n" + e.getMessage())));
+                .onErrorResume(e ->
+                    Mono.error(new RuntimeException("Ошибка при получении цены акции  " + ticker + "\n" + e.getMessage()))
+                );
     }
 
     public Mono<String> getTicker(String ticker){
@@ -37,7 +46,9 @@ public class StockApiClient {
         return webClient.get()
                 .uri(URI)
                 .retrieve()
-                .bodyToMono(String.class)
+                .onStatus(HttpStatusCode::isError,
+                        err -> Mono.error(new WebClientResponseException(err.statusCode().value(),"Ошибка при подключении к API", HttpHeaders.EMPTY,null,null)))
+                .bodyToMono(JsonNode.class)
                 .flatMap(response -> parsingNameTicket(response, ticker))
                 .doOnSuccess(__->scrapperMetrics.recordApiCallSuccess("moex-getTicker-API"))
                 .onErrorResume(e -> Mono.error(new RuntimeException("Ошибка при получении тикера акции  " + ticker + "\n" + e.getMessage())));
@@ -60,16 +71,15 @@ public class StockApiClient {
         }
     }
 
-    private Mono<String> parsingNameTicket(String jsonResponse, String ticker) {
+    private Mono<String> parsingNameTicket(JsonNode jsonResponse, String ticker) {
         try {
-            JsonNode root = new ObjectMapper().readTree(jsonResponse);
-            String nameTicker = root.path("securities")
+            String nameTicker = jsonResponse.path("securities")
                     .path("data")
                     .get(0)
                     .get(0)
                     .asText();
             if (nameTicker.isBlank()){
-                return Mono.empty();
+                return Mono.error(new RuntimeException("В ответе пришло пустое значение"));
             }
             return Mono.just(nameTicker);
 

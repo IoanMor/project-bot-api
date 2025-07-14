@@ -1,4 +1,4 @@
-package me.ivanmorozov.scrapper;
+package me.ivanmorozov.scrapper.serviceTest;
 
 import me.ivanmorozov.scrapper.repositories.TelegramChatRepository;
 import me.ivanmorozov.scrapper.services.ReactiveMethodsDB;

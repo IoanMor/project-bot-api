@@ -29,7 +29,6 @@ import static me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow.parseQuestion
 @Slf4j
 public class CheckSubscribeService {
     private final LinkRepository linkRepository;
-    private final TelegramChatRepository chatRepository;
     private final StackOverflowClient client;
     private final ScrapperKafkaProducer kafkaProducer;
     private final ReactiveMethodsDB reactiveMethod;
@@ -53,7 +52,6 @@ public class CheckSubscribeService {
                         error -> log.error("Фатальная ошибка в потоке проверки: {}", error.getMessage()),
                         () -> log.info("Цикл проверки завершен успешно")
                 );
-
     }
 
     public Mono<Void> checkUserSubscriptions(Long chatId) {
@@ -63,7 +61,7 @@ public class CheckSubscribeService {
                 .flatMap(link -> {
 
                     Long questionId = parseQuestionId(link)
-                            .orElseThrow(() -> new IllegalArgumentException("Invalid link"));
+                            .orElseThrow(() -> new IllegalArgumentException("Некорректная ссылка"));
 
                     return client.trackLink(questionId, chatId, link)
                             .timeout(Duration.ofSeconds(5))
