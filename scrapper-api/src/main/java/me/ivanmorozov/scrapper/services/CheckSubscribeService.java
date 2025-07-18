@@ -59,7 +59,6 @@ public class CheckSubscribeService {
                 .subscribeOn(Schedulers.boundedElastic())
                 .flatMapMany(Flux::fromIterable)
                 .flatMap(link -> {
-
                     Long questionId = parseQuestionId(link)
                             .orElseThrow(() -> new IllegalArgumentException("Некорректная ссылка"));
 
