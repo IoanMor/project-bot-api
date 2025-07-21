@@ -58,13 +58,21 @@ public class CheckPriceStockServiceTest {
 
 
     @Test
-    public void checkSubscribe_shouldCallExceptionIfTrackIsInvalid(){
+    public void checkSubscribe_shouldReturnEmptyIfTrackIsInvalid(){
         when(stockRepository.getTickers(1L)).thenReturn(Set.of("TEST"));
-        when(stockApiClient.getPrice("TEST")).thenReturn(null);
+        when(stockApiClient.getPrice("TEST")).thenReturn(Mono.empty());
 
         Mono<Void> result = checkPriceStockService.checkSubscribeStock(1L);
-        StepVerifier.create(result)
-                .expectError(IllegalArgumentException.class).verify();
+        StepVerifier.create(result).verifyComplete();
     }
 
+    @Test
+    public void checkSubscribe_shouldReturnTickerIfPriceValid(){
+        when(stockRepository.getTickers(1L)).thenReturn(Set.of("TEST","TEST123"));
+        when(stockApiClient.getPrice("TEST")).thenReturn(Mono.empty());
+        when(stockApiClient.getPrice("TEST123")).thenReturn(Mono.just(BigDecimal.valueOf(123)));
+
+        Mono<Void> result = checkPriceStockService.checkSubscribeStock(1L);
+        StepVerifier.create(result).verifyComplete();
+    }
 }

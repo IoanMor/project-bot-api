@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 
 import java.time.Duration;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -60,7 +61,7 @@ public class CheckPriceStockService {
                                 .map(price -> Map.entry(ticker, price))
                                 .onErrorResume((e)->{
                                     log.error("Ошибка при проверке цены акции {},{}",chatId,e.getMessage());
-                                    return Mono.just(Map.Entry<String,BigDecimal>());
+                                    return Mono.empty();
                                 })
 
                 )
@@ -72,6 +73,7 @@ public class CheckPriceStockService {
                     }
                     StringBuilder message = new StringBuilder("📋 Стоимость акций:\n");
                     int counter = 1;
+
                     for (Map.Entry<String, BigDecimal> entry : stockPrices.entrySet()) {
                         message.append(counter++)
                                 .append(" - ")
