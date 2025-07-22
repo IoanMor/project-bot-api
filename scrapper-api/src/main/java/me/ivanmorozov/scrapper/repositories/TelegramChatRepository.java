@@ -16,7 +16,7 @@ public interface TelegramChatRepository extends JpaRepository<TelegramChat,Long>
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO tg_chats (chat_id, registered_at) VALUES (:chatId, :createdAt) ON CONFLICT (chat_id) DO NOTHING", nativeQuery = true)
-    boolean registrationChat(@Param("chatId") long chatId, @Param("createdAt") LocalDateTime createdAt);
+    void registrationChat(@Param("chatId") long chatId, @Param("createdAt") LocalDateTime createdAt);
 
     @Query(value = "SELECT chat_id FROM tg_chats", nativeQuery = true)
     @Transactional(readOnly = true)
@@ -27,4 +27,6 @@ public interface TelegramChatRepository extends JpaRepository<TelegramChat,Long>
 
     @Query(value = "SELECT registered_at FROM tg_chats WHERE chat_id = :chatId", nativeQuery = true)
     LocalDateTime getRegisterTime(@Param("chatId") long chatId);
+
+    void deleteTelegramChatByChatId(long chatId);
 }
