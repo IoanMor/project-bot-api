@@ -28,5 +28,6 @@ public interface TelegramChatRepository extends JpaRepository<TelegramChat,Long>
     @Query(value = "SELECT registered_at FROM tg_chats WHERE chat_id = :chatId", nativeQuery = true)
     LocalDateTime getRegisterTime(@Param("chatId") long chatId);
 
+    @Transactional
     void deleteTelegramChatByChatId(long chatId);
 }
