@@ -38,7 +38,7 @@ public class TrackLinkCommand implements BotCommandHandler {
         try {
             kafkaProducer.sendSubscribeLinkRequest(chatId, link);
         } catch (Exception e) {
-            log.error("Ошибка подписки chatId={}: {}", chatId, e.getMessage());
+            log.error("Ошибка при выполнении /track для  chatId={}", chatId, e);
             messageWrapper.sendMessage(chatId, "⚠️ Временная ошибка сервера").subscribe();
         }
     }

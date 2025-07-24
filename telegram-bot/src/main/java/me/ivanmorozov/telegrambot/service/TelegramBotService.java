@@ -85,6 +85,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
                 sendMessage(chatId, "⛔ Для использования бота необходимо зарегистрироваться!\nВведите команду /start");
                 return;
             }
+
             commandDispatcher.dispatch(msg, chatId, userName);
 
         } catch (Exception e) {

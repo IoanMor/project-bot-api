@@ -38,6 +38,7 @@ public class StartCommand implements BotCommandHandler {
             kafkaProducer.sendChatRegisterRequest(chatId);
             messageWrapper.sendMessage(chatId, "🔍 Проверяем вашу регистрацию...").subscribe();
         } catch (Exception e) {
+            log.error("Ошибка при выполнении /start для chatId={}", chatId, e);
             messageWrapper.sendMessage(chatId, "⚠️ Временная ошибка сервера").subscribe();
             throw new RuntimeException("Ошибка при выполнении /start", e);
         }
