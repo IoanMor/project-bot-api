@@ -34,7 +34,7 @@ public class StartCommand implements BotCommandHandler {
     public void execute(long chatId, String userName,String[] args) {
         try {
             String safeName = userName != null ? userName : "пользователь";
-            messageWrapper.sendMessage(chatId, "Приветствую, %s .",safeName).subscribe();
+            messageWrapper.sendMessage(chatId, "Приветствую, %s.",safeName).subscribe();
             kafkaProducer.sendChatRegisterRequest(chatId);
             messageWrapper.sendMessage(chatId, "🔍 Проверяем вашу регистрацию...").subscribe();
         } catch (Exception e) {

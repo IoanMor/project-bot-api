@@ -13,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -34,6 +35,7 @@ public class StockApiClient {
                 .onStatus(HttpStatusCode::isError,
                         err -> Mono.error(new WebClientResponseException(err.statusCode().value(),"Ошибка при подключении к API", HttpHeaders.EMPTY,null,null)))
                 .bodyToMono(JsonNode.class)
+                .timeout(Duration.ofSeconds(5))
                 .flatMap(response -> parsingPrice(response, ticker))
                 .doOnSuccess(__->scrapperMetrics.recordApiCallSuccess("moex-getPrice-API"))
                 .onErrorResume(e ->
