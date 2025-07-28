@@ -2,6 +2,7 @@ package me.ivanmorozov.telegrambot.client;
 
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.telegrambot.config.TelegramBotConfig;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -17,11 +18,9 @@ public class MessageTelegramClient {
     private final WebClient webClient;
     private final TelegramBotConfig config;
 
-    public MessageTelegramClient(TelegramBotConfig config) {
+    public MessageTelegramClient(@Qualifier("telegramAPIClient") WebClient webClient, TelegramBotConfig config) {
         this.config = config;
-        this.webClient = WebClient.builder()
-                .baseUrl(TELEGRAM_API_URL)
-                .build();
+        this.webClient  = webClient;
     }
 
     public Mono<Void> sendMessageClient(long chatId, String text) {

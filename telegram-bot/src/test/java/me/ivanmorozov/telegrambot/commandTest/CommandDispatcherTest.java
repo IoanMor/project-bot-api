@@ -33,34 +33,22 @@ public class CommandDispatcherTest {
 
     @Test
     public void dispatch_startCommand() {
-
         when(commandHandler.getCommand()).thenReturn("/start");
-
-
         dispatcher.dispatch("/start", 1L, "Name");
-
         verify(commandHandler).execute(1L, "Name", new String[]{});
     }
 
     @Test
     public void dispatch_trackCommand() {
-
         when(commandHandler.getCommand()).thenReturn("/track");
-
-
         dispatcher.dispatch("/track https://stackoverflow.com/questions/12345", 1L, "Name");
-
         verify(commandHandler).execute(1L, "Name", new String[]{"https://stackoverflow.com/questions/12345"});
     }
 
     @Test
     public void dispatch_linksCommand() {
-
         when(commandHandler.getCommand()).thenReturn("/links");
-
-
         dispatcher.dispatch("/links", 1L, "Name");
-
         verify(commandHandler, times(1)).execute(eq(1L), eq("Name"), eq(new String[]{}));
     }
 

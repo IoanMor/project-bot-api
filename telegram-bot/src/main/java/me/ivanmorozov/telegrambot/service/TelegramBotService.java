@@ -117,9 +117,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
             return cachedStatus;
         }
 
-
         kafkaProducer.sendIsChatRegisterRequest(chatId);
-
 
         long startTime = System.currentTimeMillis();
         while (System.currentTimeMillis() - startTime < 5000) {

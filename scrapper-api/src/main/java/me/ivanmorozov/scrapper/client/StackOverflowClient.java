@@ -58,8 +58,6 @@ public class StackOverflowClient {
                                     return Mono.just(false);
                                 }
                             });
-
-
                 })
                 .doOnSuccess(response -> scrapperMetrics.recordApiCallSuccess("stackoverflow-API"))
                 .timeout(Duration.ofSeconds(5))

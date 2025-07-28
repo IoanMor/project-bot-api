@@ -24,7 +24,7 @@ public class TelegramKafkaProducer {
     private final BotMetrics metrics;
 
 
-    private void sendRequestToKafka(long chatId, KafkaRecords.KafkaRequest request) {
+    public void sendRequest(long chatId, KafkaRecords.KafkaRequest request) {
         kafkaTemplate.send(KafkaTopics.REQUEST_TOPIC, String.valueOf(chatId), request)
                 .handle((result, ex2) -> {
                     if (ex2 != null) {
@@ -39,35 +39,35 @@ public class TelegramKafkaProducer {
     }
 
     public void sendChatRegisterRequest(long chatId) {
-        sendRequestToKafka(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.CHAT_REGISTER, Map.of()));
+        sendRequest(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.CHAT_REGISTER, Map.of()));
     }
 
     public void sendIsChatRegisterRequest(long chatId) {
-        sendRequestToKafka(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.CHAT_CHECK, Map.of()));
+        sendRequest(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.CHAT_CHECK, Map.of()));
     }
 
     public void sendSubscribeLinkRequest(long chatId, String link) {
-        sendRequestToKafka(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.LINK_SUBSCRIBE, Map.of(LINK_KEY, link)));
+        sendRequest(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.LINK_SUBSCRIBE, Map.of(LINK_KEY, link)));
     }
 
     public void sendUnSubscribeLinkRequest(long chatId, String link) {
-        sendRequestToKafka(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.LINK_UNSUBSCRIBE, Map.of(LINK_KEY, link)));
+        sendRequest(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.LINK_UNSUBSCRIBE, Map.of(LINK_KEY, link)));
     }
 
     public void sendAllSubscribeLinksRequest(long chatId) {
-        sendRequestToKafka(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.LINK_GET_ALL_SUBS, Map.of()));
+        sendRequest(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.LINK_GET_ALL_SUBS, Map.of()));
     }
 
     public void sendSubscribeStockRequest(long chatId, String ticker) {
-        sendRequestToKafka(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.STOCK_SUBSCRIBE, Map.of(STOCK_KEY, ticker)));
+        sendRequest(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.STOCK_SUBSCRIBE, Map.of(STOCK_KEY, ticker)));
     }
 
     public void sendGetStockSubscribeRequest(long chatId) {
-        sendRequestToKafka(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.STOCK_GET_ALL_SUBS, Map.of()));
+        sendRequest(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.STOCK_GET_ALL_SUBS, Map.of()));
     }
 
     public void sendUnSubscribeStockRequest(long chatId, String ticker) {
-        sendRequestToKafka(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.STOCK_UNSUBSCRIBE, Map.of(STOCK_KEY, ticker)));
+        sendRequest(chatId, new KafkaRecords.KafkaRequest(chatId, MessageTypes.STOCK_UNSUBSCRIBE, Map.of(STOCK_KEY, ticker)));
     }
 
 }
