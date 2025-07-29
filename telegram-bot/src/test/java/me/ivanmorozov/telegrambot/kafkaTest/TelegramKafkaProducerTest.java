@@ -50,9 +50,7 @@ public class TelegramKafkaProducerTest {
     public void sendRequest_sendSubscribeLink() {
         KafkaRecords.KafkaRequest request =
                 new KafkaRecords.KafkaRequest(1L, MessageTypes.CHAT_REGISTER, Map.of(LINK_KEY, "link.com"));
-
         kafkaProducer.sendRequest(1L, request);
-
         verify(kafkaTemplate).send(eq("scrapper.requests"), eq(String.valueOf(1L)), eq(request));
         verify(metrics).recordKafkaMessageCountRequest(request.type());
     }
