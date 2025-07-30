@@ -62,12 +62,8 @@ public class ScrapperKafkaConsumerTest {
     private final String link = "stackoverflow.com/questions/123";
 
     @BeforeEach
-    void setup() {
-        chatRepository.deleteTelegramChatByChatId(chatId);
-        linkRepository.removeLink(chatId,link);
-    }
     @AfterEach
-    void term(){
+    void setup() {
         chatRepository.deleteTelegramChatByChatId(chatId);
         linkRepository.removeLink(chatId,link);
     }

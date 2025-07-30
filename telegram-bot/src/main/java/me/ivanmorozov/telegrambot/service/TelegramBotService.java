@@ -9,15 +9,10 @@ import me.ivanmorozov.telegrambot.cache.RegistrationCache;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
-
-import static me.ivanmorozov.common.linkUtil.LinkUtilStackOverFlow.parseQuestionId;
 
 
 import java.util.*;
@@ -30,6 +25,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
     private final RegistrationCache cache;
     private final TelegramKafkaProducer kafkaProducer;
     private final CommandDispatcher commandDispatcher;
+    private final TelegramSendMessage telegramSendMessage;
 
     @Override
     public String getBotUsername() {
@@ -42,11 +38,12 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    public TelegramBotService(TelegramBotConfig botConfig, RegistrationCache cache, TelegramKafkaProducer kafkaProducer, CommandDispatcher commandDispatcher) {
+    public TelegramBotService(TelegramBotConfig botConfig, RegistrationCache cache, TelegramKafkaProducer kafkaProducer, CommandDispatcher commandDispatcher, TelegramSendMessage telegramSendMessage) {
         this.botConfig = botConfig;
         this.cache = cache;
         this.kafkaProducer = kafkaProducer;
         this.commandDispatcher = commandDispatcher;
+        this.telegramSendMessage = telegramSendMessage;
 
 
         List<BotCommand> listCommand = new ArrayList<>();
@@ -82,7 +79,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
             }
 
             if (!isChatRegister(chatId)) {
-                sendMessage(chatId, "⛔ Для использования бота необходимо зарегистрироваться!\nВведите команду /start");
+                telegramSendMessage.sendMessage(this, chatId, "⛔ Для использования бота необходимо зарегистрироваться!\nВведите команду /start");
                 return;
             }
 
@@ -96,17 +93,8 @@ public class TelegramBotService extends TelegramLongPollingBot {
         }
     }
 
-
     public void sendMessage(long chatId, String textSend) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(textSend);
-
-        try {
-            execute(sendMessage);
-        } catch (TelegramApiException te) {
-            log.error("ERROR / : " + te.getMessage());
-        }
+      telegramSendMessage.sendMessage(this,chatId, textSend);
     }
 
 
