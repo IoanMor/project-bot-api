@@ -1,12 +1,12 @@
-2025-07-30 15:40:15.662 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 6552 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
-2025-07-30 15:40:15.669 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
-2025-07-30 15:40:15.672 [main]  - No active profile set, falling back to 1 default profile: "default"
-2025-07-30 15:40:17.566 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
-2025-07-30 15:40:17.568 [main]  - Starting service [Tomcat]
-2025-07-30 15:40:17.568 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-07-30 15:40:17.638 [main]  - Initializing Spring embedded WebApplicationContext
-2025-07-30 15:40:19.737 [main]  - Starting ProtocolHandler ["http-nio-8080"]
-2025-07-30 15:40:19.786 [main]  - ConsumerConfig values: 
+2025-07-31 14:51:59.732 [main]  - Starting TelegramChatBotApplication using Java 17.0.14 with PID 4248 (C:\Users\Морозов Иван\IdeaProjects\projectBotApi\telegram-bot\target\classes started by Морозов Иван in C:\Users\Морозов Иван\IdeaProjects\projectBotApi)
+2025-07-31 14:51:59.737 [main]  - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-07-31 14:51:59.738 [main]  - No active profile set, falling back to 1 default profile: "default"
+2025-07-31 14:52:01.278 [main]  - Initializing ProtocolHandler ["http-nio-8080"]
+2025-07-31 14:52:01.280 [main]  - Starting service [Tomcat]
+2025-07-31 14:52:01.280 [main]  - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-07-31 14:52:01.350 [main]  - Initializing Spring embedded WebApplicationContext
+2025-07-31 14:52:03.527 [main]  - Starting ProtocolHandler ["http-nio-8080"]
+2025-07-31 14:52:03.640 [main]  - ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.include.jmx.reporter = true
@@ -100,29 +100,37 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
 
-2025-07-30 15:40:19.865 [main]  - Kafka version: 3.6.2
-2025-07-30 15:40:19.866 [main]  - Kafka commitId: c4deed513057c94e
-2025-07-30 15:40:19.866 [main]  - Kafka startTimeMs: 1753879219863
-2025-07-30 15:40:19.976 [main]  - Started TelegramChatBotApplication in 4.843 seconds (process running for 5.973)
-2025-07-30 15:40:20.299 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Cluster ID: a82jiWPLQVuo1ai-gjx_5Q
-2025-07-30 15:40:20.301 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Discovered group coordinator localhost:29092 (id: 2147483646 rack: null)
-2025-07-30 15:40:20.303 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] (Re-)joining group
-2025-07-30 15:40:20.320 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Request joining group due to: need to re-join with the given member-id: consumer-telegram-bot-group-1-8d686550-7658-4e11-a1c8-109c19683a41
-2025-07-30 15:40:20.320 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Request joining group due to: rebalance failed due to 'The group member needs to have a valid member id before actually entering a consumer group.' (MemberIdRequiredException)
-2025-07-30 15:40:20.320 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] (Re-)joining group
-2025-07-30 15:40:20.569 [RMI TCP Connection(5)-192.168.33.199]  - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-07-30 15:40:23.327 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Successfully joined group with generation Generation{generationId=1, memberId='consumer-telegram-bot-group-1-8d686550-7658-4e11-a1c8-109c19683a41', protocol='range'}
-2025-07-30 15:40:23.331 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Finished assignment for group at generation 1: {consumer-telegram-bot-group-1-8d686550-7658-4e11-a1c8-109c19683a41=Assignment(partitions=[scrapper.responses-0, scrapper.responses-1, scrapper.responses-2])}
-2025-07-30 15:40:23.339 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Successfully synced group in generation Generation{generationId=1, memberId='consumer-telegram-bot-group-1-8d686550-7658-4e11-a1c8-109c19683a41', protocol='range'}
-2025-07-30 15:40:23.339 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Notifying assignor about the new Assignment(partitions=[scrapper.responses-0, scrapper.responses-1, scrapper.responses-2])
-2025-07-30 15:40:23.341 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Adding newly assigned partitions: scrapper.responses-0, scrapper.responses-1, scrapper.responses-2
-2025-07-30 15:40:23.346 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Found no committed offset for partition scrapper.responses-2
-2025-07-30 15:40:23.347 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Found no committed offset for partition scrapper.responses-1
-2025-07-30 15:40:23.347 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Found no committed offset for partition scrapper.responses-0
-2025-07-30 15:40:23.356 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Resetting offset for partition scrapper.responses-2 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:29092 (id: 1 rack: null)], epoch=0}}.
-2025-07-30 15:40:23.357 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Resetting offset for partition scrapper.responses-1 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:29092 (id: 1 rack: null)], epoch=0}}.
-2025-07-30 15:40:23.357 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Resetting offset for partition scrapper.responses-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:29092 (id: 1 rack: null)], epoch=0}}.
-2025-07-30 15:41:04.556 [LinkHawkBot Telegram Executor]  - ProducerConfig values: 
+2025-07-31 14:52:03.911 [main]  - Kafka version: 3.6.2
+2025-07-31 14:52:03.913 [main]  - Kafka commitId: c4deed513057c94e
+2025-07-31 14:52:03.913 [main]  - Kafka startTimeMs: 1753962723906
+2025-07-31 14:52:04.054 [main]  - Started TelegramChatBotApplication in 4.795 seconds (process running for 6.214)
+2025-07-31 14:52:04.565 [RMI TCP Connection(3)-192.168.33.199]  - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-31 14:52:04.773 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Error while fetching metadata with correlation id 2 : {scrapper.responses=UNKNOWN_TOPIC_OR_PARTITION}
+2025-07-31 14:52:04.776 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Cluster ID: 7RuavvCdSFSO39XsX7UJHQ
+2025-07-31 14:52:04.896 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Error while fetching metadata with correlation id 4 : {scrapper.responses=UNKNOWN_TOPIC_OR_PARTITION}
+2025-07-31 14:52:05.084 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Error while fetching metadata with correlation id 6 : {scrapper.responses=UNKNOWN_TOPIC_OR_PARTITION}
+2025-07-31 14:52:05.200 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Error while fetching metadata with correlation id 8 : {scrapper.responses=UNKNOWN_TOPIC_OR_PARTITION}
+2025-07-31 14:52:05.334 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Error while fetching metadata with correlation id 10 : {scrapper.responses=UNKNOWN_TOPIC_OR_PARTITION}
+2025-07-31 14:52:05.447 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Error while fetching metadata with correlation id 12 : {scrapper.responses=UNKNOWN_TOPIC_OR_PARTITION}
+2025-07-31 14:52:05.557 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Error while fetching metadata with correlation id 14 : {scrapper.responses=UNKNOWN_TOPIC_OR_PARTITION}
+2025-07-31 14:52:05.668 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Error while fetching metadata with correlation id 16 : {scrapper.responses=UNKNOWN_TOPIC_OR_PARTITION}
+2025-07-31 14:52:07.351 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Discovered group coordinator localhost:29092 (id: 2147483646 rack: null)
+2025-07-31 14:52:07.354 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] (Re-)joining group
+2025-07-31 14:52:07.388 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Request joining group due to: need to re-join with the given member-id: consumer-telegram-bot-group-1-ff5436f6-fa68-4d19-a059-11f0f99897b1
+2025-07-31 14:52:07.388 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Request joining group due to: rebalance failed due to 'The group member needs to have a valid member id before actually entering a consumer group.' (MemberIdRequiredException)
+2025-07-31 14:52:07.388 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] (Re-)joining group
+2025-07-31 14:52:10.408 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Successfully joined group with generation Generation{generationId=1, memberId='consumer-telegram-bot-group-1-ff5436f6-fa68-4d19-a059-11f0f99897b1', protocol='range'}
+2025-07-31 14:52:10.414 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Finished assignment for group at generation 1: {consumer-telegram-bot-group-1-ff5436f6-fa68-4d19-a059-11f0f99897b1=Assignment(partitions=[scrapper.responses-0, scrapper.responses-1, scrapper.responses-2])}
+2025-07-31 14:52:10.468 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Successfully synced group in generation Generation{generationId=1, memberId='consumer-telegram-bot-group-1-ff5436f6-fa68-4d19-a059-11f0f99897b1', protocol='range'}
+2025-07-31 14:52:10.468 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Notifying assignor about the new Assignment(partitions=[scrapper.responses-0, scrapper.responses-1, scrapper.responses-2])
+2025-07-31 14:52:10.471 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Adding newly assigned partitions: scrapper.responses-0, scrapper.responses-1, scrapper.responses-2
+2025-07-31 14:52:10.486 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Found no committed offset for partition scrapper.responses-2
+2025-07-31 14:52:10.486 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Found no committed offset for partition scrapper.responses-1
+2025-07-31 14:52:10.486 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Found no committed offset for partition scrapper.responses-0
+2025-07-31 14:52:10.502 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Resetting offset for partition scrapper.responses-2 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:29092 (id: 1 rack: null)], epoch=0}}.
+2025-07-31 14:52:10.504 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Resetting offset for partition scrapper.responses-1 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:29092 (id: 1 rack: null)], epoch=0}}.
+2025-07-31 14:52:10.504 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Resetting offset for partition scrapper.responses-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:29092 (id: 1 rack: null)], epoch=0}}.
+2025-07-31 14:52:29.040 [LinkHawkBot Telegram Executor]  - ProducerConfig values: 
 	acks = -1
 	auto.include.jmx.reporter = true
 	batch.size = 16384
@@ -212,35 +220,27 @@
 	transactional.id = null
 	value.serializer = class org.springframework.kafka.support.serializer.JsonSerializer
 
-2025-07-30 15:41:04.565 [LinkHawkBot Telegram Executor]  - [Producer clientId=telegram-bot-producer-1] Instantiated an idempotent producer.
-2025-07-30 15:41:04.576 [LinkHawkBot Telegram Executor]  - These configurations '[spring.json.trusted.packages, max.poll.interval.ms]' were supplied but are not used yet.
-2025-07-30 15:41:04.576 [LinkHawkBot Telegram Executor]  - Kafka version: 3.6.2
-2025-07-30 15:41:04.576 [LinkHawkBot Telegram Executor]  - Kafka commitId: c4deed513057c94e
-2025-07-30 15:41:04.576 [LinkHawkBot Telegram Executor]  - Kafka startTimeMs: 1753879264576
-2025-07-30 15:41:04.584 [kafka-producer-network-thread | telegram-bot-producer-1]  - [Producer clientId=telegram-bot-producer-1] Cluster ID: a82jiWPLQVuo1ai-gjx_5Q
-2025-07-30 15:41:04.617 [kafka-producer-network-thread | telegram-bot-producer-1]  - [Producer clientId=telegram-bot-producer-1] ProducerId set to 0 with epoch 0
-2025-07-30 15:41:04.645 [kafka-producer-network-thread | telegram-bot-producer-1]  - [->] Отправлено в Kafka: KafkaRequest[chatId=882850654, type=CHAT_REGISTER, data={}]
-2025-07-30 15:41:04.811 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [-.] Получен ответ: KafkaResponse[chatId=882850654, type=CHAT_IS_EXIST_REGISTER, data={}]
-2025-07-30 15:41:10.502 [kafka-producer-network-thread | telegram-bot-producer-1]  - [->] Отправлено в Kafka: KafkaRequest[chatId=882850654, type=CHAT_CHECK, data={}]
-2025-07-30 15:41:10.510 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [-.] Получен ответ: KafkaResponse[chatId=882850654, type=CHAT_IS_EXIST, data={Exist=true}]
-2025-07-30 15:41:10.705 [kafka-producer-network-thread | telegram-bot-producer-1]  - [->] Отправлено в Kafka: KafkaRequest[chatId=882850654, type=LINK_GET_ALL_SUBS, data={}]
-2025-07-30 15:41:10.718 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [-.] Получен ответ: KafkaResponse[chatId=882850654, type=GET_ALL_LINKS, data={Link=[https://stackoverflow.com/questions/79633681/long-array-to-search-cause-sss-request-time-exceeded-on-suitelet-2-x, https://stackoverflow.com/questions/79686051/graphicsmagick-gif-background-color-change]}]
-2025-07-30 15:41:20.312 [kafka-producer-network-thread | telegram-bot-producer-1]  - [->] Отправлено в Kafka: KafkaRequest[chatId=882850654, type=STOCK_GET_ALL_SUBS, data={}]
-2025-07-30 15:41:20.474 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [-.] Получен ответ: KafkaResponse[chatId=882850654, type=GET_ALL_STOCK, data={LKOH=6369.1, SBER=305.54, ABRD=206.6}]
-2025-07-30 15:49:20.695 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Node -1 disconnected.
-2025-07-30 15:50:04.675 [kafka-producer-network-thread | telegram-bot-producer-1]  - [Producer clientId=telegram-bot-producer-1] Node -1 disconnected.
-2025-07-30 15:59:21.956 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Revoke previously assigned partitions scrapper.responses-0, scrapper.responses-1, scrapper.responses-2
-2025-07-30 15:59:21.957 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Member consumer-telegram-bot-group-1-8d686550-7658-4e11-a1c8-109c19683a41 sending LeaveGroup request to coordinator localhost:29092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
-2025-07-30 15:59:21.957 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Resetting generation and member id due to: consumer pro-actively leaving the group
-2025-07-30 15:59:21.957 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Request joining group due to: consumer pro-actively leaving the group
-2025-07-30 15:59:21.958 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Resetting generation and member id due to: consumer pro-actively leaving the group
-2025-07-30 15:59:21.958 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Request joining group due to: consumer pro-actively leaving the group
-2025-07-30 15:59:22.003 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - Metrics scheduler closed
-2025-07-30 15:59:22.003 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - Closing reporter org.apache.kafka.common.metrics.JmxReporter
-2025-07-30 15:59:22.003 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - Metrics reporters closed
-2025-07-30 15:59:22.006 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - App info kafka.consumer for consumer-telegram-bot-group-1 unregistered
-2025-07-30 15:59:24.124 [SpringApplicationShutdownHook]  - [Producer clientId=telegram-bot-producer-1] Closing the Kafka producer with timeoutMillis = 30000 ms.
-2025-07-30 15:59:24.126 [SpringApplicationShutdownHook]  - Metrics scheduler closed
-2025-07-30 15:59:24.127 [SpringApplicationShutdownHook]  - Closing reporter org.apache.kafka.common.metrics.JmxReporter
-2025-07-30 15:59:24.127 [SpringApplicationShutdownHook]  - Metrics reporters closed
-2025-07-30 15:59:24.127 [SpringApplicationShutdownHook]  - App info kafka.producer for telegram-bot-producer-1 unregistered
+2025-07-31 14:52:29.050 [LinkHawkBot Telegram Executor]  - [Producer clientId=telegram-bot-producer-1] Instantiated an idempotent producer.
+2025-07-31 14:52:29.062 [LinkHawkBot Telegram Executor]  - These configurations '[spring.json.trusted.packages, max.poll.interval.ms]' were supplied but are not used yet.
+2025-07-31 14:52:29.062 [LinkHawkBot Telegram Executor]  - Kafka version: 3.6.2
+2025-07-31 14:52:29.063 [LinkHawkBot Telegram Executor]  - Kafka commitId: c4deed513057c94e
+2025-07-31 14:52:29.063 [LinkHawkBot Telegram Executor]  - Kafka startTimeMs: 1753962749062
+2025-07-31 14:52:29.071 [kafka-producer-network-thread | telegram-bot-producer-1]  - [Producer clientId=telegram-bot-producer-1] Cluster ID: 7RuavvCdSFSO39XsX7UJHQ
+2025-07-31 14:52:29.105 [kafka-producer-network-thread | telegram-bot-producer-1]  - [Producer clientId=telegram-bot-producer-1] ProducerId set to 0 with epoch 0
+2025-07-31 14:52:29.150 [kafka-producer-network-thread | telegram-bot-producer-1]  - [->] Отправлено в Kafka: KafkaRequest[chatId=882850654, type=CHAT_REGISTER, data={}]
+2025-07-31 14:52:29.332 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [-.] Получен ответ: KafkaResponse[chatId=882850654, type=CHAT_IS_EXIST_REGISTER, data={}]
+2025-07-31 14:52:41.398 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Revoke previously assigned partitions scrapper.responses-0, scrapper.responses-1, scrapper.responses-2
+2025-07-31 14:52:41.399 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Member consumer-telegram-bot-group-1-ff5436f6-fa68-4d19-a059-11f0f99897b1 sending LeaveGroup request to coordinator localhost:29092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2025-07-31 14:52:41.399 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2025-07-31 14:52:41.399 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Request joining group due to: consumer pro-actively leaving the group
+2025-07-31 14:52:41.400 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2025-07-31 14:52:41.401 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - [Consumer clientId=consumer-telegram-bot-group-1, groupId=telegram-bot-group] Request joining group due to: consumer pro-actively leaving the group
+2025-07-31 14:52:41.901 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - Metrics scheduler closed
+2025-07-31 14:52:41.901 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2025-07-31 14:52:41.901 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - Metrics reporters closed
+2025-07-31 14:52:41.904 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1]  - App info kafka.consumer for consumer-telegram-bot-group-1 unregistered
+2025-07-31 14:52:43.997 [SpringApplicationShutdownHook]  - [Producer clientId=telegram-bot-producer-1] Closing the Kafka producer with timeoutMillis = 30000 ms.
+2025-07-31 14:52:43.999 [SpringApplicationShutdownHook]  - Metrics scheduler closed
+2025-07-31 14:52:43.999 [SpringApplicationShutdownHook]  - Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2025-07-31 14:52:43.999 [SpringApplicationShutdownHook]  - Metrics reporters closed
+2025-07-31 14:52:43.999 [SpringApplicationShutdownHook]  - App info kafka.producer for telegram-bot-producer-1 unregistered

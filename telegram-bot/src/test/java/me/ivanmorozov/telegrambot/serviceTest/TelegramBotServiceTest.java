@@ -72,7 +72,7 @@ public class TelegramBotServiceTest {
 
 
     @Test
-    void onUpdateReceived_shouldSendMessageIfUserNotRegistered() throws TelegramApiException {
+    void onUpdateReceived_shouldSendMessageIfUserNotRegistered()  {
         when(message.getText()).thenReturn("/track");
         when(message.getChatId()).thenReturn(1L);
         when(chat.getFirstName()).thenReturn("TestUser");
@@ -87,6 +87,32 @@ public class TelegramBotServiceTest {
         );
 
         verify(commandDispatcher, never()).dispatch(any(), anyLong(), any());
+    }
+
+    @Test
+    void onUpdateReceived_shouldDispatchCommandIfUserRegistered()  {
+        when(message.getText()).thenReturn("/track");
+        when(message.getChatId()).thenReturn(1L);
+        when(chat.getFirstName()).thenReturn("TestUser");
+        when(cache.isRegistered(1L)).thenReturn(true);
+
+        telegramBotService.onUpdateReceived(update);
+
+        verify(commandDispatcher).dispatch(eq("/track"), eq(1L), eq("TestUser"));
+        verify(telegramSendMessage, never()).sendMessage(any(), anyLong(), contains("зарегистрироваться"));
+        verify(telegramSendMessage, never()).sendMessage(any(), anyLong(), contains("ошибка"));
+    }
+
+    @Test
+    void onUpdateReceived_shouldDispatchStartCommandWithoutRegistrationCheck() {
+        when(message.getText()).thenReturn("/start");
+        when(message.getChatId()).thenReturn(1L);
+        when(chat.getFirstName()).thenReturn("TestUser");
+
+        telegramBotService.onUpdateReceived(update);
+
+        verify(commandDispatcher).dispatch(eq("/start"), eq(1L), eq("TestUser"));
+        verify(cache, never()).isRegistered(anyLong());
     }
 
 }

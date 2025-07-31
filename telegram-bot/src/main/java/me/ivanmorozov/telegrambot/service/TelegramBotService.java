@@ -4,8 +4,6 @@ package me.ivanmorozov.telegrambot.service;
 import lombok.extern.slf4j.Slf4j;
 import me.ivanmorozov.telegrambot.config.TelegramBotConfig;
 import me.ivanmorozov.telegrambot.core.CommandDispatcher;
-import me.ivanmorozov.telegrambot.kafka.TelegramKafkaProducer;
-import me.ivanmorozov.telegrambot.cache.RegistrationCache;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
@@ -22,10 +20,9 @@ import java.util.*;
 @Slf4j
 public class TelegramBotService extends TelegramLongPollingBot {
     private final TelegramBotConfig botConfig;
-    private final RegistrationCache cache;
-    private final TelegramKafkaProducer kafkaProducer;
     private final CommandDispatcher commandDispatcher;
     private final TelegramSendMessage telegramSendMessage;
+    private final RegistrationService registrationService;
 
     @Override
     public String getBotUsername() {
@@ -38,12 +35,11 @@ public class TelegramBotService extends TelegramLongPollingBot {
     }
 
 
-    public TelegramBotService(TelegramBotConfig botConfig, RegistrationCache cache, TelegramKafkaProducer kafkaProducer, CommandDispatcher commandDispatcher, TelegramSendMessage telegramSendMessage) {
+    public TelegramBotService(TelegramBotConfig botConfig, CommandDispatcher commandDispatcher, TelegramSendMessage telegramSendMessage, RegistrationService registrationService) {
         this.botConfig = botConfig;
-        this.cache = cache;
-        this.kafkaProducer = kafkaProducer;
         this.commandDispatcher = commandDispatcher;
         this.telegramSendMessage = telegramSendMessage;
+        this.registrationService = registrationService;
 
 
         List<BotCommand> listCommand = new ArrayList<>();
@@ -97,33 +93,12 @@ public class TelegramBotService extends TelegramLongPollingBot {
       telegramSendMessage.sendMessage(this,chatId, textSend);
     }
 
-
     public boolean isChatRegister(long chatId) throws TelegramApiException {
-
-        Boolean cachedStatus = cache.isRegistered(chatId);
-        if (cachedStatus != null) {
-            return cachedStatus;
-        }
-
-        kafkaProducer.sendIsChatRegisterRequest(chatId);
-
-        long startTime = System.currentTimeMillis();
-        while (System.currentTimeMillis() - startTime < 5000) {
-            try {
-                Thread.sleep(200);
-                Boolean status = cache.isRegistered(chatId);
-                if (status != null) {
-                    return status;
-                }
-
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new TelegramApiException("Ожидание прервано");
-            }
-        }
-        sendMessage(chatId, "⌛ Сервис временно недоступен, попробуйте позже");
-        return false;
+       return registrationService.isChatRegister(chatId,this);
     }
+
+
+
 
 
 }
