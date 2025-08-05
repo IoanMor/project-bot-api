@@ -64,15 +64,30 @@ public class CheckPriceStockServiceTest {
 
         Mono<Void> result = checkPriceStockService.checkSubscribeStock(1L);
         StepVerifier.create(result).verifyComplete();
+        verify(kafkaProducer, never()).sendResponse(anyLong(), any());
     }
+
+
 
     @Test
     public void checkSubscribe_shouldReturnTickerIfPriceValid(){
-        when(stockRepository.getTickers(1L)).thenReturn(Set.of("TEST","TEST123"));
+        when(stockRepository.getTickers(1L)).thenReturn(Set.of("TEST","TESTticker"));
         when(stockApiClient.getPrice("TEST")).thenReturn(Mono.empty());
-        when(stockApiClient.getPrice("TEST123")).thenReturn(Mono.just(BigDecimal.valueOf(123)));
+        when(stockApiClient.getPrice("TESTticker")).thenReturn(Mono.just(BigDecimal.valueOf(123)));
 
         Mono<Void> result = checkPriceStockService.checkSubscribeStock(1L);
         StepVerifier.create(result).verifyComplete();
+        verify(kafkaProducer, times(1)).sendResponse(eq(1L), any());
+    }
+
+    @Test
+    public void checkSubscribe_shouldHandleError() {
+        when(stockRepository.getTickers(1L)).thenReturn(Set.of("TEST"));
+        when(stockApiClient.getPrice("TEST")).thenReturn(Mono.error(new RuntimeException("Test error")));
+
+        Mono<Void> result = checkPriceStockService.checkSubscribeStock(1L);
+        StepVerifier.create(result).verifyComplete();
+
+        verify(kafkaProducer, never()).sendResponse(anyLong(), any());
     }
 }

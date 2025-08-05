@@ -66,7 +66,7 @@ public class TelegramBotServiceTest {
         when(update.hasMessage()).thenReturn(true);
         when(update.getMessage()).thenReturn(message);
         when(message.hasText()).thenReturn(true);
-        when(message.getChat()).thenReturn(chat);
+        lenient().when(message.getChat()).thenReturn(chat);
 
     }
 
@@ -113,6 +113,16 @@ public class TelegramBotServiceTest {
 
         verify(commandDispatcher).dispatch(eq("/start"), eq(1L), eq("TestUser"));
         verify(cache, never()).isRegistered(anyLong());
+    }
+
+    @Test
+    void onUpdateReceived_shouldIgnoreMessageWithoutText() {
+        when(update.hasMessage()).thenReturn(true);
+        when(message.hasText()).thenReturn(false);
+
+        telegramBotService.onUpdateReceived(update);
+
+        verifyNoInteractions(commandDispatcher, telegramSendMessage);
     }
 
 }

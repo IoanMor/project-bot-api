@@ -8,7 +8,6 @@ import me.ivanmorozov.common.records.KafkaRecords;
 import me.ivanmorozov.scrapper.client.StackOverflowClient;
 
 import me.ivanmorozov.scrapper.repositories.LinkRepository;
-import me.ivanmorozov.scrapper.repositories.TelegramChatRepository;
 
 import me.ivanmorozov.scrapper.kafka.ScrapperKafkaProducer;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -62,7 +61,7 @@ public class CheckSubscribeService {
                     Long questionId = parseQuestionId(link)
                             .orElseThrow(() -> new IllegalArgumentException("Некорректная ссылка"));
 
-                    return client.trackLink(questionId, chatId, link)
+                    return client.shouldNotifyForLink(questionId, chatId, link)
                             .timeout(Duration.ofSeconds(5))
                             .onErrorResume(e -> {
                                 log.error("Ошибка при проверке кол-ва ответов {}: {}", link, e.getMessage());

@@ -45,7 +45,7 @@ public class RegistrationServiceTest {
     public void isChatRegister_shouldTrueIfUserRegisterAndCacheInfo() throws TelegramApiException {
         Mockito.when(cache.isRegistered(1L)).thenReturn(true);
         assertTrue(registrationService.isChatRegister(1L, bot));
-        verify(kafkaProducer, never()).sendRequest(anyLong(), any());
+        verify(kafkaProducer, never()).sendIsChatRegisterRequest(anyLong());
     }
 
     @Test
@@ -54,5 +54,18 @@ public class RegistrationServiceTest {
         assertFalse(registrationService.isChatRegister(1L, bot));
         verify(kafkaProducer, times(1)).sendIsChatRegisterRequest(1L);
         verify(telegramSendMessage, never()).sendMessage(any(), anyLong(), anyString());
+    }
+
+    @Test
+    public void isChatRegister_shouldSendMessageIfTimeout() throws TelegramApiException {
+        Mockito.when(cache.isRegistered(1L)).thenReturn(null);
+        long start = System.currentTimeMillis();
+        boolean result = registrationService.isChatRegister(1L, bot);
+        long duration = System.currentTimeMillis() - start;
+
+        assertFalse(result);
+        assertTrue(duration < 6000);
+        verify(kafkaProducer, times(1)).sendIsChatRegisterRequest(1L);
+        verify(telegramSendMessage).sendMessage(eq(bot), eq(1L), contains("Сервис временно недоступен"));
     }
 }

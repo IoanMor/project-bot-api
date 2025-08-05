@@ -10,14 +10,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 
 import java.time.Duration;
-import java.util.Objects;
 
 @Component
 @Slf4j
@@ -32,7 +30,7 @@ public class StackOverflowClient {
         this.scrapperMetrics = scrapperMetrics;
     }
 
-    public Mono<Boolean> trackLink(Long questionId, long chatId, String link) {
+    public Mono<Boolean> shouldNotifyForLink(Long questionId, long chatId, String link) {
         String url = "/questions/" + questionId + "/answers?order=desc&sort=creation&site=stackoverflow&filter=total";
         log.info("Запрос к API: {}", url);
         return webClient.get()

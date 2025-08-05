@@ -1,7 +1,0 @@
-2025-07-28 14:55:31.083 [parallel-6]  - Ошибка API Telegram при отправке сообщения в чат 1: Retries exhausted: 3/3
-2025-07-28 14:56:50.442 [parallel-6]  - Ошибка API Telegram при отправке сообщения в чат 1: Retries exhausted: 3/3
-2025-07-28 15:00:37.985 [parallel-6]  - Ошибка API Telegram при отправке сообщения в чат 1: Retries exhausted: 3/3
-2025-07-28 15:00:47.303 [parallel-6]  - Ошибка API Telegram при отправке сообщения в чат 1: Retries exhausted: 3/3
-2025-07-28 15:13:09.002 [parallel-6]  - Ошибка API Telegram при отправке сообщения в чат 1: Retries exhausted: 3/3
-2025-07-28 16:16:40.201 [main]  - [->] Отправлено в Kafka: KafkaRequest[chatId=1, type=CHAT_REGISTER, data={}]
-2025-07-28 16:19:59.675 [main]  - [->] Отправлено в Kafka: KafkaRequest[chatId=1, type=CHAT_REGISTER, data={Link=link.com}]

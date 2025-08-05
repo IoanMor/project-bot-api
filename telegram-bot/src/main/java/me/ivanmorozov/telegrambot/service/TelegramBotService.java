@@ -97,8 +97,4 @@ public class TelegramBotService extends TelegramLongPollingBot {
        return registrationService.isChatRegister(chatId,this);
     }
 
-
-
-
-
 }

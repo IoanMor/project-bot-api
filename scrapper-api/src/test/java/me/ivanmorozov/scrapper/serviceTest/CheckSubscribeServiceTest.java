@@ -7,7 +7,6 @@ import me.ivanmorozov.scrapper.kafka.ScrapperKafkaProducer;
 import me.ivanmorozov.scrapper.repositories.LinkRepository;
 import me.ivanmorozov.scrapper.services.CheckSubscribeService;
 import me.ivanmorozov.scrapper.services.ReactiveMethodsDB;
-import net.bytebuddy.asm.MemberSubstitution;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -16,8 +15,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Collections;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,7 +41,7 @@ public class CheckSubscribeServiceTest {
     public void checkUserSubscriptions_shouldCallKafka() {
 
         when(linkRepository.getLinks(1L)).thenReturn(Set.of("stackoverflow.com/questions/123"));
-        when(client.trackLink(anyLong(), anyLong(), anyString()))
+        when(client.shouldNotifyForLink(anyLong(), anyLong(), anyString()))
                 .thenReturn(Mono.just(true));
 
         Mono<Void> result = checkSubscribeService.checkUserSubscriptions(1L);
@@ -62,6 +60,22 @@ public class CheckSubscribeServiceTest {
     }
 
     @Test
+    public void checkUserSubscriptions_shouldHandleLinksIfOneValid() {
+        when(linkRepository.getLinks(1L)).thenReturn(Set.of("stackoverflow.com/questions/123", "stackoverflow.com/questions/456"));
+
+        when(client.shouldNotifyForLink(anyLong(), anyLong(), eq("stackoverflow.com/questions/123")))
+                .thenReturn(Mono.just(false));
+
+        when(client.shouldNotifyForLink(anyLong(), anyLong(), eq("stackoverflow.com/questions/456")))
+                .thenReturn(Mono.just(true));
+
+        Mono<Void> result = checkSubscribeService.checkUserSubscriptions(1L);
+
+        StepVerifier.create(result).verifyComplete();
+        verify(kafkaProducer, times(1)).sendResponse(eq(1L), any());
+    }
+
+    @Test
     public void checkUserSubscriptions_shouldCallExceptionIfInvalidLink() {
         Set<String> subscribes = Set.of("invalidLink.com");
         when(linkRepository.getLinks(1L)).thenReturn(subscribes);
@@ -72,7 +86,7 @@ public class CheckSubscribeServiceTest {
     @Test
     public void checkUserSubscriptions_shouldDontCallKafkaIfTrackLinkReturnFalse() {
         when(linkRepository.getLinks(1L)).thenReturn(Set.of("stackoverflow.com/questions/123"));
-        when(client.trackLink(anyLong(), anyLong(), anyString()))
+        when(client.shouldNotifyForLink(anyLong(), anyLong(), anyString()))
                 .thenReturn(Mono.just(false));
 
         Mono<Void> result = checkSubscribeService.checkUserSubscriptions(1L);
@@ -100,5 +114,14 @@ public class CheckSubscribeServiceTest {
 
         checkSubscribeService.checkUpdates();
 
+    }
+    @Test
+    public void checkUserSubscriptions_shouldReturnEmptyIfNoLinks() {
+        when(linkRepository.getLinks(1L)).thenReturn(Collections.emptySet());
+
+        Mono<Void> result = checkSubscribeService.checkUserSubscriptions(1L);
+
+        StepVerifier.create(result).verifyComplete();
+        verifyNoInteractions(client, kafkaProducer);
     }
 }
